@@ -1,0 +1,57 @@
+{
+   "name": "CAM_singlenode_on_VMWare",
+   "description": "ICP Single Node CAM on VMWare",
+   "version": "2.0.0",
+   "type": "userCreated",
+   "manifest": {
+     "template_type": "Terraform",
+     "template_format": "HCL",
+     "template_provider": "VMware vSphere",
+     "template": {
+       "templateData": "",
+       "templateVariables": "",
+       "templateOutput": ""
+     },
+     "template_source": {
+       "githubRepoUrl": "",
+       "githubAccessToken": "",
+       "relativePathToTemplateFolder": "VMware/terraform/hcl/cam-vmware",
+       "templateFileName": "cam-vmware.tf"
+     }
+   },
+   "metadata": {
+     "displayName": "ICP Single Node CAM on VMWare",
+     "templateCategory": "Secure Data Lakes",
+     "longDescription": "Installs ICP and CAM on a single node.",
+     "bullets": [
+       {
+         "title": "Clouds",
+         "description": "VMWare"
+       },
+       {
+         "title": "Template version",
+         "description": "V1.0"
+       },
+       {
+         "title": "Operating systems supported",
+         "description": "IBM Cloud: RHEL 7.4"
+       },
+       {
+         "title": "Topology",
+         "description": "IBM Cloud Private 2.1.0.3, CAM 2.1.0.3, on a single node."
+       },
+       {
+         "title": "Software deployed",
+         "description": "<table style=\"width:100%\"><tr><td>ICP 2.1.0.3</td></tr><tr><td>CAM 2.1.0.3</td></tr></table>"
+       },
+       {
+         "title": "Usage and special notes",
+         "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Installs ICP and CAM.</li><li>5. This pattern requires 2 contiguous IP addresses (one for the driver and one for the single node ICP instance).</li></ul>"
+       },
+       {
+         "title": "Monitoring install progress",
+         "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install; ls -lrt *.log </li>  </ul>"
+       }
+     ]
+   }
+ }

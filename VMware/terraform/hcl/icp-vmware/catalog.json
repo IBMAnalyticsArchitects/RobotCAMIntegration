@@ -1,0 +1,57 @@
+{
+   "name": "ICP_CAM_ICP4D_on_VMWare",
+   "description": "ICP HA, CAM and ICP4D on VMWare",
+   "version": "2.0.0",
+   "type": "userCreated",
+   "manifest": {
+     "template_type": "Terraform",
+     "template_format": "HCL",
+     "template_provider": "VMware vSphere",
+     "template": {
+       "templateData": "",
+       "templateVariables": "",
+       "templateOutput": ""
+     },
+     "template_source": {
+       "githubRepoUrl": "",
+       "githubAccessToken": "",
+       "relativePathToTemplateFolder": "VMware/terraform/hcl/hcsdl1",
+       "templateFileName": "hcsdl1.tf"
+     }
+   },
+   "metadata": {
+     "displayName": "ICP HA CAM and ICP4D on VMWare",
+     "templateCategory": "Secure Data Lakes",
+     "longDescription": "ICP HA, CAM and ICP4D on VMWare.",
+     "bullets": [
+       {
+         "title": "Clouds",
+         "description": "VMWare"
+       },
+       {
+         "title": "Template version",
+         "description": "V1.0"
+       },
+       {
+         "title": "Operating systems supported",
+         "description": "IBM Cloud: RHEL 7.4"
+       },
+       {
+         "title": "Topology",
+         "description": "IBM Cloud Private 2.1.0.3 (3 masters, IDM and HAProxy), CAM 2.1.0.3 and ICP for Data"
+       },
+       {
+         "title": "Software deployed",
+         "description": "<table style=\"width:100%\"><tr><td>ICP 2.1.0.3, CAM 2.1.0.3 and ICP for Data</td></tr></table>"
+       },
+       {
+         "title": "Usage and special notes",
+         "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Installs ICP, CAM and ICP4D on the hcsdl VMs.</li></ul>"
+       },
+       {
+         "title": "Monitoring install progress",
+         "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install; ls -lrt *.log </li>  </ul>"
+       }
+     ]
+   }
+ }

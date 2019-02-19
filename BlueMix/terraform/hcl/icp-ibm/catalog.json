@@ -1,0 +1,83 @@
+{
+   "name": "ICP_CAM_ICP4D_on_IBM_Cloud",
+   "description": "ICP (HA), CAM and ICP4D on IBM Cloud",
+   "version": "2.0.0",
+   "imageUrl": "./assets/svg/IBM_WebSphere_Standalone.svg",
+   "image": "tp_WAS_standalone.png",
+   "type": "userCreated",
+   "status": "active",
+   "manifest": {
+     "template_type": "Terraform",
+     "template_format": "HCL",
+     "template_provider": "IBM",
+     "template": {
+       "templateData": "",
+       "templateVariables": "",
+       "templateOutput": ""
+     },
+     "template_source": {
+       "githubRepoUrl": "",
+       "githubAccessToken": "",
+       "relativePathToTemplateFolder": "BlueMix/terraform/hcl/hcsdl-ibm",
+       "templateFileName": "hcsdl-ibm.tf"
+     }
+   },
+   "metadata": {
+     "displayName": "ICP HA CAM on IBM Cloud",
+     "providerDisplayName": "IBM",
+     "longDescription": "Deploys ICP (HA), CAM and ICP4D on IBM Cloud on IBM Cloud.",
+     "bullets": [
+       {
+         "title": "Clouds",
+         "description": "IBM Cloud/Softlayer"
+       },
+       {
+         "title": "Template version",
+         "description": "V1.0"
+       },
+       {
+         "title": "Operating systems supported",
+         "description": "IBM Cloud: RHEL 7.4"
+       },
+       {
+         "title": "Topology",
+         "description": "IBM Cloud Private 2.1.0.3 (IDM, HAProxy, 3 masters), CAM 2.1.0.2, ICP4D"
+       },
+       {
+         "title": "Software deployed",
+         "description": "<table style=\"width:100%\"><tr><td>ICP 2.1.0.3, CAM 2.1.0.2, ICP4D</td></tr></table>"
+       },
+       {
+         "title": "Usage and special notes",
+         "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Installs ICP on the hcsdl VMs.</li></ul>"
+       },
+       {
+         "title": "Monitoring install progress",
+         "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install; ls -lrt *.log </li>  </ul>"
+       }
+     ],
+     "featuredImageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_50.png",
+     "imageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_50.png",
+     "mediumImageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_32.png",
+     "smallImageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_24.png",
+     "documentationUrl": "https://console.stage1.ng.bluemix.net/docs/services/CloudAutomationManager/index.html",
+     "termsUrl": "http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm-7448-01",
+     "media": [
+       {
+         "type": "image",
+         "thumbnailUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_1.png",
+         "url": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_1_large.png",
+         "caption": ""
+       },
+       {
+         "type": "image",
+         "thumbnailUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_2.png",
+         "url": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_2_large.png",
+         "caption": ""
+       }
+     ]
+   },
+   "toolchain": {
+     "git": "https://github.com/ibmcam/cam-toolchain"
+   }
+ }

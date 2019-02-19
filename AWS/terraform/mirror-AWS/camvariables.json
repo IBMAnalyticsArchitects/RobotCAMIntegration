@@ -1,0 +1,276 @@
+[
+    {
+        "default": "",
+        "description": "access_key",
+        "hidden": false,
+        "immutable": false,
+        "label": "access_key",
+        "name": "access_key",
+        "required": true,
+        "secured": true,
+        "type": "string",
+        "group_name": "Cloud"
+    },
+    {
+        "default": "",
+        "description": "secret_key",
+        "hidden": false,
+        "immutable": false,
+        "label": "secret_key",
+        "name": "secret_key",
+        "required": true,
+        "secured": true,
+        "type": "string",
+        "group_name": "Cloud"
+    },
+    {
+        "default": "us-east-1",
+        "description": "AWS region to launch servers.",
+        "hidden": false,
+        "immutable": false,
+        "label": "AWS Region",
+        "name": "aws_region",
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "group_name": "Cloud"
+    },
+    {
+        "default": "jlerm@us.ibm.com",
+        "description": "Owner of AWS instances.",
+        "hidden": false,
+        "immutable": false,
+        "label": "Owner of AWS instances.",
+        "name": "aws_owner",
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "group_name": "AWS Cloud"
+    },
+    {
+        "name": "aws_image",
+        "type": "string",
+        "description": "Operating system image id / template that should be used when creating the virtual image",
+        "default": "ami-6871a115",
+        "hidden": false,
+        "label": "Operating System ID",
+        "secured": false,
+        "required": true,
+        "immutable": false,
+        "group_name": "AWS Cloud"
+    },
+    {
+        "description": "Name of the Virtual Private Cloud (VPC) this resource is going to be deployed into",
+        "hidden": false,
+        "immutable": false,
+        "label": "Virtual Private Cloud",
+        "name": "vpc_name_tag",
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "group_name": "AWS Cloud",
+        "default": ""
+    },
+    {
+        "description": "subnet cidr",
+        "hidden": false,
+        "immutable": false,
+        "label": "Subnet CIDR",
+        "name": "subnet_cidr",
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "default": "",
+        "group_name": "AWS Cloud"
+    },
+    
+    {
+      "name": "time_server",
+      "type": "string",
+      "description": "Hostname or IPv4 for time server",
+      "hidden": false,
+      "label": "Hostname or IPv4 for time server",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "AWS Cloud",
+      "default": "169.254.169.123"
+    },
+    {
+      "name": "vm_dns_servers",
+      "type": "list",
+      "description": "DNS servers for the virtual network adapter",
+      "hidden": false,
+      "label": "DNS Servers",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "AWS Cluster",
+      "default": ["8.8.8.8"]
+    },
+    {
+        "description": "Name of the public SSH key used to connect to the virtual guest",
+        "hidden": false,
+        "immutable": false,
+        "label": "Public SSH Key Name",
+        "name": "public_ssh_key_name",
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "group_name": "AWS Cluster",
+        "default": "jlermk3"   
+    },
+    
+    {
+        "description": "Public SSH key used to connect to the cluster VMs; Allow the openSSH format key with optional comment (with optional email)", 
+        "hidden": false, 
+        "immutable": false, 
+        "label": "Public SSH Key", 
+        "name": "public_ssh_key", 
+        "required": true, 
+        "secured": true, 
+        "type": "string",
+        "regex": "^ssh-rsa AAAA[0-9A-Za-z+/]+[=]{0,3}( [^@]+@[^@]+| [^@]+){0,1}$",
+        "group_name": "AWS Cluster",  
+        "default": ""
+    },
+     
+    {
+      "name": "sudo_user",
+      "type": "string",
+      "description": "User name for sudo access",
+      "hidden": false,
+      "label": "Sudo User",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "AWS Cluster",
+      "default": "sudo1"
+    },
+    {
+      "name": "sudo_password",
+      "type": "string",
+      "description": "Password for sudo user",
+      "hidden": false,
+      "label": "Sudo Password",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "AWS Cluster",
+      "default": "pwd12345"
+    },
+     
+     
+     
+    {
+      "name": "redhat_user",
+      "type": "string",
+      "description": "User name for RedHat subscription",
+      "hidden": false,
+      "label": "User name for RedHat subscription",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "RedHat Subscription",
+      "default": "jlerm"
+    },
+    {
+      "name": "redhat_password",
+      "type": "string",
+      "description": "User password for RedHat subscription",
+      "hidden": false,
+      "label": "User password for RedHat subscription",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "RedHat Subscription",
+      "default": "pwd12345"
+    },
+    
+    {
+      "name": "vm_domain",
+      "type": "string",
+      "description": "Domain Name of cluster VMs",
+      "hidden": false,
+      "label": "Domain Name",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "AWS Cluster",
+      "default": "jlerm.local"
+    },
+    {
+      "name": "vm_name_prefix",
+      "type": "string",
+      "description": "Prefix for vm names",
+      "default": "hcsdl",
+      "hidden": false,
+      "label": "Prefix for vm names",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "AWS Cluster"
+    },
+    {
+        "description": "IBM Cloud COS Access Key Id", 
+        "hidden": false, 
+        "immutable": false, 
+        "label": "IBM Cloud COS Access Key Id", 
+        "name": "ibm_cos_access_key_id", 
+        "required": true, 
+        "secured": false, 
+        "type": "string",
+        "default": "",
+        "group_name": "IBM Cloud COS" 
+    },
+    {
+        "description": "IBM Cloud COS Secret Access Key", 
+        "hidden": false, 
+        "immutable": false, 
+        "label": "IBM Cloud COS Secret Access Key", 
+        "name": "ibm_cos_secret_access_key", 
+        "required": true, 
+        "secured": true, 
+        "type": "string",
+        "default": "",
+        "group_name": "IBM Cloud COS" 
+    },
+    {
+        "description": "AWS Endpoint URL", 
+        "hidden": false, 
+        "immutable": false, 
+        "label": "IBM Cloud COS Endpoint URL", 
+        "name": "ibm_cos_endpoint_url", 
+        "required": true, 
+        "secured": false, 
+        "type": "string",
+        "default": "https://s3-api.sjc-us-geo.objectstorage.softlayer.net",
+        "group_name": "IBM Cloud COS" 
+    },
+    {
+        "description": "IBM Cloud COS Source Mirror Path (points to a tar file containing the product distributions, open source components and EPEL and RHEL 7 mirrors).", 
+        "hidden": false, 
+        "immutable": false, 
+        "label": "IBM Cloud COS Source Mirror Path", 
+        "name": "ibm_cos_source_mirror_path", 
+        "required": true, 
+        "secured": false, 
+        "type": "string",
+        "default": "s3://robotmirror1/robotmirror-10.176.112.137-11oct2018-1337.tar",
+        "group_name": "IBM Cloud COS" 
+    },
+    {
+        "description": "IBM Cloud COS Source Cloud Installer Path (points to a tar file containing the Cloud Install scripts).", 
+        "hidden": false, 
+        "immutable": false, 
+        "label": "IBM Cloud COS Source Cloud Installer Path", 
+        "name": "ibm_cos_source_cloud_install_path", 
+        "required": true, 
+        "secured": false, 
+        "type": "string",
+        "default": "s3://robotmirror1/cloud_install-10oct2018-1712.tar",
+        "group_name": "IBM Cloud COS" 
+    }
+    
+    
+]
