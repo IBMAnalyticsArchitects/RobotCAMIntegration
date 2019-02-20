@@ -430,10 +430,10 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   
  provisioner "file" {
     content = <<EOF
-var=180
+var=100
 tmp=100
-opt=150
-home=100
+opt=100
+home=50
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -486,10 +486,10 @@ resource "ibm_compute_vm_instance" "icpworker" {
   
  provisioner "file" {
     content = <<EOF
-var=180
+var=100
 tmp=100
-opt=150
-home=100
+opt=100
+home=50
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
