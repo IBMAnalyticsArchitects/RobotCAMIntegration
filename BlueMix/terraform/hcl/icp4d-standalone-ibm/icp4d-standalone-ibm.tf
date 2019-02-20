@@ -402,7 +402,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
 #  disks                    = [100,1000,1000,1000,1000]
 #  dedicated_acct_host_only = false
 #  local_disk               = false
-  disks                    = [100,600,600,600,600]
+  disks                    = [100,400,400,400,400]
   dedicated_acct_host_only = false
   local_disk               = true
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -457,7 +457,7 @@ resource "ibm_compute_vm_instance" "icpworker" {
 #  disks                    = [100,1000,1000,1000,1000]
 #  dedicated_acct_host_only = false
 #  local_disk               = false
-  disks                    = [100,600,600,600,600]
+  disks                    = [100,400,400,400,400]
   dedicated_acct_host_only = false
   local_disk               = true
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]
