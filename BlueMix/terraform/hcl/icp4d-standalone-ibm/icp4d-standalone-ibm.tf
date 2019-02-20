@@ -399,12 +399,12 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
-#  disks                    = [100,1000,1000,1000,1000]
-#  dedicated_acct_host_only = false
-#  local_disk               = false
-  disks                    = [100,400,400,400,400]
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
-  local_disk               = true
+  local_disk               = false
+#  disks                    = [100,400,400,400,400]
+#  dedicated_acct_host_only = false
+#  local_disk               = true
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
 
   # Specify the ssh connection
@@ -430,10 +430,10 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   
  provisioner "file" {
     content = <<EOF
-var=100
+var=200
 tmp=100
-opt=100
-home=50
+opt=200
+home=100
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -454,12 +454,12 @@ resource "ibm_compute_vm_instance" "icpworker" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
-#  disks                    = [100,1000,1000,1000,1000]
-#  dedicated_acct_host_only = false
-#  local_disk               = false
-  disks                    = [100,400,400,400,400]
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
-  local_disk               = true
+  local_disk               = false
+#  disks                    = [100,400,400,400,400]
+#  dedicated_acct_host_only = false
+#  local_disk               = true
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]
 
   # Specify the ssh connection
@@ -486,10 +486,10 @@ resource "ibm_compute_vm_instance" "icpworker" {
   
  provisioner "file" {
     content = <<EOF
-var=100
+var=200
 tmp=100
-opt=100
-home=50
+opt=200
+home=100
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
