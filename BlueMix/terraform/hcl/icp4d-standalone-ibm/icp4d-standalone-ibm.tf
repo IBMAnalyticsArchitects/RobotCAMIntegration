@@ -430,7 +430,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   
  provisioner "file" {
     content = <<EOF
-var=200
+var=400
 tmp=100
 opt=200
 home=100
@@ -486,7 +486,7 @@ resource "ibm_compute_vm_instance" "icpworker" {
   
  provisioner "file" {
     content = <<EOF
-var=200
+var=400
 tmp=100
 opt=200
 home=100
