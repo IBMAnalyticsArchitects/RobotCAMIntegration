@@ -132,6 +132,10 @@ variable "enterprise_search_num_cpus" {
   description = "enterprise_search_num_cpus"
 }
 
+variable "num_cassandra_nodes" {
+  description = "Number of Cassandra nodes to create"
+}
+
 ##############################################################
 # Create public key in Devices>Manage>SSH Keys in SL console
 ##############################################################
@@ -762,6 +766,51 @@ resource "ibm_compute_vm_instance" "bigsql-head" {
 }
 
 
+
+############################################################################################################################################################
+# Cassandra Nodes
+resource "ibm_compute_vm_instance" "cassandra-nodes" {
+  count="${var.num_edgenodes}"
+  hostname = "${var.vm_name_prefix}-cass-${ count.index }"
+  os_reference_code        = "REDHAT_7_64"
+  domain                   = "${var.vm_domain}"
+  datacenter               = "${var.datacenter}"
+  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
+  network_speed            = 1000
+  hourly_billing           = true
+  private_network_only     = true
+  cores                    = "${var.datanode_num_cpus}"
+  memory                   = "${var.datanode_mem}"
+  disks                    = "${var.datanode_disks}"
+  dedicated_acct_host_only = false
+  local_disk               = false
+#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
+  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
+
+  # Specify the ssh connection
+  connection {
+    user        = "root"
+    private_key = "${tls_private_key.ssh.private_key_pem}"
+    host        = "${self.ipv4_address_private}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh",
+      "chmod 700 /root/.ssh",
+      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "echo StrictHostKeyChecking no > /root/.ssh/config",
+      "chmod 600 /root/.ssh/config",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+    ]
+  }
+}
+
+
+
 ############################################################################################################################################################
 # Start Install
 resource "null_resource" "start_install" {
@@ -844,6 +893,9 @@ resource "null_resource" "start_install" {
       
       "echo  export cam_hdp_edgenodes_ip=${join(",",ibm_compute_vm_instance.hdp-edgenodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_hdp_edgenodes_name=${join(",",ibm_compute_vm_instance.hdp-edgenodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
+    
+      "echo  export cam_cassandra_enodes_ip=${join(",",ibm_compute_vm_instance.cassandra-nodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cassandra_nodes_name=${join(",",ibm_compute_vm_instance.cassandra-nodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_bigsql_head_ip=${join(",",ibm_compute_vm_instance.bigsql-head.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_bigsql_head_name=${join(",",ibm_compute_vm_instance.bigsql-head.*.hostname)} >> /opt/monkey_cam_vars.txt",

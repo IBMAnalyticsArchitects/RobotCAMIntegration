@@ -415,6 +415,18 @@
       "group_name": "Cluster",
       "default": "1"
     },
+    {
+      "name": "num_cassandra_nodes",
+      "type": "string",
+      "description": "Number of Cassandra Nodes",
+      "hidden": false,
+      "label": "Number of Cassandra nodes to create",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "1"
+    },
     
     {
       "name": "dsengine_mem",
