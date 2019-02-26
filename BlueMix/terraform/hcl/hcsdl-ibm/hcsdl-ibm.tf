@@ -770,7 +770,7 @@ resource "ibm_compute_vm_instance" "bigsql-head" {
 ############################################################################################################################################################
 # Cassandra Nodes
 resource "ibm_compute_vm_instance" "cassandra-nodes" {
-  count="${var.num_edgenodes}"
+  count="${var.num_cassandra_nodes}"
   hostname = "${var.vm_name_prefix}-cass-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
