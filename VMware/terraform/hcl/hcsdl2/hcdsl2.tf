@@ -93,6 +93,10 @@ variable "num_edgenodes" {
   description = "Number of HDP edge nodes to create"
 }
 
+variable "num_cassandra_nodes" {
+  description = "Number of Cassandra nodes to create"
+}
+
 variable "vm_datacenter" {
   description = "Target vSphere datacenter for virtual machine creation"
 }
@@ -1174,6 +1178,69 @@ resource "vsphere_virtual_machine" "hdp-edgenodes" {
 }
 
 
+
+
+# Cassandra nodes
+resource "vsphere_virtual_machine" "cassandra-nodes" {
+	count  = "${var.num_cassandra_nodes}"
+  name = "${var.vm_name_prefix}-cass-${ count.index }"
+  num_cpus = "${var.vm_number_of_vcpu}"
+  memory = "${var.vm_memory}"
+  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
+  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+  clone {
+    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+    customize {
+      linux_options {
+        domain = "${var.vm_domain}"
+        host_name = "${var.vm_name_prefix}-en-${ count.index }"
+      }
+      network_interface {
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 17 + var.num_datanodes}"
+        ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
+      }
+    ipv4_gateway = "${var.vm_ipv4_gateway}"
+    }
+  }
+
+  network_interface {
+    network_id = "${data.vsphere_network.vm_network.id}"
+    adapter_type = "${var.vm_adapter_type}"
+  }
+
+  disk {
+    label = "${var.vm_name_prefix}0.vmdk"
+    size = "${var.vm_root_disk_size}"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  }
+  
+
+  connection {
+    type = "ssh"
+    user     = "${var.ssh_user}"
+    password = "${var.ssh_user_password}"
+  }
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh",
+      "chmod 700 /root/.ssh",
+      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "echo StrictHostKeyChecking no > /root/.ssh/config",
+      "chmod 600 /root/.ssh/config",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+    ]
+  }
+
+}
+
+
 resource "null_resource" "start_install" {
 
   depends_on = [ 
@@ -1188,7 +1255,8 @@ resource "null_resource" "start_install" {
   	"vsphere_virtual_machine.hdp-mgmtnodes",
   	"vsphere_virtual_machine.hdp-datanodes",
   	"vsphere_virtual_machine.hdp-edgenodes",
-  	"vsphere_virtual_machine.bigsql-head"
+  	"vsphere_virtual_machine.bigsql-head",
+  	"vsphere_virtual_machine.cassandra-nodes"
   ]
 
   # Bootstrap script can run on any instance of the cluster
@@ -1259,6 +1327,9 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_hdp_edgenodes_ip=${join(",",vsphere_virtual_machine.hdp-edgenodes.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_hdp_edgenodes_name=${join(",",vsphere_virtual_machine.hdp-edgenodes.*.name)} >> /opt/monkey_cam_vars.txt",
+    
+      "echo  export cam_cassandra_nodes_ip=${join(",",vsphere_virtual_machine.cassandra-enodes.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cassandra_nodes_name=${join(",",vsphere_virtual_machine.cassandra-nodes.*.name)} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_bigsql_head_ip=${join(",",vsphere_virtual_machine.bigsql-head.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_bigsql_head_name=${join(",",vsphere_virtual_machine.bigsql-head.*.name)} >> /opt/monkey_cam_vars.txt",
