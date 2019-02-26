@@ -1328,7 +1328,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_hdp_edgenodes_ip=${join(",",vsphere_virtual_machine.hdp-edgenodes.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_hdp_edgenodes_name=${join(",",vsphere_virtual_machine.hdp-edgenodes.*.name)} >> /opt/monkey_cam_vars.txt",
     
-      "echo  export cam_cassandra_nodes_ip=${join(",",vsphere_virtual_machine.cassandra-enodes.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cassandra_nodes_ip=${join(",",vsphere_virtual_machine.cassandra-nodes.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_cassandra_nodes_name=${join(",",vsphere_virtual_machine.cassandra-nodes.*.name)} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_bigsql_head_ip=${join(",",vsphere_virtual_machine.bigsql-head.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
