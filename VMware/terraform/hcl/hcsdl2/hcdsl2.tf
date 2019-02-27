@@ -1216,6 +1216,29 @@ resource "vsphere_virtual_machine" "cassandra-nodes" {
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   }
   
+  disk {
+    label = "${var.vm_name_prefix}1.vmdk"
+    size = "${var.vm_datanode_disk_size}"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "1"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}2.vmdk"
+    size = "${var.vm_datanode_disk_size}"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "2"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}3.vmdk"
+    size = "${var.vm_datanode_disk_size}"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "3"
+  }
 
   connection {
     type = "ssh"
