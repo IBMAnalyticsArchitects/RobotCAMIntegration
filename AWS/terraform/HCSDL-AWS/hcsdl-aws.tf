@@ -284,7 +284,7 @@ EOF
       "sudo chmod 600 /root/.ssh/config",
       "sudo cp /tmp/addSshKeyId.exp /opt/addSshKeyId.exp",
       "sudo chmod 700 /opt/addSshKeyId.exp",
-      "yum-config-manager --enable rhui-REGION-rhel-server-optional"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
