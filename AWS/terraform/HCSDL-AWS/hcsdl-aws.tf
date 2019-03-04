@@ -381,7 +381,8 @@ resource "aws_instance" "idm" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
@@ -431,7 +432,8 @@ resource "aws_instance" "ishttp" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
  
@@ -482,7 +484,8 @@ resource "aws_instance" "iswasnd" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
@@ -532,7 +535,8 @@ resource "aws_instance" "isdb2" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
  
@@ -585,7 +589,8 @@ resource "aws_instance" "isds" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
  
@@ -635,7 +640,8 @@ resource "aws_instance" "ises" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
  
@@ -686,7 +692,8 @@ resource "aws_instance" "haproxy" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
@@ -740,7 +747,8 @@ resource "aws_instance" "hdp-mgmtnodes" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
@@ -803,7 +811,8 @@ resource "aws_instance" "hdp-datanodes" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
@@ -856,7 +865,8 @@ resource "aws_instance" "hdp-edgenodes" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
@@ -919,7 +929,8 @@ resource "aws_instance" "hdp-bigsql" {
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-      "sudo chmod 600 /root/.ssh/config"
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
     ]
  }
 
