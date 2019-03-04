@@ -353,7 +353,7 @@ chmod 600 /opt/cloud_install/ssh_keys/id_rsa
 echo "Generate new global.properties"
 perl -f cam_integration/01_gen_cam_install_properties.pl
 
-sed -i 's/cloud_replace_rhel_repo=1/cloud_replace_rhel_repo=0/' global.properties
+#sed -i 's/cloud_replace_rhel_repo=1/cloud_replace_rhel_repo=0/' global.properties
 echo "cloud_disable_yum_versionlock=1">>global.properties
 
 . ./setenv
