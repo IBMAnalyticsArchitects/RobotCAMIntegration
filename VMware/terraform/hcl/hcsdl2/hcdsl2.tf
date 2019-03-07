@@ -329,6 +329,8 @@ chmod 600 /opt/cloud_install/ssh_keys/id_rsa
 echo "Generate new global.properties"
 perl -f cam_integration/01_gen_cam_install_properties.pl
 
+echo "cloud_enable_yum_versionlock=0">>global.properties
+
 . ./setenv
 
 echo "Encrypt and remove global.properties"

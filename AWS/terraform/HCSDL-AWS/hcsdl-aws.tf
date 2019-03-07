@@ -326,6 +326,7 @@ perl -f cam_integration/01_gen_cam_install_properties.pl
 sed -i 's/cloud_replace_rhel_repo=0/cloud_replace_rhel_repo=1/' global.properties
 #sed -i 's/cloud_biginsights_bigsql_/#cloud_biginsights_bigsql_/' global.properties
 #sed -i 's/cloud_skip_prepare_nodes=0/cloud_skip_prepare_nodes=1/' global.properties
+echo "cloud_enable_yum_versionlock=0">>global.properties
 
 . ./setenv
 
