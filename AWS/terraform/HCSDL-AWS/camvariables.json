@@ -94,7 +94,7 @@
       "required": true,
       "immutable": false,
       "group_name": "Cloud",
-      "default": "0.amazon.pool.ntp.org"
+      "default": "169.254.169.123"
     },
     {
       "name": "vm_dns_servers",
