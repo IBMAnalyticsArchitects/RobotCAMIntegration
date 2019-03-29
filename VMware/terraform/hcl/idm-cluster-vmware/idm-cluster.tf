@@ -283,6 +283,7 @@ utils/01_prepare_all_nodes.sh
 softlayer/01_setup_softlayer_vms.sh /dev/sdb
 
 #nohup ./01_master_install_hdp.sh &
+nohup ./01_install_freeipa_server_clients.sh &
 
 EOF
 
@@ -394,7 +395,7 @@ resource "vsphere_virtual_machine" "clientvm" {
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
-    size = "1000"
+    size = "800"
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
     unit_number = "1"
@@ -420,7 +421,10 @@ resource "vsphere_virtual_machine" "clientvm" {
       "sudo sed -i -e 's/# %wheel/%wheel/' -e 's/Defaults    requiretty/#Defaults    requiretty/' /etc/sudoers",
       "sudo useradd ${var.sudo_user}",
       "sudo su -c 'echo ${var.sudo_password} | passwd ${var.sudo_user} --stdin'",
-      "sudo usermod ${var.sudo_user} -g wheel"
+      "sudo usermod ${var.sudo_user} -g wheel",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
  }
 
