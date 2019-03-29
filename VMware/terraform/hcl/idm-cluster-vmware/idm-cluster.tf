@@ -280,6 +280,8 @@ done
 
 utils/01_prepare_all_nodes.sh
 
+softlayer/01_setup_softlayer_vms.sh /dev/sdb
+
 #nohup ./01_master_install_hdp.sh &
 
 EOF
@@ -392,6 +394,14 @@ resource "vsphere_virtual_machine" "clientvm" {
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
+    size = "1000"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "1"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}1.vmdk"
     size = "${var.vm_data_disk_size}"
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
@@ -414,6 +424,16 @@ resource "vsphere_virtual_machine" "clientvm" {
     ]
  }
 
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
 
 }
 
