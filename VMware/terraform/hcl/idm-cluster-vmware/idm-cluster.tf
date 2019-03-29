@@ -465,7 +465,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_idm_ip=${join(",",vsphere_virtual_machine.idm.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_idm_name=${join(",",vsphere_virtual_machine.idm.*.name)} >> /opt/monkey_cam_vars.txt",
     
-      "echo  export cam_client_ip={join(",",vsphere_virtual_machine.clientvm.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_client_ip=${join(",",vsphere_virtual_machine.clientvm.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_client_name=${join(",",vsphere_virtual_machine.clientvm.*.name)} >> /opt/monkey_cam_vars.txt",
       
       "chmod 700 /opt/installation.sh",
