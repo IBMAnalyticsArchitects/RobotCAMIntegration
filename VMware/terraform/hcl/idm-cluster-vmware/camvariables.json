@@ -17,12 +17,12 @@
       "type": "string",
       "description": "Number of IDM client VMs",
       "hidden": false,
-      "label": "umber of IDM client VMs",
+      "label": "Number of IDM client VMs",
       "secured": false,
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
-      "default": "4"
+      "default": "3"
     },
     {
       "name": "vm_name_prefix",
@@ -373,6 +373,30 @@
       "immutable": false,
       "group_name": "Cluster",
       "default": "pwd12345"
+    },
+    {
+        "name": "ssh_user",
+        "label": "SSH User",
+        "description": "The user for ssh connection, which is default in template",
+        "default": "root",
+        "hidden": false,
+        "immutable": false,
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "group_name": "Cluster"
+    },
+    {
+        "name": "ssh_user_password",
+        "label": "SSH User Password",
+        "description": "The user password for ssh connection, which is default in template",
+        "hidden": false,
+        "immutable": false,
+        "required": true,
+        "secured": true,
+        "type": "string",
+        "group_name": "Cluster",
+        "default": "password"
     }
     
   ]
