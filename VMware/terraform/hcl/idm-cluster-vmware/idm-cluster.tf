@@ -401,11 +401,11 @@ resource "vsphere_virtual_machine" "clientvm" {
   }
   
   disk {
-    label = "${var.vm_name_prefix}1.vmdk"
+    label = "${var.vm_name_prefix}2.vmdk"
     size = "${var.vm_data_disk_size}"
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
-    unit_number = "1"
+    unit_number = "2"
   }
   
   connection {
