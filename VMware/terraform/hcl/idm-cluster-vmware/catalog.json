@@ -46,7 +46,7 @@
        },
        {
          "title": "Usage and special notes",
-         "description": "<ul><li>5. This pattern requires a contiguous range of 16+N IPs addresses (where N is the number of data nodes and N>=3).</li></ul>"
+         "description": "<ul><li>1. This pattern requires a contiguous range of 2+N IPs addresses (where N is the number of IDM client VMs and N>=1).</li></ul>"
        },
        {
          "title": "Monitoring install progress",
