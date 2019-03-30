@@ -283,6 +283,7 @@ utils/01_prepare_all_nodes.sh
 softlayer/01_setup_softlayer_vms.sh /dev/sdb
 
 #nohup ./01_master_install_hdp.sh &
+cd /opt/cloud_install;
 nohup freeipa_files/01_install_freeipa_server_clients.sh &
 
 EOF
