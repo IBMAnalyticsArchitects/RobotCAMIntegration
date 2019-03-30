@@ -274,7 +274,7 @@ do
   if [ "$hostName" != "" ]
 	then
     hostPwd=`get_root_password $hostName`
-		ssh.exp $hostName $hostPwd "echo \`hostname\`.\`hostname -d\`>/etc/hostname;passwd -l root;"
+		ssh.exp $hostName $hostPwd "echo \`hostname\`.\`hostname -d\`>/etc/hostname;"
 	fi
 done
 
