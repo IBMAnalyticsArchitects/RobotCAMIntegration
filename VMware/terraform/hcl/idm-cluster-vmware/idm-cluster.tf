@@ -374,7 +374,7 @@ resource "vsphere_virtual_machine" "clientvm" {
         host_name = "${var.vm_name_prefix}-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 13 }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 2 }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
