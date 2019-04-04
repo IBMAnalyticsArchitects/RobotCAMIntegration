@@ -478,5 +478,33 @@
       "immutable": false,
       "group_name": "Information Server",
       "default": "16"
+    },
+    
+    {
+      "name": "install_infoserver",
+      "type": "string",
+      "description": "Install Information Server/Big Integrate (0 or 1)",
+      "hidden": false,
+      "label": "Install Information Server/Big Integrate (0 or 1)",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "regex": "(0|1)",
+      "group_name": "Information Server",
+      "default": "1"
+    },
+    
+    {
+      "name": "install_bigsql",
+      "type": "string",
+      "description": "Install BigSQL (0 or 1)",
+      "hidden": false,
+      "label": "Install BigSQL (0 or 1)",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "regex": "(0|1)",
+      "group_name": "HDP",
+      "default": "1"
     }
 ]

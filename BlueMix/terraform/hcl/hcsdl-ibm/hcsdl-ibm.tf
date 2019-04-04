@@ -136,6 +136,15 @@ variable "num_cassandra_nodes" {
   description = "Number of Cassandra nodes to create"
 }
 
+variable "install_infoserver" {
+  description = "install_infoserver"
+}
+
+variable "install_bigsql" {
+  description = "install_bigsql"
+}
+
+
 ##############################################################
 # Create public key in Devices>Manage>SSH Keys in SL console
 ##############################################################
@@ -341,7 +350,8 @@ resource "ibm_compute_vm_instance" "idm" {
 ############################################################################################################################################################
 # IS HTTP Front-end
 resource "ibm_compute_vm_instance" "ishttp" {
-  count="1"
+#  count="1"
+  count="${ 1 * var.install_infoserver}"
   hostname = "${var.vm_name_prefix}-ishttp-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -383,7 +393,8 @@ resource "ibm_compute_vm_instance" "ishttp" {
 ############################################################################################################################################################
 # IS WAS-ND
 resource "ibm_compute_vm_instance" "iswasnd" {
-  count="3"
+#  count="3"
+  count="${ 3 * var.install_infoserver}"
   hostname = "${var.vm_name_prefix}-iswasnd-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -426,7 +437,8 @@ resource "ibm_compute_vm_instance" "iswasnd" {
 ############################################################################################################################################################
 # IS DB2
 resource "ibm_compute_vm_instance" "isdb2" {
-  count="2"
+#  count="2"
+  count="${ 2 * var.install_infoserver}"
   hostname = "${var.vm_name_prefix}-isdb2-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -469,7 +481,8 @@ resource "ibm_compute_vm_instance" "isdb2" {
 ############################################################################################################################################################
 # IS Engine
 resource "ibm_compute_vm_instance" "isds" {
-  count="1"
+#  count="1"
+  count="${ 1 * var.install_infoserver}"
   hostname = "${var.vm_name_prefix}-isds"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -513,7 +526,8 @@ resource "ibm_compute_vm_instance" "isds" {
 ############################################################################################################################################################
 # IS Enterprise Search
 resource "ibm_compute_vm_instance" "ises" {
-  count="1"
+#  count="1"
+  count="${ 1 * var.install_infoserver}"
   hostname = "${var.vm_name_prefix}-ises"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -727,7 +741,7 @@ resource "ibm_compute_vm_instance" "hdp-edgenodes" {
 ############################################################################################################################################################
 # BigSQL Head Node
 resource "ibm_compute_vm_instance" "bigsql-head" {
-  count="1"
+  count = "${ 1 * var.install_bigsql }"
   hostname = "${var.vm_name_prefix}-bigsql-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
