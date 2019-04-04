@@ -504,7 +504,7 @@
       "required": true,
       "immutable": false,
       "regex": "(0|1)",
-      "group_name": "HDP",
+      "group_name": "BigSQL",
       "default": "1"
     }
 ]
