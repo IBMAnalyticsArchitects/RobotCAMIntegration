@@ -142,6 +142,12 @@ resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
       "usermod ${var.sudo_user} -g wheel"
     ]
   }
+  
+  provisioner "file" {
+    source      = "awscli-bundle.zip"
+    destination = "/tmp/awscli-bundle.zip"
+  }
+
    
   provisioner "file" {
   
@@ -153,8 +159,9 @@ set -x
 . /opt/monkey_cam_vars.txt
 
 yum install python rsync unzip ksh perl  wget expect createrepo -y
-curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-unzip awscli-bundle.zip
+#curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+#unzip awscli-bundle.zip
+unzip /tmp/awscli-bundle.zip
 sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 
 
