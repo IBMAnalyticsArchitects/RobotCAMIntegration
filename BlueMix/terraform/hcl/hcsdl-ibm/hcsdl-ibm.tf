@@ -911,7 +911,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_hdp_edgenodes_ip=${join(",",ibm_compute_vm_instance.hdp-edgenodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_hdp_edgenodes_name=${join(",",ibm_compute_vm_instance.hdp-edgenodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
     
-      "echo  export cam_cassandra_enodes_ip=${join(",",ibm_compute_vm_instance.cassandra-nodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cassandra_nodes_ip=${join(",",ibm_compute_vm_instance.cassandra-nodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_cassandra_nodes_name=${join(",",ibm_compute_vm_instance.cassandra-nodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_bigsql_head_ip=${join(",",ibm_compute_vm_instance.bigsql-head.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
