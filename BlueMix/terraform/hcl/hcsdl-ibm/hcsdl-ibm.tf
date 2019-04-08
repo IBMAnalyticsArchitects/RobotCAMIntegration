@@ -836,12 +836,14 @@ resource "null_resource" "start_install" {
   	"ibm_compute_vm_instance.ishttp",  
   	"ibm_compute_vm_instance.iswasnd",  
   	"ibm_compute_vm_instance.isdb2",  
-  	"ibm_compute_vm_instance.isds",  
+  	"ibm_compute_vm_instance.isds",   
+  	"ibm_compute_vm_instance.ises",  
   	"ibm_compute_vm_instance.haproxy",  
   	"ibm_compute_vm_instance.hdp-mgmtnodes",
   	"ibm_compute_vm_instance.hdp-datanodes",
   	"ibm_compute_vm_instance.hdp-edgenodes",
-  	"ibm_compute_vm_instance.bigsql-head"
+  	"ibm_compute_vm_instance.bigsql-head",
+  	"ibm_compute_vm_instance.cassandra-nodes"
   ]
   
   connection {
