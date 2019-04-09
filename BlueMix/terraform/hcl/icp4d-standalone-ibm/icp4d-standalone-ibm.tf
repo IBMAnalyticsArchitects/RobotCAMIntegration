@@ -292,7 +292,7 @@ do
 	fi
 done
 
-utils/01_prepare_all_nodes.sh
+#utils/01_prepare_all_nodes.sh
 
 softlayer/01_setup_softlayer_vms.sh /dev/xvdc
 
