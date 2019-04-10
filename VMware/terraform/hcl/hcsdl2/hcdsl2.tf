@@ -350,7 +350,7 @@ do
 	fi
 done
 
-utils/01_prepare_all_nodes.sh
+utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
 nohup ./01_master_install_hdp.sh &
 

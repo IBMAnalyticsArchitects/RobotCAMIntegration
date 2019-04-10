@@ -292,9 +292,9 @@ do
 	fi
 done
 
-#utils/01_prepare_all_nodes.sh
+utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
-softlayer/01_setup_softlayer_vms.sh /dev/xvdc
+softlayer/01_setup_softlayer_vms.sh /dev/xvdc >01_setup_softlayer_vms.log 2>&1
 
 nohup icp_files/01_master_standalone_icp4d.sh &
 
@@ -320,7 +320,7 @@ resource "ibm_compute_vm_instance" "icpidm" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
-  disks                    = [100]
+  disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -342,6 +342,17 @@ resource "ibm_compute_vm_instance" "icpidm" {
       "chmod 600 /root/.ssh/config"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 ###########################################################################################################################################################
@@ -358,7 +369,7 @@ resource "ibm_compute_vm_instance" "icphaproxy" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
-  disks                    = [100]
+  disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -383,6 +394,17 @@ resource "ibm_compute_vm_instance" "icphaproxy" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 ############################################################################################################################################################
@@ -592,7 +614,7 @@ resource "null_resource" "start_install" {
       # This list must match the naming format, for the data node template definition.
       
       # For the SL VMs used so far, /dev/xvdb is defined as swap. Removing it for now...
-      "echo  export cam_icp_nfs_data_devices=/disk2@/dev/xvdc >> /opt/monkey_cam_vars.txt",
+      #"echo  export cam_icp_nfs_data_devices=/disk2@/dev/xvdc >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_docker_device=/dev/xvde >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_data_devices=/ibm@/dev/xvdf,/data@/dev/xvdg >> /opt/monkey_cam_vars.txt",
       

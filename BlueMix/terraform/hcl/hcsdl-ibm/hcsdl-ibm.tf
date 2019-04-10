@@ -295,7 +295,9 @@ do
 	fi
 done
 
-utils/01_prepare_all_nodes.sh
+utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
+
+softlayer/01_setup_softlayer_vms.sh /dev/xvdc >01_setup_softlayer_vms.log 2>&1
 
 nohup ./01_master_install_hdp.sh &
 
@@ -321,7 +323,7 @@ resource "ibm_compute_vm_instance" "idm" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
-  disks                    = [100]
+  disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -344,6 +346,17 @@ resource "ibm_compute_vm_instance" "idm" {
       "chmod 600 /root/.ssh/config"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 
@@ -362,182 +375,6 @@ resource "ibm_compute_vm_instance" "ishttp" {
   private_network_only     = true
   cores                    = 4
   memory                   = 16384
-  disks                    = [100]
-  dedicated_acct_host_only = false
-  local_disk               = false
-#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
-  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
-
-  # Specify the ssh connection
-  connection {
-    user        = "root"
-    private_key = "${tls_private_key.ssh.private_key_pem}"
-    host        = "${self.ipv4_address_private}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
-    ]
-  }
-}
-
-############################################################################################################################################################
-# IS WAS-ND
-resource "ibm_compute_vm_instance" "iswasnd" {
-#  count="3"
-  count="${ 3 * var.install_infoserver}"
-  hostname = "${var.vm_name_prefix}-iswasnd-${ count.index }"
-  os_reference_code        = "REDHAT_7_64"
-  domain                   = "${var.vm_domain}"
-  datacenter               = "${var.datacenter}"
-  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
-  network_speed            = 1000
-  hourly_billing           = true
-  private_network_only     = true
-  cores                    = 8
-  memory                   = 32768
-  disks                    = [100]
-  dedicated_acct_host_only = false
-  local_disk               = false
-#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
-  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
-
-  # Specify the ssh connection
-  connection {
-    user        = "root"
-    private_key = "${tls_private_key.ssh.private_key_pem}"
-    host        = "${self.ipv4_address_private}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
-    ]
-  }
-}
-
-
-############################################################################################################################################################
-# IS DB2
-resource "ibm_compute_vm_instance" "isdb2" {
-#  count="2"
-  count="${ 2 * var.install_infoserver}"
-  hostname = "${var.vm_name_prefix}-isdb2-${ count.index }"
-  os_reference_code        = "REDHAT_7_64"
-  domain                   = "${var.vm_domain}"
-  datacenter               = "${var.datacenter}"
-  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
-  network_speed            = 1000
-  hourly_billing           = true
-  private_network_only     = true
-  cores                    = 8
-  memory                   = 32768
-  disks                    = [100,2000,2000]
-  dedicated_acct_host_only = false
-  local_disk               = false
-#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
-  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
-
-  # Specify the ssh connection
-  connection {
-    user        = "root"
-    private_key = "${tls_private_key.ssh.private_key_pem}"
-    host        = "${self.ipv4_address_private}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
-    ]
-  }
-}
-
-
-############################################################################################################################################################
-# IS Engine
-resource "ibm_compute_vm_instance" "isds" {
-#  count="1"
-  count="${ 1 * var.install_infoserver}"
-  hostname = "${var.vm_name_prefix}-isds"
-  os_reference_code        = "REDHAT_7_64"
-  domain                   = "${var.vm_domain}"
-  datacenter               = "${var.datacenter}"
-  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
-  network_speed            = 1000
-  hourly_billing           = true
-  private_network_only     = true
-  cores                    = "${var.dsengine_num_cpus}"
-  memory                   = "${var.dsengine_mem}"
-  disks                    = [100,2000,2000]
-  dedicated_acct_host_only = false
-  local_disk               = false
-#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
-  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
-
-  # Specify the ssh connection
-  connection {
-    user        = "root"
-    private_key = "${tls_private_key.ssh.private_key_pem}"
-    host        = "${self.ipv4_address_private}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
-    ]
-  }
-}
-
-
-
-############################################################################################################################################################
-# IS Enterprise Search
-resource "ibm_compute_vm_instance" "ises" {
-#  count="1"
-  count="${ 1 * var.install_infoserver}"
-  hostname = "${var.vm_name_prefix}-ises"
-  os_reference_code        = "REDHAT_7_64"
-  domain                   = "${var.vm_domain}"
-  datacenter               = "${var.datacenter}"
-  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
-  network_speed            = 1000
-  hourly_billing           = true
-  private_network_only     = true
-  cores                    = "${var.enterprise_search_num_cpus}"
-  memory                   = "${var.enterprise_search_mem}"
   disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -564,6 +401,237 @@ resource "ibm_compute_vm_instance" "ises" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
+}
+
+############################################################################################################################################################
+# IS WAS-ND
+resource "ibm_compute_vm_instance" "iswasnd" {
+#  count="3"
+  count="${ 3 * var.install_infoserver}"
+  hostname = "${var.vm_name_prefix}-iswasnd-${ count.index }"
+  os_reference_code        = "REDHAT_7_64"
+  domain                   = "${var.vm_domain}"
+  datacenter               = "${var.datacenter}"
+  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
+  network_speed            = 1000
+  hourly_billing           = true
+  private_network_only     = true
+  cores                    = 8
+  memory                   = 32768
+  disks                    = [100,1000]
+  dedicated_acct_host_only = false
+  local_disk               = false
+#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
+  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
+
+  # Specify the ssh connection
+  connection {
+    user        = "root"
+    private_key = "${tls_private_key.ssh.private_key_pem}"
+    host        = "${self.ipv4_address_private}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh",
+      "chmod 700 /root/.ssh",
+      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "echo StrictHostKeyChecking no > /root/.ssh/config",
+      "chmod 600 /root/.ssh/config",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+    ]
+  }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
+}
+
+
+############################################################################################################################################################
+# IS DB2
+resource "ibm_compute_vm_instance" "isdb2" {
+#  count="2"
+  count="${ 2 * var.install_infoserver}"
+  hostname = "${var.vm_name_prefix}-isdb2-${ count.index }"
+  os_reference_code        = "REDHAT_7_64"
+  domain                   = "${var.vm_domain}"
+  datacenter               = "${var.datacenter}"
+  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
+  network_speed            = 1000
+  hourly_billing           = true
+  private_network_only     = true
+  cores                    = 8
+  memory                   = 32768
+  disks                    = [100,1000,2000,2000]
+  dedicated_acct_host_only = false
+  local_disk               = false
+#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
+  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
+
+  # Specify the ssh connection
+  connection {
+    user        = "root"
+    private_key = "${tls_private_key.ssh.private_key_pem}"
+    host        = "${self.ipv4_address_private}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh",
+      "chmod 700 /root/.ssh",
+      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "echo StrictHostKeyChecking no > /root/.ssh/config",
+      "chmod 600 /root/.ssh/config",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+    ]
+  }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
+}
+
+
+############################################################################################################################################################
+# IS Engine
+resource "ibm_compute_vm_instance" "isds" {
+#  count="1"
+  count="${ 1 * var.install_infoserver}"
+  hostname = "${var.vm_name_prefix}-isds"
+  os_reference_code        = "REDHAT_7_64"
+  domain                   = "${var.vm_domain}"
+  datacenter               = "${var.datacenter}"
+  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
+  network_speed            = 1000
+  hourly_billing           = true
+  private_network_only     = true
+  cores                    = "${var.dsengine_num_cpus}"
+  memory                   = "${var.dsengine_mem}"
+  disks                    = [100,1000,2000,2000]
+  dedicated_acct_host_only = false
+  local_disk               = false
+#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
+  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
+
+  # Specify the ssh connection
+  connection {
+    user        = "root"
+    private_key = "${tls_private_key.ssh.private_key_pem}"
+    host        = "${self.ipv4_address_private}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh",
+      "chmod 700 /root/.ssh",
+      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "echo StrictHostKeyChecking no > /root/.ssh/config",
+      "chmod 600 /root/.ssh/config",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+    ]
+  }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
+}
+
+
+
+############################################################################################################################################################
+# IS Enterprise Search
+resource "ibm_compute_vm_instance" "ises" {
+#  count="1"
+  count="${ 1 * var.install_infoserver}"
+  hostname = "${var.vm_name_prefix}-ises"
+  os_reference_code        = "REDHAT_7_64"
+  domain                   = "${var.vm_domain}"
+  datacenter               = "${var.datacenter}"
+  private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
+  network_speed            = 1000
+  hourly_billing           = true
+  private_network_only     = true
+  cores                    = "${var.enterprise_search_num_cpus}"
+  memory                   = "${var.enterprise_search_mem}"
+  disks                    = [100,1000,1000]
+  dedicated_acct_host_only = false
+  local_disk               = false
+#  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
+  ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
+
+  # Specify the ssh connection
+  connection {
+    user        = "root"
+    private_key = "${tls_private_key.ssh.private_key_pem}"
+    host        = "${self.ipv4_address_private}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh",
+      "chmod 700 /root/.ssh",
+      "echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "echo StrictHostKeyChecking no > /root/.ssh/config",
+      "chmod 600 /root/.ssh/config",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+    ]
+  }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 
@@ -582,7 +650,7 @@ resource "ibm_compute_vm_instance" "haproxy" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
-  disks                    = [100]
+  disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -608,6 +676,17 @@ resource "ibm_compute_vm_instance" "haproxy" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 
@@ -625,7 +704,8 @@ resource "ibm_compute_vm_instance" "hdp-mgmtnodes" {
   private_network_only     = true
   cores                    = "${var.mgmtnode_num_cpus}"
   memory                   = "${var.mgmtnode_mem}"
-  disks                    = "${var.mgmtnode_disks}"
+#  disks                    = "${var.mgmtnode_disks}"
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -651,6 +731,17 @@ resource "ibm_compute_vm_instance" "hdp-mgmtnodes" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 
@@ -668,7 +759,8 @@ resource "ibm_compute_vm_instance" "hdp-datanodes" {
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
-  disks                    = "${var.datanode_disks}"
+#  disks                    = "${var.datanode_disks}"
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -694,6 +786,17 @@ resource "ibm_compute_vm_instance" "hdp-datanodes" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 ############################################################################################################################################################
@@ -710,7 +813,8 @@ resource "ibm_compute_vm_instance" "hdp-edgenodes" {
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
-  disks                    = "${var.datanode_disks}"
+#  disks                    = "${var.datanode_disks}"
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -736,6 +840,17 @@ resource "ibm_compute_vm_instance" "hdp-edgenodes" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 ############################################################################################################################################################
@@ -752,7 +867,8 @@ resource "ibm_compute_vm_instance" "bigsql-head" {
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
-  disks                    = "${var.datanode_disks}"
+#  disks                    = "${var.datanode_disks}"
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -778,6 +894,17 @@ resource "ibm_compute_vm_instance" "bigsql-head" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 
@@ -796,7 +923,8 @@ resource "ibm_compute_vm_instance" "cassandra-nodes" {
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
-  disks                    = "${var.datanode_disks}"
+#  disks                    = "${var.datanode_disks}"
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -822,6 +950,17 @@ resource "ibm_compute_vm_instance" "cassandra-nodes" {
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
+  
+ provisioner "file" {
+    content = <<EOF
+var=400
+tmp=100
+opt=200
+home=100
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+
 }
 
 
@@ -872,7 +1011,8 @@ resource "null_resource" "start_install" {
       
       # For the SL VMs used so far, /dev/xvdb is defined as swap. Removing it for now...
       #"echo  export cam_cloud_biginsights_data_devices=/disk1@/dev/xvdb,/disk2@/dev/xvdc,/disk3@/dev/xvdd,/disk4@/dev/xvde,/disk5@/dev/xvdf,/disk6@/dev/xvdg,/disk7@/dev/xvdh,/disk8@/dev/xvdi,/disk9@/dev/xvdj,/disk10@/dev/xvdk,/disk11@/dev/xvdl,/disk12@/dev/xvdm,/disk13@/dev/xvdn >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_cloud_biginsights_data_devices=/disk2@/dev/xvdc,/disk3@/dev/xvdd,/disk4@/dev/xvde,/disk5@/dev/xvdf,/disk6@/dev/xvdg,/disk7@/dev/xvdh,/disk8@/dev/xvdi,/disk9@/dev/xvdj,/disk10@/dev/xvdk,/disk11@/dev/xvdl,/disk12@/dev/xvdm,/disk13@/dev/xvdn >> /opt/monkey_cam_vars.txt",
+      #"echo  export cam_cloud_biginsights_data_devices=/disk2@/dev/xvdc,/disk3@/dev/xvdd,/disk4@/dev/xvde,/disk5@/dev/xvdf,/disk6@/dev/xvdg,/disk7@/dev/xvdh,/disk8@/dev/xvdi,/disk9@/dev/xvdj,/disk10@/dev/xvdk,/disk11@/dev/xvdl,/disk12@/dev/xvdm,/disk13@/dev/xvdn >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cloud_biginsights_data_devices=/disk3@/dev/xvdd,/disk4@/dev/xvde,/disk5@/dev/xvdf,/disk6@/dev/xvdg,/disk7@/dev/xvdh,/disk8@/dev/xvdi,/disk9@/dev/xvdj,/disk10@/dev/xvdk,/disk11@/dev/xvdl,/disk12@/dev/xvdm,/disk13@/dev/xvdn >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     
@@ -897,7 +1037,7 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_ises_ip=${join(",",ibm_compute_vm_instance.ises.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_name=${join(",",ibm_compute_vm_instance.ises.*.hostname)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_ises_device=/dev/xvdc >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ises_device=/dev/xvdd >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_haproxy_ip=${join(",",ibm_compute_vm_instance.haproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_haproxy_name=${join(",",ibm_compute_vm_instance.haproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",

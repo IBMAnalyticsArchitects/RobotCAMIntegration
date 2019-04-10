@@ -375,7 +375,7 @@ do
 	fi
 done
 
-utils/01_prepare_all_nodes.sh
+utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
 nohup icp_files/01_master_standalone_icp4d.sh &
 
