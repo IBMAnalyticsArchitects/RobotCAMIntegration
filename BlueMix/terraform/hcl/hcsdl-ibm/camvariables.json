@@ -347,9 +347,9 @@
       "label": "Data disk sizes for HDP Management Nodes",
       "secured": false,
       "required": false,
-      "immutable": false,
+      "immutable": true,
       "group_name": "HDP Management Nodes",
-      "default": [ "100","100","100","100" ]
+      "default": [ "100","1000","2000","2000" ]
     },
     
     {
@@ -399,9 +399,9 @@
       "label": "Data disk sizes for HDP Data Nodes",
       "secured": false,
       "required": false,
-      "immutable": false,
+      "immutable": true,
       "group_name": "HDP Data Nodes",
-      "default": [ "100","1000","1000","1000","1000" ]
+      "default": [ "100","1000","2000","2000","2000" ]
     },
     {
       "name": "num_edgenodes",

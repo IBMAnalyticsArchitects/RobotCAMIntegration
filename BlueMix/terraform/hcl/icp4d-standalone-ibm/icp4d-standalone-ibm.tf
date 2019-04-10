@@ -421,12 +421,9 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
-#  disks                    = [100,400,400,400,400]
-#  dedicated_acct_host_only = false
-#  local_disk               = true
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
 
   # Specify the ssh connection
@@ -476,12 +473,9 @@ resource "ibm_compute_vm_instance" "icpworker" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
-#  disks                    = [100,400,400,400,400]
-#  dedicated_acct_host_only = false
-#  local_disk               = true
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]
 
   # Specify the ssh connection
@@ -533,7 +527,7 @@ resource "ibm_compute_vm_instance" "icpproxy" {
   private_network_only     = true
   cores                    = 16
   memory                   = 32768
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]

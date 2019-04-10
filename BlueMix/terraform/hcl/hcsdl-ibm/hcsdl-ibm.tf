@@ -705,7 +705,7 @@ resource "ibm_compute_vm_instance" "hdp-mgmtnodes" {
   cores                    = "${var.mgmtnode_num_cpus}"
   memory                   = "${var.mgmtnode_mem}"
 #  disks                    = "${var.mgmtnode_disks}"
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [ 100,1000,2000,2000 ]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -760,7 +760,7 @@ resource "ibm_compute_vm_instance" "hdp-datanodes" {
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
 #  disks                    = "${var.datanode_disks}"
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -814,7 +814,7 @@ resource "ibm_compute_vm_instance" "hdp-edgenodes" {
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
 #  disks                    = "${var.datanode_disks}"
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -868,7 +868,7 @@ resource "ibm_compute_vm_instance" "bigsql-head" {
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
 #  disks                    = "${var.datanode_disks}"
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -924,7 +924,7 @@ resource "ibm_compute_vm_instance" "cassandra-nodes" {
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
 #  disks                    = "${var.datanode_disks}"
-  disks                    = [100,1000,1000,1000,1000]
+  disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
