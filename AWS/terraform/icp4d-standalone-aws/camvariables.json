@@ -118,7 +118,7 @@
       "required": false,
       "immutable": false,
       "group_name": "Cloud",
-      "default": "172.31.8.233"
+      "default": "172.32.2.214"
     },
     {
       "name": "cloud_install_tar_file_name",
