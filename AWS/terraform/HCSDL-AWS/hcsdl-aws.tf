@@ -309,6 +309,8 @@ EOF
     content = <<EOF
 #!/bin/sh
 
+set -x
+
 yum install -y expect
 
 passphrase=`cat /root/passphrase.fifo`
@@ -1103,6 +1105,7 @@ resource "null_resource" "start_install" {
       "sudo mkfifo /root/passphrase.fifo",
       "sudo chmod 600 /root/passphrase.fifo",
       "sudo su - -c 'echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &'",
+      "sleep 5"
       
       "sudo su -c 'cd;nohup /opt/installation.sh &'",
       "sleep 60"
