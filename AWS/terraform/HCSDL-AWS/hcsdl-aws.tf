@@ -1034,8 +1034,6 @@ resource "null_resource" "start_install" {
   provisioner "remote-exec" {
     inline = [
     
-      "set -x",
-      
 #      "echo  export cam_sudo_user=${var.sudo_user} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_sudo_password=pwd12345 >> /tmp/monkey_cam_vars.txt",
       
