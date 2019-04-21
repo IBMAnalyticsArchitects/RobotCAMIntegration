@@ -59,11 +59,16 @@ data "aws_vpc" "selected" {
   }
 }
 
-data "aws_subnet" "selected" {
-  state      = "available"
-  vpc_id     = "${data.aws_vpc.selected.id}"
-  cidr_block = "${var.subnet_cidr}"
+
+variable "vm_ipv4_prefix_length" {
+  description = "CIDR prefix for VM subnets"
 }
+
+#data "aws_subnet" "selected" {
+#  state      = "available"
+#  vpc_id     = "${data.aws_vpc.selected.id}"
+#  cidr_block = "${var.subnet_cidr}"
+#}
 
 variable "public_ssh_key_name" {
   description = "Name of the public SSH key used to connect to the virtual guest"
