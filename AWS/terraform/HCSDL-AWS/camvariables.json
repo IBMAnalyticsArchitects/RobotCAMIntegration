@@ -105,6 +105,18 @@
       "immutable": false,
       "group_name": "Cloud"
     },
+    {
+        "description": "CIDR Network Prefix Length for VM subnets. This is used to set, for example, virtual IPs managed through Pacemaker (HDP and ICP4D HAProxies). Please make sure all subnets specified share the same network prefix length.",
+        "hidden": false,
+        "immutable": false,
+        "label": "CIDR Network Prefix Length for VM subnets",
+        "name": "vm_ipv4_prefix_length",
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "default": "24",
+        "group_name": "Cloud"
+    },
     
     {
       "name": "time_server",
