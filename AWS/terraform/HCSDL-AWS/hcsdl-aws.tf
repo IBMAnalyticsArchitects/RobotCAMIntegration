@@ -309,8 +309,6 @@ EOF
     content = <<EOF
 #!/bin/sh
 
-set -x
-
 yum install -y expect
 
 passphrase=`cat /root/passphrase.fifo`
