@@ -83,6 +83,28 @@
         "default": "172.31.0.0/20",
         "group_name": "Cluster"
     },
+    {
+        "description": "Subnet IDs",
+        "hidden": false,
+        "immutable": false,
+        "label": "Subnet IDs",
+        "name": "subnet_ids",
+        "required": true,
+        "secured": false,
+        "type": "list",
+        "group_name": "Cloud"
+    },
+    {
+      "name": "availability_zones",
+      "type": "list",
+      "description": "Availability Zones",
+      "hidden": false,
+      "label": "Availability Zones",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cloud"
+    },
     
     {
       "name": "time_server",

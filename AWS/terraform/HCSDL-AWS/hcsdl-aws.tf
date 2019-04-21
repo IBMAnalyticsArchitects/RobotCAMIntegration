@@ -203,6 +203,17 @@ variable "install_bigsql" {
 }
 
 
+variable "availability_zones" {
+  type = "list"
+  description = "availability_zones"
+}
+
+variable "subnet_ids" {
+  type = "list"
+  description = "subnet_ids"
+}
+
+
 #######################
 
 resource "aws_key_pair" "orpheus_public_key" {
@@ -233,7 +244,8 @@ resource "aws_key_pair" "temp_public_key" {
 resource "aws_instance" "driver" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-driver.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-driver", Owner = "${var.aws_owner}" }
-  instance_type = "m4.large"
+  instance_type = "m4.xlarge"
+  availability_zone = "${element(var.availability_zones, 0)}"
   ami           = "${var.aws_image}"
   subnet_id     = "${data.aws_subnet.selected.id}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
@@ -358,7 +370,9 @@ resource "aws_instance" "idm" {
   tags { Name = "${var.vm_name_prefix}-idm-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-idm-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.idm_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
+#  subnet_id     = "${data.aws_subnet.selected.id}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
@@ -408,7 +422,8 @@ resource "aws_instance" "ishttp" {
   tags { Name = "${var.vm_name_prefix}-ishttp-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-ishttp-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.ishttp_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -461,7 +476,8 @@ resource "aws_instance" "iswasnd" {
   tags { Name = "${var.vm_name_prefix}-iswasnd-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-iswasnd-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.iswas_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -512,7 +528,8 @@ resource "aws_instance" "isdb2" {
   tags { Name = "${var.vm_name_prefix}-isdb2-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-isdb2-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.isdb2_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -566,7 +583,8 @@ resource "aws_instance" "isds" {
   tags { Name = "${var.vm_name_prefix}-isds.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-isds", Owner = "${var.aws_owner}" }
   instance_type = "${var.isds_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -615,7 +633,8 @@ resource "aws_instance" "ises" {
   tags { Name = "${var.vm_name_prefix}-ises.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-ises", Owner = "${var.aws_owner}" }
   instance_type = "${var.ises_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -669,7 +688,8 @@ resource "aws_instance" "haproxy" {
   tags { Name = "${var.vm_name_prefix}-haproxy.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-haproxy", Owner = "${var.aws_owner}" }
   instance_type = "${var.haproxy_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
@@ -721,7 +741,8 @@ resource "aws_instance" "hdp-mgmtnodes" {
   tags { Name = "${var.vm_name_prefix}-mn-${ count.index }.${var.vm_domain}",ShortName = "${var.vm_name_prefix}-mn-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.mgmtnode_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }  
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -776,7 +797,8 @@ resource "aws_instance" "hdp-datanodes" {
   tags { Name = "${var.vm_name_prefix}-dn-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-dn-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.datanode_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }  
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -840,7 +862,8 @@ resource "aws_instance" "hdp-edgenodes" {
   tags { Name = "${var.vm_name_prefix}-en-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-en-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.edgenode_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }  
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
@@ -894,7 +917,8 @@ resource "aws_instance" "hdp-bigsql" {
   tags { Name = "${var.vm_name_prefix}-bigsql-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-bigsql-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.bigsql_head_instance_type}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }  
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }

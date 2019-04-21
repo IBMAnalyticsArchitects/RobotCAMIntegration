@@ -239,11 +239,8 @@ resource "aws_instance" "driver" {
   tags { Name = "${var.vm_name_prefix}-driver.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-driver", Owner = "${var.aws_owner}" }
   instance_type = "m4.xlarge"
   availability_zone = "${element(var.availability_zones, 0)}"
-#  availability_zone = "us-east-1d"
   ami           = "${var.aws_image}"
   subnet_id     = "${element(var.subnet_ids, 0)}"
-#  subnet_id     = "subnet-085662708ea5e2034"
-#  subnet_id     = "subnet-07761cbaf6f01d881"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   
@@ -443,28 +440,6 @@ resource "aws_instance" "icphaproxyvip" {
     private_key = "${tls_private_key.ssh.private_key_pem}"
     host        = "${self.private_ip}"
   }
-  
-
-# provisioner "remote-exec" {
-#    inline = [
-#      "sudo su - -c 'echo \"${var.vm_name_prefix}-icphaproxyvip.${var.vm_domain}\">/tmp/hostname'",
-#      "sudo mv /tmp/hostname /etc/hostname",
-#      "sudo hostname \"${var.vm_name_prefix}-icphaproxyvip.${var.vm_domain}\"",
-#      
-#      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-#      "sudo su - -c 'systemctl restart sshd'",
-#      
-#      "sudo mkdir -p /root/.ssh",
-#      "sudo chmod 700 /root/.ssh",
-#      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
-#      "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
-#      "sudo chmod 600 /root/.ssh/authorized_keys",
-#      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
-#      "sudo chmod 600 /root/.ssh/id_rsa",
-#      "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
-#      "sudo chmod 600 /root/.ssh/config"
-#    ]
-# }
    
  provisioner "remote-exec" {
     inline = [
