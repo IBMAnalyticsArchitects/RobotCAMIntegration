@@ -1034,6 +1034,8 @@ resource "null_resource" "start_install" {
   provisioner "remote-exec" {
     inline = [
     
+      "set -x",
+      
 #      "echo  export cam_sudo_user=${var.sudo_user} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_sudo_password=pwd12345 >> /tmp/monkey_cam_vars.txt",
       
@@ -1105,7 +1107,6 @@ resource "null_resource" "start_install" {
       "sudo mkfifo /root/passphrase.fifo",
       "sudo chmod 600 /root/passphrase.fifo",
       "sudo su - -c 'echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &'",
-      "sleep 5",
       
       "sudo su -c 'cd;nohup /opt/installation.sh &'",
       "sleep 60"
