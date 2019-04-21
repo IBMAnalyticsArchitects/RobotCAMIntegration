@@ -250,9 +250,9 @@ resource "aws_instance" "driver" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-driver.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-driver", Owner = "${var.aws_owner}" }
   instance_type = "m4.xlarge"
-  availability_zone = "${element(var.availability_zones, 0)}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
   ami           = "${var.aws_image}"
-  subnet_id     = "${data.aws_subnet.selected.id}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   
