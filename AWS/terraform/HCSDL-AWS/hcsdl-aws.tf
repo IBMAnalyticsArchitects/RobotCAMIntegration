@@ -394,15 +394,17 @@ resource "aws_instance" "idm" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-idm-${ count.index }.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
 
@@ -446,15 +448,17 @@ resource "aws_instance" "ishttp" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-ishttp-${ count.index }.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
  
@@ -499,15 +503,17 @@ resource "aws_instance" "iswasnd" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-iswasnd-${ count.index }.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
 
@@ -551,15 +557,17 @@ resource "aws_instance" "isdb2" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-isdb2-${ count.index }.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
  
@@ -606,15 +614,17 @@ resource "aws_instance" "isds" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-idm.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
  
@@ -658,15 +668,17 @@ resource "aws_instance" "ises" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-ises.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
  
@@ -711,15 +723,17 @@ resource "aws_instance" "haproxy" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-haproxy.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
 
@@ -767,15 +781,17 @@ resource "aws_instance" "hdp-mgmtnodes" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-mn-${ count.index }.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
 
@@ -832,15 +848,17 @@ resource "aws_instance" "hdp-datanodes" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-dn-${ count.index }.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
 
@@ -888,14 +906,18 @@ resource "aws_instance" "hdp-edgenodes" {
       "sudo hostname \"${var.vm_name_prefix}-en-${ count.index }.${var.vm_domain}\"",
       
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
+      
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
 
@@ -952,15 +974,17 @@ resource "aws_instance" "hdp-bigsql" {
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-bigsql-${ count.index }.${var.vm_domain}\"",
       
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'",
       "sudo mkdir -p /root/.ssh",
       "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
       "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
       "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'"
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo mv /data /data.bkp"
     ]
  }
 
