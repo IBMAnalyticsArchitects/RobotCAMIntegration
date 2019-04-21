@@ -1106,7 +1106,7 @@ resource "null_resource" "start_install" {
       
       "sudo mkfifo /root/passphrase.fifo",
       "sudo chmod 600 /root/passphrase.fifo",
-      "sudo su - -c 'echo "${var.ssh_key_passphrase}" > /root/passphrase.fifo &'",
+      "sudo su - -c 'echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &'",
       
       "sudo su -c 'cd;nohup /opt/installation.sh &'",
       "sleep 60"
