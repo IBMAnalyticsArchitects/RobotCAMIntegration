@@ -519,8 +519,8 @@ resource "aws_instance" "icpmaster" {
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
-  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
+  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="10000" }
+  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="10000" }
   
   connection {
     user        = "ec2-user"
@@ -581,9 +581,9 @@ resource "aws_instance" "icpworker" {
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
-  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
-  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "6000", "delete_on_termination" = true iops="20000" }
+  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="10000" }
+  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="10000" }
+  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "6000", "delete_on_termination" = true iops="10000" }
   
   connection {
     user        = "ec2-user"
