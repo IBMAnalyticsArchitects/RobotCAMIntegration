@@ -379,6 +379,23 @@ utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
 #nohup icp_files/01_master_standalone_icp4d.sh &
 
+cd /opt/cloud_install
+yum install -y git
+git clone https://github.com/patrocinio/openshift-install.git
+cd openshift-install
+./install_ansible.sh
+for h in `echo ${cloud_icp_masters} ${cloud_icp_workers} ${cloud_icp_infra} ${cloud_icp_nfs_server} | sed 's/,/ /g'`
+do
+	ssh $h "sed -i 's/SELINUX=disabled/SELINUX=enforcing/' /etc/selinux/config"
+done
+utils/01_reboot_nodes.sh `echo ${cloud_icp_masters} ${cloud_icp_workers} ${cloud_icp_infra} ${cloud_icp_nfs_server} | sed 's/[ \t]/,/g'`
+# Backup files
+ for f in ` find . -type f | xargs grep -l "/dev/sdc"`; do cp $f $f.orig; done
+ for f in ` find . -type f | xargs grep -l "/dev/sdb"`; do cp $f $f.orig; done
+# Replace
+ for f in ` find . -type f | xargs grep -l "/dev/sdc" | grep -v orig`; do sed -i -e 's/sdc/sdd/g' $f; done
+ for f in ` find . -type f | xargs grep -l "/dev/sdb"| grep -v orig `; do sed -i -e 's/sdb/sdc/g' $f; done
+
 EOF
 
     destination = "/opt/installation.sh"
@@ -754,6 +771,13 @@ resource "vsphere_virtual_machine" "icpinfra" {
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   }
+
+  disk {
+    label = "${var.vm_name_prefix}0.vmdk"
+    size = "${var.vm_root_disk_size}"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  }
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
@@ -769,6 +793,22 @@ resource "vsphere_virtual_machine" "icpinfra" {
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
     unit_number = "2"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}3.vmdk"
+    size = "700"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "3"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}4.vmdk"
+    size = "700"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "4"
   }
   
   
