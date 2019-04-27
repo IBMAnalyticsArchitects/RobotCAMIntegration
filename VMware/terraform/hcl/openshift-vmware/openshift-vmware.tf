@@ -384,11 +384,11 @@ yum install -y git
 git clone https://github.com/patrocinio/openshift-install.git
 cd openshift-install
 ./install_ansible.sh
-for h in `echo ${cloud_icp_masters} ${cloud_icp_workers} ${cloud_icp_infra} ${cloud_icp_nfs_server} | sed 's/,/ /g'`
+for h in `echo $cloud_icp_masters $cloud_icp_workers $cloud_icp_infra $cloud_icp_nfs_server | sed 's/,/ /g'`
 do
 	ssh $h "sed -i 's/SELINUX=disabled/SELINUX=enforcing/' /etc/selinux/config"
 done
-utils/01_reboot_nodes.sh `echo ${cloud_icp_masters} ${cloud_icp_workers} ${cloud_icp_infra} ${cloud_icp_nfs_server} | sed 's/[ \t]/,/g'`
+utils/01_reboot_nodes.sh `echo $cloud_icp_masters $cloud_icp_workers $cloud_icp_infra $cloud_icp_nfs_server | sed 's/[ \t]/,/g'`
 # Backup files
  for f in ` find . -type f | xargs grep -l "/dev/sdc"`; do cp $f $f.orig; done
  for f in ` find . -type f | xargs grep -l "/dev/sdb"`; do cp $f $f.orig; done
