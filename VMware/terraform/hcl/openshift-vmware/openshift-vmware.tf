@@ -771,13 +771,6 @@ resource "vsphere_virtual_machine" "icpinfra" {
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   }
-
-  disk {
-    label = "${var.vm_name_prefix}0.vmdk"
-    size = "${var.vm_root_disk_size}"
-    keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
-  }
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
