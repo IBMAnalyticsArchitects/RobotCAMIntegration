@@ -91,7 +91,7 @@ variable "monkey_mirror" {
 }
 
 variable "num_workers" {
-  description = "Number of ICP worker nodes to create"
+  description = "Number of OpenShift worker nodes to create"
 }
 
 
@@ -186,11 +186,11 @@ variable "cloud_install_tar_file_name" {
 
 
 variable "icp_network_cidr" {
-  description = "ICP Network CIDR"
+  description = "OpenShift Network CIDR"
 }
 
 variable "icp_service_cluster_ip_range" {
-  description = "ICP Cluster IP Range"
+  description = "OpenShift Cluster IP Range"
 }
 
 
@@ -394,7 +394,8 @@ EOF
 
 # IDM
 resource "vsphere_virtual_machine" "idm" {
-  count="${ 2 * local.idm_install }"
+#  count="${ 2 * local.idm_install }"
+  count="0"
   name = "${var.vm_name_prefix}-idm-${ count.index }"
   num_cpus = "4"
   memory = "4096"
@@ -458,8 +459,9 @@ resource "vsphere_virtual_machine" "idm" {
 
 # HAProxy
 resource "vsphere_virtual_machine" "haproxy" {
-  count="1"
-  name = "${var.vm_name_prefix}-icphaproxy-${ count.index }"
+#  count="1"
+  count="0"
+  name = "${var.vm_name_prefix}-haproxy-${ count.index }"
   num_cpus = "4"
   memory = "4096"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
@@ -470,7 +472,7 @@ resource "vsphere_virtual_machine" "haproxy" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icphaproxy-${ count.index }"
+        host_name = "${var.vm_name_prefix}-haproxy-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 3 }"
@@ -520,10 +522,10 @@ resource "vsphere_virtual_machine" "haproxy" {
 
 ###########################################################################################################################################################
 
-# ICP Master
+# OpenShift Master
 resource "vsphere_virtual_machine" "icpmaster" {
-  count="3"
-  name = "${var.vm_name_prefix}-icpmaster-${ count.index }"
+  count="1"
+  name = "${var.vm_name_prefix}-master-${ count.index }"
 #  folder = "${var.vm_folder}"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
@@ -535,7 +537,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icpmaster-${ count.index }"
+        host_name = "${var.vm_name_prefix}-master-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 4 + count.index }"
@@ -620,10 +622,10 @@ resource "vsphere_virtual_machine" "icpmaster" {
 
 ###########################################################################################################################################################
 
-# ICP Workers
+# OpenShift Workers
 resource "vsphere_virtual_machine" "icpworker" {
   count="${var.num_workers}"
-  name = "${var.vm_name_prefix}-icpworker-${ count.index }"
+  name = "${var.vm_name_prefix}-worker-${ count.index }"
 #  folder = "${var.vm_folder}"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
@@ -635,7 +637,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icpworker-${ count.index }"
+        host_name = "${var.vm_name_prefix}-worker-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + count.index }"
@@ -718,10 +720,10 @@ resource "vsphere_virtual_machine" "icpworker" {
 
 ###########################################################################################################################################################
 
-# ICP Proxy
+# OpenShift Proxy
 resource "vsphere_virtual_machine" "icpproxy" {
   count="0"
-  name = "${var.vm_name_prefix}-icpproxy-${ count.index }"
+  name = "${var.vm_name_prefix}-proxy-${ count.index }"
 #  folder = "${var.vm_folder}"
   num_cpus = "8"
   memory = "16384"
@@ -733,7 +735,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icpproxy-${ count.index }"
+        host_name = "${var.vm_name_prefix}-proxy-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + var.num_workers + count.index }"
