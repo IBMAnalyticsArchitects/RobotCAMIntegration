@@ -722,9 +722,8 @@ resource "vsphere_virtual_machine" "icpworker" {
 
 # OpenShift Infra
 resource "vsphere_virtual_machine" "icpinfra" {
-  count="0"
+  count="1"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
-#  folder = "${var.vm_folder}"
   num_cpus = "8"
   memory = "16384"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
