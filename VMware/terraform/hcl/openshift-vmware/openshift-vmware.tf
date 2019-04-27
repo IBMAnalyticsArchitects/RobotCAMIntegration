@@ -526,7 +526,6 @@ resource "vsphere_virtual_machine" "haproxy" {
 resource "vsphere_virtual_machine" "icpmaster" {
   count="1"
   name = "${var.vm_name_prefix}-master-${ count.index }"
-#  folder = "${var.vm_folder}"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
@@ -770,6 +769,13 @@ resource "vsphere_virtual_machine" "icpinfra" {
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
     unit_number = "2"
+  }
+  
+  
+  connection {
+    type = "ssh"
+    user     = "${var.ssh_user}"
+    password = "${var.ssh_user_password}"
   }
   
   provisioner "remote-exec" {
