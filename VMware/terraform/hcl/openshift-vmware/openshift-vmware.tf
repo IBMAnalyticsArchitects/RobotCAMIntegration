@@ -640,7 +640,7 @@ resource "vsphere_virtual_machine" "icpworker" {
         host_name = "${var.vm_name_prefix}-worker-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + count.index }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 5 + count.index }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -737,7 +737,7 @@ resource "vsphere_virtual_machine" "icpinfra" {
         host_name = "${var.vm_name_prefix}-infra-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + var.num_workers + count.index }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 5 + var.num_workers + count.index }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -789,6 +789,7 @@ resource "vsphere_virtual_machine" "icpinfra" {
       "resize2fs /dev/mapper/vg_node1-lv_root"
     ]
   }
+  
 }
 
 ############################################################################################################################################################
@@ -810,7 +811,7 @@ resource "vsphere_virtual_machine" "icpnfs" {
         host_name = "${var.vm_name_prefix}-icpnfs-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 10 + var.num_workers }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 6 + var.num_workers }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
