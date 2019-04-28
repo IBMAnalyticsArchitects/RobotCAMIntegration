@@ -362,14 +362,14 @@ echo "Encrypt and remove global.properties"
 $MASTER_INSTALLER_HOME/utils/01_encrypt_global_properties.sh global.properties
 rm -f ./global.properties
 
-# Add hosts entry for OpenShift console
-$MASTER_INSTALLER_HOME/utils/00_globalFunctions.sh
-firstMaster=`echo $cloud_icp_masters | cut -d',' -f1 | sed "s/,/ /g"`
-echo "`get_host_ip $firstMaster} console.`echo $firstMaster|cut -d"." -f2-`" >> hosts
-
 utils/01_prepare_driver.sh
 
 . $MASTER_INSTALLER_HOME/utils/00_globalFunctions.sh
+
+# Add hosts entry for OpenShift console
+firstMaster=`echo $cloud_icp_masters | cut -d',' -f1 | sed "s/,/ /g"`
+echo "`get_host_ip $firstMaster` console.`echo $firstMaster|cut -d"." -f2-`" >> hosts
+
 nodeList=`echo $cloud_hostpasswords|awk -v RS="," -v FS=":" '{s=sprintf("%s %s",s,$1);}END{print s}'`
 for hostName in `echo $nodeList|sed 's/,/ /g'`
 do
