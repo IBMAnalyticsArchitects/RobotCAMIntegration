@@ -364,8 +364,8 @@ rm -f ./global.properties
 
 # Add hosts entry for OpenShift console
 $MASTER_INSTALLER_HOME/utils/00_globalFunctions.sh
-firstMaster=`echo ${cloud_icp_masters} | cut -d',' -f1 | sed "s/,/ /g"`
-echo "`get_host_ip ${firstMaster}` console.`echo ${firstMaster}|cut -d"." -f2-`" >> hosts
+firstMaster=`echo $cloud_icp_masters | cut -d',' -f1 | sed "s/,/ /g"`
+echo "`get_host_ip $firstMaster} console.`echo $firstMaster|cut -d"." -f2-`" >> hosts
 
 utils/01_prepare_driver.sh
 
