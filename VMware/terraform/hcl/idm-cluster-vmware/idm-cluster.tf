@@ -423,8 +423,8 @@ resource "vsphere_virtual_machine" "clientvm" {
       "sudo useradd ${var.sudo_user}",
       "sudo su -c 'echo ${var.sudo_password} | passwd ${var.sudo_user} --stdin'",
       "sudo usermod ${var.sudo_user} -g wheel",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
+#      "systemctl disable NetworkManager",
+#      "systemctl stop NetworkManager",
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
  }
