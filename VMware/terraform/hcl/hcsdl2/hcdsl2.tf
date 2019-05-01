@@ -301,7 +301,8 @@ EOF
 
 yum install -y expect
 
-passphrase=`cat /root/passphrase.fifo`
+#passphrase=`cat /root/passphrase.fifo`
+passphrase=`cat /root/passphrase`
 
 eval `ssh-agent`
 /opt/addSshKeyId.exp $passphrase
@@ -1359,10 +1360,12 @@ resource "null_resource" "start_install" {
       "echo  export cam_bigsql_head_ip=${join(",",vsphere_virtual_machine.bigsql-head.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_bigsql_head_name=${join(",",vsphere_virtual_machine.bigsql-head.*.name)} >> /opt/monkey_cam_vars.txt",
       
-      "mkfifo /root/passphrase.fifo",
-      "chmod 600 /root/passphrase.fifo",
-      "echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &",
-      
+#      "mkfifo /root/passphrase.fifo",
+#      "chmod 600 /root/passphrase.fifo",
+#      "echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &",
+       "echo ${var.ssh_key_passphrase} > /root/passphrase ",
+       "chmod 600 /root/passphrase",
+
       "chmod 700 /opt/installation.sh",
       "nohup /opt/installation.sh &",
       
