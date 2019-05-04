@@ -400,7 +400,7 @@ EOF
 
 # IDM
 resource "vsphere_virtual_machine" "idm" {
-  count="${ 2 * local.idm_install }"
+  count="${ 1 * local.idm_install }"
 #  count="0"
   name = "${var.vm_name_prefix}-idm-${ count.index }"
   num_cpus = "4"
