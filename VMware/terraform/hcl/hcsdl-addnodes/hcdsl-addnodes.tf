@@ -364,6 +364,11 @@ tar xf ./$cloud_install_tar_file_name
 
 ssh ${var.driver_ip} "uname -a"
 
+echo "Generate new global.properties"
+perl -f cam_integration/01_gen_cam_addnodes_properties.pl
+
+scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install
+
 EOF
 
     destination = "/opt/addnode.sh"
