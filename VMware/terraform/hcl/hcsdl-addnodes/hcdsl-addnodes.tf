@@ -371,6 +371,9 @@ echo "Generate new global.properties"
 perl -f cam_integration/01_gen_cam_addnodes_properties.pl
 
 ssh ${var.driver_ip} "set -x;\
+cd /opt/cloud_install;\
+. ./setenv;\
+env|grep cloud_>global.properties;\
 mkdir -p /opt/cloud_install_${var.node_label};\
 cd /opt/cloud_install_${var.node_label};\
 wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name;\
