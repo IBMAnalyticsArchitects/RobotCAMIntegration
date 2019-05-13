@@ -50,6 +50,18 @@
       "group_name": "Cluster"
     },
     {
+      "name": "node_label",
+      "type": "string",
+      "description": "Node label for compute VMs",
+      "default": "hcsdl",
+      "hidden": false,
+      "label": "Node label for compute VMs",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
       "name": "vm_dns_servers",
       "type": "list",
       "description": "DNS servers for the virtual network adapter (NEW)",

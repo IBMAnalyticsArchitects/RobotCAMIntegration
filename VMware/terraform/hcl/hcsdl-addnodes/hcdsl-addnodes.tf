@@ -53,6 +53,11 @@ variable "vm_name_prefix" {
 }
 
 
+variable "node_label" {
+  description = "Node label for compute VMs"
+}
+
+
 
 
 #########################################################
@@ -199,7 +204,7 @@ locals {
 # HDP Nodes
 resource "vsphere_virtual_machine" "hdp-computenodes" {
 	count  = "${var.num_compute_nodes}"
-  name = "${var.vm_name_prefix}-cn-${ count.index }"
+  name = "${var.vm_name_prefix}-${var.node_label}-cn-${ count.index }"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
@@ -210,7 +215,7 @@ resource "vsphere_virtual_machine" "hdp-computenodes" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-cn-${ count.index }"
+        host_name = "${var.vm_name_prefix}-${var.node_label}-cn-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index }"
@@ -362,12 +367,24 @@ wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
 
 tar xf ./$cloud_install_tar_file_name
 
-ssh ${var.driver_ip} "uname -a"
-
 echo "Generate new global.properties"
 perl -f cam_integration/01_gen_cam_addnodes_properties.pl
 
-scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install
+ssh ${var.driver_ip} "set -x;\
+mkdir -p /opt/cloud_install_${var.node_label};\
+cd /opt/cloud_install_${var.node_label};\
+wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name;\
+tar xf ./$cloud_install_tar_file_name;\
+scp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/;"
+
+scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_label}
+
+ssh ${var.driver_ip} "set -x;\
+cd /opt/cloud_install_${var.node_label};\
+. ./setenv;\
+nohup ./biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE hosts.add > add_datanodes.log 2>&1 & "
+
+
 
 EOF
 
@@ -387,6 +404,7 @@ EOF
       
       "echo  export cam_sudo_password=XXXXX >> /opt/monkey_cam_vars.txt",
       
+      "echo  export cam_node_label=${var.node_label} >> /opt/monkey_cam_vars.txt",   
       "echo  export cam_vm_domain=${var.vm_domain} >> /opt/monkey_cam_vars.txt",      
       "echo  export cam_vm_dns_servers=${join(",",var.vm_dns_servers)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /opt/monkey_cam_vars.txt",
