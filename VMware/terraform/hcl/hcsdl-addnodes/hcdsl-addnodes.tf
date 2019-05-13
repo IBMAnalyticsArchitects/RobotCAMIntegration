@@ -366,7 +366,6 @@ EOF
 
   }
   
-}
 
   provisioner "remote-exec" {
     # Bootstrap script called with private_ip of each node in the clutser
