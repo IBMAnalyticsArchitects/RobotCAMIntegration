@@ -338,6 +338,8 @@ EOF
     content = <<EOF
 #!/bin/sh
 
+set -x 
+
 yum install -y expect
 
 #passphrase=`cat /root/passphrase.fifo`
@@ -346,7 +348,6 @@ passphrase=`cat /root/passphrase`
 eval `ssh-agent`
 /opt/addSshKeyId.exp $passphrase
 
-set -x 
 
 yum install -y ksh rsync unzip  
 
