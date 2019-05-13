@@ -1,0 +1,400 @@
+[
+   
+    {
+      "name": "monkey_mirror",
+      "type": "string",
+      "description": "Monkey Mirror IP or Hostname",
+      "hidden": false,
+      "label": "Monkey Mirror IP or Hostname",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "10.176.112.137"
+    },
+   
+    {
+      "name": "driver_ip",
+      "type": "string",
+      "description": "Driver IP",
+      "hidden": false,
+      "label": "Driver IP",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": ""
+    },
+    {
+      "name": "num_compute_nodes",
+      "type": "string",
+      "description": "Number of New Compute Nodes",
+      "hidden": false,
+      "label": "Number of HDP Compute nodes to create",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "4"
+    },
+    {
+      "name": "vm_name_prefix",
+      "type": "string",
+      "description": "Prefix for vm names",
+      "default": "hcsdl",
+      "hidden": false,
+      "label": "Prefix for VM Short Host name",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "node_label",
+      "type": "string",
+      "description": "Node label for compute VMs",
+      "default": "hcsdl",
+      "hidden": false,
+      "label": "Node label for compute VMs",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "vm_dns_servers",
+      "type": "list",
+      "description": "DNS servers for the virtual network adapter (NEW)",
+      "hidden": false,
+      "label": "DNS Servers",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": ["10.0.80.11"]
+    },
+    {
+      "name": "vm_domain",
+      "type": "string",
+      "description": "Domain Name of virtual machine",
+      "hidden": false,
+      "label": "Domain Name",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "jlerm.com"
+    },
+    {
+      "name": "vm-image",
+      "type": "string",
+      "description": "Operating system image id / template that should be used when creating the virtual image",
+      "hidden": false,
+      "label": "Operating System ID / Template",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "RHEL7-TEMPLATE"
+    },
+    {
+      "name": "vm_root_disk_size",
+      "type": "string",
+      "description": "Size of template disk volume. Should be equal to template's disk size",
+      "default": "100",
+      "hidden": false,
+      "label": "Root Disk Size",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "vm_root_disk_controller_type",
+      "type": "string",
+      "description": "Type of template disk controller",
+      "default": "scsi-paravirtual",
+      "hidden": false,
+      "label": "Template Disk Controller",
+      "secured": false,
+      "options": [
+        {
+          "value": "scsi",
+          "label": "scsi",
+          "default": "true"
+        },
+        {
+          "value": "scsi-lsi-parallel",
+          "label": "scsi-lsi-parallel"
+        },
+        {
+          "value": "scsi-buslogic",
+          "label": "scsi-buslogic"
+        },
+        {
+          "value": "scsi-paravirtual",
+          "label": "scsi-paravirtual"
+        },
+        {
+          "value": "scsi-isi-sas",
+          "label": "scsi-isi-sas"
+        },
+        {
+          "value": "ide",
+          "label": "ide"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "vm_root_disk_datastore",
+      "type": "string",
+      "description": "Data store or storage cluster name for target virtual machine's disks",
+      "hidden": false,
+      "label": "Template Disk Datastore",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "datastoreA"
+    },
+    {
+      "name": "vm_root_disk_type",
+      "type": "string",
+      "description": "Type of template disk volume",
+      "default": "eager_zeroed",
+      "hidden": false,
+      "label": "Template Disk Type",
+      "secured": false,
+      "options": [
+        {
+          "value": "eager_zeroed",
+          "label": "Thick Provision Eager Zeroed",
+          "default": "true"
+        },
+        {
+          "value": "lazy",
+          "label": "Thick Provision Lazy Zeroed"
+        },
+        {
+          "value": "thin",
+          "label": "Thin Provision",
+          "group_name": "virtualmachine"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "vm_ipv4_gateway",
+      "type": "string",
+      "description": "IPv4 gateway for vNIC configuration",
+      "hidden": false,
+      "label": "Virtual Machine Gateway Address",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "10.177.150.129"
+    },
+    {
+      "name": "vm_start_ipv4_address",
+      "type": "string",
+      "description": "Start IPv4 address for vNIC configuration",
+      "hidden": false,
+      "label": "Starting IP Address for VMs",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "10.177.150.150"
+    },
+    {
+      "name": "vm_memory",
+      "type": "string",
+      "description": "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "Virtual Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "vm_ipv4_prefix_length",
+      "type": "string",
+      "description": "IPv4 prefix length for vNIC configuration. The value must be a number between 8 and 32",
+      "hidden": false,
+      "label": "Virtual Machine Netmask Prefix",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "26"
+    },
+    {
+      "name": "vm_number_of_vcpu",
+      "type": "string",
+      "description": "Number of virtual CPU for the virtual machine, which is required to be a positive Integer",
+      "default": "8",
+      "hidden": false,
+      "label": "Virtual Machine vCPUs",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "vm_network_interface_label",
+      "type": "string",
+      "description": "vSphere port group or network label for virtual machine's vNIC",
+      "hidden": false,
+      "label": "Virtual Machine vSphere Port Group",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "VM Network"
+    },
+    {
+      "name": "vm_datacenter",
+      "type": "string",
+      "description": "Target vSphere datacenter for virtual machine creation",
+      "hidden": false,
+      "label": "vSphere Datacenter",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "DAL10"
+    },
+    {
+      "name": "vm_adapter_type",
+      "type": "string",
+      "description": "Network adapter type for vNIC Configuration",
+      "default": "vmxnet3",
+      "hidden": false,
+      "label": "vSphere Network Adapter Type",
+      "secured": false,
+      "options": [
+        {
+          "value": "vmxnet3",
+          "label": "vmxnet3",
+          "default": "true"
+        },
+        {
+          "value": "e1000",
+          "default": "e1000"
+        }
+      ],
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "vm_resource_pool",
+      "type": "string",
+      "description": "Target vSphere Resource Pool to host the virtual machine",
+      "hidden": false,
+      "label": "vSphere Resource Pool",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": ""
+    },
+    {
+        "name": "ssh_user",
+        "label": "SSH User",
+        "description": "The user for ssh connection, which is default in template",
+        "default": "root",
+        "hidden": false,
+        "immutable": false,
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "group_name": "Cluster"
+    },
+    {
+        "name": "ssh_user_password",
+        "label": "SSH User Password",
+        "description": "The user password for ssh connection, which is default in template",
+        "hidden": false,
+        "immutable": false,
+        "required": true,
+        "secured": true,
+        "type": "string",
+        "group_name": "Cluster",
+        "default": "password"
+    },
+     
+     
+    {
+      "name": "public_ssh_key",
+      "type": "string",
+      "description": "Public SSH Key",
+      "hidden": false,
+      "label": "Public SSH Key",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": ""
+    },
+    {
+      "name": "private_ssh_key",
+      "type": "string",
+      "description": "Private SSH Key (must be base64 encoded WITHOUT newlines. Example: cat id_rsa|base64 -w 0)",
+      "hidden": false,
+      "label": "Private SSH Key (base64 encoded without newlines)",
+      "secured": true,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": ""
+    },
+    {
+      "name": "ssh_key_passphrase",
+      "type": "string",
+      "description": "SSH Key Passphrase",
+      "hidden": false,
+      "label": "Private SSH Key Passphrase",
+      "secured": true,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": ""
+    }
+    ,
+    
+    
+    {
+      "name": "cloud_install_tar_file_name",
+      "type": "string",
+      "description": "Name of the tar file downloaded from the mirror, which contains the Cloud Installer code.",
+      "hidden": false,
+      "label": "Cloud Install tar file name",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "cloud_install.tar"
+    },
+    {
+      "name": "vm_datanode_disk_size",
+      "type": "string",
+      "description": "Size of data node data disks",
+      "default": "50",
+      "hidden": false,
+      "label": "Datanode Data Disk Size",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    }
+    
+  ]

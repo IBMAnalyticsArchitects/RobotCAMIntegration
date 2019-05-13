@@ -1,0 +1,61 @@
+{
+   "name": "Add_HCSDL_nodes_vmware",
+   "description": "Add Nodes to Hybrid Cloud Secure Data Lake",
+   "version": "2.0.0",
+   "type": "userCreated",
+   "manifest": {
+     "template_type": "Terraform",
+     "template_format": "HCL",
+     "template_provider": "VMware vSphere",
+     "template": {
+       "templateData": "",
+       "templateVariables": "",
+       "templateOutput": ""
+     },
+     "template_source": {
+       "githubRepoUrl": "",
+       "githubAccessToken": "",
+       "relativePathToTemplateFolder": "VMware/terraform/hcl/hcsdl-addnodes",
+       "templateFileName": "hcsdl1.tf"
+     }
+   },
+   "metadata": {
+     "displayName": "Hybrid Cloud Secure Data Lake - Add Nodes",
+     "templateCategory": "Secure Data Lakes",
+     "longDescription": "Adds compute-only nodes to an existing HDP cluster",
+     "bullets": [
+       {
+         "title": "Clouds",
+         "description": "VMware"
+       },
+       {
+         "title": "Template version",
+         "description": "V1.0"
+       },
+       {
+         "title": "Operating systems supported",
+         "description": "Red Hat Enterprise Linux 7"
+       },
+       {
+         "title": "Topology",
+         "description": "HDP, BigIntegrate and IDM."
+       },
+       {
+         "title": "Usage and special notes",
+         "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Adds new compute-only nodes to an existing HDP cluster.</li><li>4. This pattern requires a contiguous range of 16+N IPs addresses (where N is the number of nodes to be added).</li></ul>"
+       },
+       {
+         "title": "Special Requirements",
+         "description": "<ul><li>1. It's mandatory to have an up-to-date /opt/cloud_install/global.properties file on the existing driver, with all the correct passwords.</li></ul>"
+       },
+       {
+         "title": "SSH Key Requirements",
+         "description": "<ul><li>1. This version requires an SSH key pair protected by a passphrase. The key MUST be created with a passphrase.When connecting to the driver VM or any of the target nodes, you will need to either provide the passphrase when invoking ssh, or set up and ssh-agent and load the passphrase into the agent via ssh-add.</li><li>2. The private key must be provided as part of the input parameters. The private key parameter MUST be encoded base64 ON A SINGLE LINE (CAM parameters don't accept values containing newlines, hence the need to do this type of encoding). You need to provide the output of a command like 'cat id_rsa | base64 -w 0'</li></ul>"
+       },
+       {
+         "title": "Monitoring install progress",
+         "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install; ls -lrt *.log </li>  </ul>"
+       }
+     ]
+   }
+ }
