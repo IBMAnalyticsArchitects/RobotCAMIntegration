@@ -22,7 +22,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cloud",
+      "group_name": "Cluster",
       "default": ""
     },
     {
