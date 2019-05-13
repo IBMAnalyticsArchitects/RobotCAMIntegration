@@ -361,6 +361,8 @@ wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
 
 tar xf ./$cloud_install_tar_file_name
 
+ssh ${var.driver_ip} "uname -a"
+
 EOF
 
     destination = "/opt/addnode.sh"
