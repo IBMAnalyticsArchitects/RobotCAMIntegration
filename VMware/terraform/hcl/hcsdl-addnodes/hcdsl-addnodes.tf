@@ -370,6 +370,8 @@ EOF
   provisioner "remote-exec" {
     # Bootstrap script called with private_ip of each node in the clutser
     inline = [
+      "echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa",
+      "chmod 600 /root/.ssh/id_rsa",
     
       "echo  export cam_ssh_user=${var.ssh_user} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ssh_user_password=${var.ssh_user_password} >> /opt/monkey_cam_vars.txt",
