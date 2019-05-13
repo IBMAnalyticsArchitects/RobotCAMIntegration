@@ -382,12 +382,12 @@ cp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/;"
 
 scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_label}
 
-ssh ${var.driver_ip} "set -x;\
-eval `ssh-agent`\
-/opt/addSshKeyId.exp $passphrase ;\
-cd /opt/cloud_install_${var.node_label};\
-. ./setenv;\
-nohup ./biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE hosts.add & "
+ssh ${var.driver_ip} 'set -x
+eval `ssh-agent`
+/opt/addSshKeyId.exp $passphrase
+cd /opt/cloud_install_${var.node_label}
+. ./setenv
+nohup ./biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE hosts.add & '
 
 
 
