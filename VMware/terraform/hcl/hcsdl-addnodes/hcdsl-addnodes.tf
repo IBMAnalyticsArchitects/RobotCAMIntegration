@@ -213,7 +213,7 @@ resource "vsphere_virtual_machine" "hdp-computenodes" {
         host_name = "${var.vm_name_prefix}-cn-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 17}"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
