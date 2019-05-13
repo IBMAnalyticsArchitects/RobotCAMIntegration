@@ -346,6 +346,7 @@ yum install -y expect
 passphrase=`cat /root/passphrase`
 
 eval `ssh-agent`
+chmod 700 /opt/addSshKeyId.exp
 /opt/addSshKeyId.exp $passphrase
 
 
