@@ -384,6 +384,7 @@ scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_
 
 ssh ${var.driver_ip} "set -x
 eval `ssh-agent`
+sleep 10
 /opt/addSshKeyId.exp $passphrase
 cd /opt/cloud_install_${var.node_label}
 . ./setenv
