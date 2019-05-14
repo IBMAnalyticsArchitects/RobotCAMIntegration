@@ -46,7 +46,7 @@
        },
        {
          "title": "Special Requirements",
-         "description": "<ul><li>1. It's mandatory to have an up-to-date /opt/cloud_install/global.properties file on the existing driver, with all the correct passwords.</li></ul>"
+         "description": "<ul><li>1. It's mandatory to have an up-to-date /opt/cloud_install/global.properties file on the existing driver, with all the correct passwords.</li><li>2. The SSH keypair info, network domain and driver IP must match those of the existing cludes.</li><li>3. The existing driver MUST have a global.properties with passwords up-to-date. </li></ul>"
        },
        {
          "title": "SSH Key Requirements",
@@ -54,7 +54,7 @@
        },
        {
          "title": "Monitoring install progress",
-         "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install; ls -lrt *.log </li>  </ul>"
+         "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install_<NODELABEL>; ls -lrt *.log </li>  </ul>"
        }
      ]
    }
