@@ -399,10 +399,10 @@
     {
       "name": "vm_datanode_disk_size",
       "type": "string",
-      "description": "Size of data node data disks",
+      "description": "Size of data disks for new compute nodes",
       "default": "50",
       "hidden": false,
-      "label": "Compute Node Data Disk Size",
+      "label": "New Compute Node Data Disk Size",
       "secured": false,
       "required": true,
       "immutable": false,
