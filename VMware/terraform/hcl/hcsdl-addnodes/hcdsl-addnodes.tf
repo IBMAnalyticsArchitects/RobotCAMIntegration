@@ -98,6 +98,10 @@ variable "num_compute_nodes" {
   description = "Number of New HDP compute nodes to create"
 }
 
+variable "excluded_services" {
+  description = "Comma-separated list of services to exclude from the new nodes"
+}
+
 
 variable "vm_datacenter" {
   description = "Target vSphere datacenter for virtual machine creation"
@@ -392,13 +396,18 @@ scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_
 
 ######################
 # Create addNodes-${var.node_label}.sh to be executed on the driver
+exclusions=""
+if [ "${var.excluded_services}" != ""]
+then
+	exclusions=" -e ${var.excluded_services} "
+fi
 cat<<END>addNodes-${var.node_label}.sh
 set -x
 eval \`ssh-agent\`
 /opt/addSshKeyId.exp $passphrase
 cd /opt/cloud_install_${var.node_label}
 . ./setenv
-/opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE /opt/cloud_install_${var.node_label}/hosts.add
+/opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh $exclusions /opt/cloud_install_${var.node_label}/hosts.add
 END
 chmod 700 addNodes-${var.node_label}.sh
 

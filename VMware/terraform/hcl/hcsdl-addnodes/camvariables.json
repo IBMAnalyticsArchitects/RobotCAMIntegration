@@ -38,6 +38,18 @@
       "default": "4"
     },
     {
+      "name": "excluded_services",
+      "type": "string",
+      "description": "Comma-separated list of services to exclude from the new nodes",
+      "hidden": false,
+      "label": "Comma-separated list of services to exclude from the new nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE"
+    },
+    {
       "name": "vm_name_prefix",
       "type": "string",
       "description": "Prefix for vm names",
