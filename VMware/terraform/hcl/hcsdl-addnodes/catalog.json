@@ -37,16 +37,12 @@
          "description": "Red Hat Enterprise Linux 7"
        },
        {
-         "title": "Topology",
-         "description": "HDP, BigIntegrate and IDM."
-       },
-       {
          "title": "Usage and special notes",
          "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Adds new compute-only nodes to an existing HDP cluster.</li><</ul>"
        },
        {
          "title": "Special Requirements",
-         "description": "<ul><li>1. It's mandatory to have an up-to-date /opt/cloud_install/global.properties file on the existing driver, with all the correct passwords.</li><li>2. The SSH keypair info, network domain and driver IP must match those of the existing cludes.</li><li>3. The existing driver MUST have a global.properties with passwords up-to-date. </li></ul>"
+         "description": "<ul><li>1. It's mandatory to have an up-to-date /opt/cloud_install/global.properties file on the existing driver, with all the correct passwords.</li><li>2. The SSH keypair info, network domain and driver IP must match those of the existing cludes.</li></ul>"
        },
        {
          "title": "SSH Key Requirements",
