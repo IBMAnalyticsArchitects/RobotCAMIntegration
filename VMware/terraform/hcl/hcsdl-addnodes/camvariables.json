@@ -40,7 +40,7 @@
     {
       "name": "excluded_services",
       "type": "string",
-      "description": "Comma-separated list of services to exclude from the new nodes",
+      "description": "Space-separated list of services to exclude from the new nodes",
       "hidden": false,
       "label": "Space-separated list of services to exclude from the new nodes",
       "secured": false,
