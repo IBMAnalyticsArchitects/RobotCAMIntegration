@@ -402,7 +402,7 @@
       "description": "Size of data node data disks",
       "default": "50",
       "hidden": false,
-      "label": "Datanode Data Disk Size",
+      "label": "Compute Node Data Disk Size",
       "secured": false,
       "required": true,
       "immutable": false,
