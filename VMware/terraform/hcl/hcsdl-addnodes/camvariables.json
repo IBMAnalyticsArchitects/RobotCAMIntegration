@@ -402,7 +402,7 @@
       "description": "Size of data disks for new compute nodes",
       "default": "50",
       "hidden": false,
-      "label": "Data Disk Siz for New Compute Nodes",
+      "label": "Data Disk Size for New Compute Nodes",
       "secured": false,
       "required": true,
       "immutable": false,
