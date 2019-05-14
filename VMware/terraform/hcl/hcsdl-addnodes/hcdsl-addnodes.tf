@@ -403,7 +403,7 @@ scp runRemote.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
 # Invoke runRemote.sh w/ nohup
 ssh ${var.driver_ip} "set -x
 cd /opt/cloud_install_${var.node_label}/
-nohup /opt/cloud_install_${var.node_label}/runRemote.sh &
+nohup /opt/cloud_install_${var.node_label}/runRemote.sh >/opt/cloud_install_${var.node_label}/runRemote.log 2>&1 &
 sleep 60"
 
 EOF
