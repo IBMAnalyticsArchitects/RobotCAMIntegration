@@ -395,7 +395,7 @@ cd /opt/cloud_install_${var.node_label}
 END
 
 # Copy runRemote.sh to driver
-scp runRemote.sh /opt/cloud_install_${var.node_label}/
+scp runRemote.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
 
 # Invoke runRemote.sh w/ nohup
 ssh ${var.driver_ip} "set -x; nohup /opt/cloud_install_${var.node_label}/runRemote.sh &"
