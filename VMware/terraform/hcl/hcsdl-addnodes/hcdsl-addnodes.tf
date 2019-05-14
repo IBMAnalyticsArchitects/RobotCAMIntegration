@@ -393,6 +393,7 @@ cd /opt/cloud_install_${var.node_label}
 . ./setenv
 /opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE /opt/cloud_install_${var.node_label}/hosts.add
 END
+chmod 700 runRemote.sh
 
 # Copy runRemote.sh to driver
 scp runRemote.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
