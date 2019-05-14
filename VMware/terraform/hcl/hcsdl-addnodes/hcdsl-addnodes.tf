@@ -370,6 +370,7 @@ tar xf ./$cloud_install_tar_file_name
 echo "Generate new global.properties"
 perl -f cam_integration/01_gen_cam_addnodes_properties.pl
 
+# Do some preparation on the original driver
 ssh ${var.driver_ip} "set -x
 cd /opt/cloud_install
 . ./setenv
@@ -380,15 +381,29 @@ wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
 tar xf ./$cloud_install_tar_file_name
 cp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/"
 
+# Copy hosts.add to driver
 scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_label}
 
-ssh ${var.driver_ip} "set -x
+# Create runRemote.sh to be executed on the driver
+cat<<END>runRemote.sh
+set -x
 eval \`ssh-agent\`
 /opt/addSshKeyId.exp $passphrase
 cd /opt/cloud_install_${var.node_label}
 . ./setenv
-nohup /opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE /opt/cloud_install_${var.node_label}/hosts.add & "
+/opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE /opt/cloud_install_${var.node_label}/hosts.add
+END
 
+# Copy runRemote.sh to driver
+scp runRemote.sh /opt/cloud_install_${var.node_label}/
+
+# Invoke runRemote.sh w/ nohup
+ssh ${var.driver_ip} "set -x; nohup /opt/cloud_install_${var.node_label}/runRemote.sh &"
+
+
+
+
+ssh ${var.driver_ip} 
 
 
 EOF
