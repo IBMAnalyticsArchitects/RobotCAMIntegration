@@ -370,7 +370,9 @@ tar xf ./$cloud_install_tar_file_name
 echo "Generate new global.properties"
 perl -f cam_integration/01_gen_cam_addnodes_properties.pl
 
+#####################
 # Do some preparation on the original driver
+
 ssh ${var.driver_ip} "set -x
 cd /opt/cloud_install
 . ./setenv
@@ -384,9 +386,11 @@ cp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/
 cp /opt/cloud_install/hosts /opt/cloud_install_${var.node_label}/
 cp -r /opt/cloud_install/ssh_keys /opt/cloud_install_${var.node_label}/"
 
+######################
 # Copy hosts.add to driver
 scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_label}
 
+######################
 # Create runRemote.sh to be executed on the driver
 cat<<END>runRemote.sh
 set -x
@@ -398,9 +402,11 @@ cd /opt/cloud_install_${var.node_label}
 END
 chmod 700 runRemote.sh
 
+#######################
 # Copy runRemote.sh to driver
 scp runRemote.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
 
+#######################
 # Invoke runRemote.sh w/ nohup
 ssh ${var.driver_ip} "set -x
 cd /opt/cloud_install_${var.node_label}/
