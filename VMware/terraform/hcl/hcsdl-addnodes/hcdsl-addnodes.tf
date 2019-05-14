@@ -374,7 +374,7 @@ perl -f cam_integration/01_gen_cam_addnodes_properties.pl
 ssh ${var.driver_ip} "set -x
 cd /opt/cloud_install
 . ./setenv
-env|grep cloud_>global.properties
+env|egrep "^cloud_" >global.properties
 rm -rf /opt/cloud_install_${var.node_label}/
 mkdir -p /opt/cloud_install_${var.node_label}
 cd /opt/cloud_install_${var.node_label}
