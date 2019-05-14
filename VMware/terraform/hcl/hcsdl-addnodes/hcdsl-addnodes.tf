@@ -397,9 +397,9 @@ scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_
 ######################
 # Create addNodes-${var.node_label}.sh to be executed on the driver
 exclusions=""
-if [ "${var.excluded_services}" != ""]
+if [ "${var.excluded_services}" != "" ]
 then
-	exclusions=" -e ${var.excluded_services} "
+	exclusions=" -e `echo ${var.excluded_services} | sed -r 's/[ \t]+/,/g'` "
 fi
 cat<<END>addNodes-${var.node_label}.sh
 set -x
