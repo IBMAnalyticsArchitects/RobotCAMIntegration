@@ -381,6 +381,7 @@ cd /opt/cloud_install_${var.node_label}
 wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
 tar xf ./$cloud_install_tar_file_name
 cp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/
+cp /opt/cloud_install/hosts /opt/cloud_install_${var.node_label}/
 cp -r /opt/cloud_install/ssh_keys /opt/cloud_install_${var.node_label}/"
 
 # Copy hosts.add to driver
