@@ -387,7 +387,7 @@ eval \`ssh-agent\`
 /opt/addSshKeyId.exp $passphrase
 cd /opt/cloud_install_${var.node_label}
 . ./setenv
-nohup ./biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE hosts.add & "
+nohup /opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE /opt/cloud_install_${var.node_label}/hosts.add & "
 
 
 
