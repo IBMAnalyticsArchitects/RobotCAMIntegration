@@ -42,7 +42,7 @@
        },
        {
          "title": "Usage and special notes",
-         "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Adds new compute-only nodes to an existing HDP cluster.</li><li>4. This pattern requires a contiguous range of 16+N IPs addresses (where N is the number of nodes to be added).</li></ul>"
+         "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Adds new compute-only nodes to an existing HDP cluster.</li><</ul>"
        },
        {
          "title": "Special Requirements",
