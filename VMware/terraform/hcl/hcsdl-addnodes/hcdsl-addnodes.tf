@@ -391,8 +391,8 @@ cp -r /opt/cloud_install/ssh_keys /opt/cloud_install_${var.node_label}/"
 scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_label}
 
 ######################
-# Create runRemote.sh to be executed on the driver
-cat<<END>runRemote.sh
+# Create addNodes-${var.node_label}.sh to be executed on the driver
+cat<<END>addNodes-${var.node_label}.sh
 set -x
 eval \`ssh-agent\`
 /opt/addSshKeyId.exp $passphrase
@@ -400,17 +400,17 @@ cd /opt/cloud_install_${var.node_label}
 . ./setenv
 /opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh -e HBASE_REGIONSERVER,ACCUMULO_TSERVER,DATANODE /opt/cloud_install_${var.node_label}/hosts.add
 END
-chmod 700 runRemote.sh
+chmod 700 addNodes-${var.node_label}.sh
 
 #######################
-# Copy runRemote.sh to driver
-scp runRemote.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
+# Copy addNodes-${var.node_label}.sh to driver
+scp addNodes-${var.node_label}.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
 
 #######################
-# Invoke runRemote.sh w/ nohup
+# Invoke addNodes-${var.node_label}.sh w/ nohup
 ssh ${var.driver_ip} "set -x
 cd /opt/cloud_install_${var.node_label}/
-nohup /opt/cloud_install_${var.node_label}/runRemote.sh >/opt/cloud_install_${var.node_label}/runRemote.log 2>&1 &
+nohup /opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.sh >/opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.log 2>&1 &
 sleep 60"
 
 EOF
