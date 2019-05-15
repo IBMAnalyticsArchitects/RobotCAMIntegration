@@ -283,7 +283,7 @@
       "secured": false,
       "required": false,
       "immutable": false,
-      "group_name": "HDP Data Nodes",
+      "group_name": "Cluster",
       "default": "8"
     },
     
@@ -296,7 +296,7 @@
       "secured": false,
       "required": false,
       "immutable": false,
-      "group_name": "HDP Data Nodes",
+      "group_name": "Cluster",
       "default": "32768"
     },
     
@@ -309,7 +309,7 @@
       "secured": false,
       "required": false,
       "immutable": true,
-      "group_name": "HDP Data Nodes",
+      "group_name": "Cluster",
       "default": [ "100","1000","2000","2000","2000" ]
     },
     

@@ -207,8 +207,8 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_sudo_password=XXXXXX >> /opt/monkey_cam_vars.txt",
       
-      "echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &",
-      "chmod 600 /root/passphrase.fifo"
+      "echo ${var.ssh_key_passphrase} > /root/passphrase &",
+      "chmod 600 /root/passphrase"
     ]
   }
 }
