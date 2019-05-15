@@ -337,7 +337,7 @@ EOF
       "chmod 600 /root/passphrase",
 
       "chmod 700 /opt/addnode.sh",
-      "nohup /opt/addnode.sh &",
+#      "nohup /opt/addnode.sh &",
       
       "sleep 120"
     ]
