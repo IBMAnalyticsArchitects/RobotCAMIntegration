@@ -293,7 +293,7 @@ chmod 700 addNodes-${var.node_label}.sh
 #######################
 # Copy addNodes-${var.node_label}.sh to driver
 scp addNodes-${var.node_label}.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
-
+exit 1
 #######################
 # Invoke addNodes-${var.node_label}.sh w/ nohup
 ssh ${var.driver_ip} "set -x
@@ -333,9 +333,9 @@ EOF
       "chmod 600 /root/passphrase",
 
       "chmod 700 /opt/addnode.sh",
-#      "nohup /opt/addnode.sh &",
+      "nohup /opt/addnode.sh &",
       
-      "sleep 120"
+      "sleep 30"
     ]
   }
 }
