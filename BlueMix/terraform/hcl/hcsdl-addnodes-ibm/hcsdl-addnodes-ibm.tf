@@ -236,7 +236,8 @@ chmod 700 /opt/addSshKeyId.exp
 /opt/addSshKeyId.exp $passphrase
 
 
-yum install -y ksh rsync unzip  
+yum install -y perl ksh rsync expect unzip  
+#yum groupinstall "Infrastructure Server" -y
 
 mkdir -p /opt/cloud_install; 
 
