@@ -137,7 +137,7 @@ data "ibm_network_vlan" "cluster_vlan" {
 # HDP Data Nodes
 resource "ibm_compute_vm_instance" "hdp-computenodes" {
   count="${var.num_compute_nodes}"
-  hostname = "${var.vm_name_prefix}-cn-${ count.index }"
+  hostname = "${var.vm_name_prefix}-${var.node_label}-cn-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
