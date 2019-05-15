@@ -252,7 +252,7 @@
       "type": "string",
       "description": "Domain Name of cluster VMs for Existing Cluster",
       "hidden": false,
-      "label": "Domain Name",
+      "label": "Domain Name for Existing Cluster",
       "secured": false,
       "required": true,
       "immutable": false,
