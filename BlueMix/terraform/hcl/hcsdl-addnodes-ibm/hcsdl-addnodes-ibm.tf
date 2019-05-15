@@ -289,6 +289,7 @@ cd /opt/cloud_install_${var.node_label}
 . ./setenv
 
 rm -f ~/.ssh/known_hosts
+cat hosts.add >> /etc/hosts
 
 # Set temporary cloud_hostpasswords
 export cloud_hostpasswords=$cloud_hostpasswords
