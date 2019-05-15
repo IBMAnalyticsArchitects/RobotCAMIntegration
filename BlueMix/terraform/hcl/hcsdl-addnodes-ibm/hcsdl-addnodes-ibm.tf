@@ -252,6 +252,11 @@ tar xf ./$cloud_install_tar_file_name
 echo "Generate new hosts.add"
 perl -f cam_integration/01_gen_cam_addnodes_properties.pl
 
+# Build cloud_hostpasswords only for the ones listed in the new hosts.add
+s=""
+for i in `cat hosts.add|awk '{print $2}'`; do if [ "$s" != "" ]; then sep=","; else sep="";fi; s="$s$sep$i:XXX"; done
+export cloud_hostpasswords=$s
+
 #####################
 # Do some preparation on the original driver
 
@@ -286,6 +291,13 @@ eval \`ssh-agent\`
 /opt/addSshKeyId.exp \$passphr
 cd /opt/cloud_install_${var.node_label}
 . ./setenv
+
+# Set temporary cloud_hostpasswords
+export cloud_hostpasswords=$cloud_hostpasswords
+softlayer/01_setup_softlayer_vms.sh /dev/xvdc
+
+. ./setenv
+
 /opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh $exclusions /opt/cloud_install_${var.node_label}/hosts.add
 END
 chmod 700 addNodes-${var.node_label}.sh
@@ -293,7 +305,7 @@ chmod 700 addNodes-${var.node_label}.sh
 #######################
 # Copy addNodes-${var.node_label}.sh to driver
 scp addNodes-${var.node_label}.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
-exit 1
+
 #######################
 # Invoke addNodes-${var.node_label}.sh w/ nohup
 ssh ${var.driver_ip} "set -x
