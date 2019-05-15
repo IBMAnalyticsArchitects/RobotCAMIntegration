@@ -403,9 +403,10 @@ then
 	exclusions=" -e `echo ${var.excluded_services} | sed -r 's/[ \t]+/,/g'` "
 fi
 cat<<END>addNodes-${var.node_label}.sh
+passphr=\$1
 set -x
 eval \`ssh-agent\`
-/opt/addSshKeyId.exp $passphrase
+/opt/addSshKeyId.exp \$passphr
 cd /opt/cloud_install_${var.node_label}
 . ./setenv
 /opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh $exclusions /opt/cloud_install_${var.node_label}/hosts.add
@@ -420,7 +421,7 @@ scp addNodes-${var.node_label}.sh ${var.driver_ip}:/opt/cloud_install_${var.node
 # Invoke addNodes-${var.node_label}.sh w/ nohup
 ssh ${var.driver_ip} "set -x
 cd /opt/cloud_install_${var.node_label}/
-nohup /opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.sh >/opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.log 2>&1 &
+nohup /opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.sh $passphrase >/opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.log 2>&1 &
 sleep 60"
 
 EOF
