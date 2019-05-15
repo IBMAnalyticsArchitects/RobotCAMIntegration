@@ -312,26 +312,21 @@ EOF
     inline = [
       "echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa",
       "chmod 600 /root/.ssh/id_rsa",
-    
-      "echo  export cam_ssh_user=${var.ssh_user} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_ssh_user_password=${var.ssh_user_password} >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_sudo_password=XXXXX >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_node_label=${var.node_label} >> /opt/monkey_cam_vars.txt",   
       "echo  export cam_vm_domain=${var.vm_domain} >> /opt/monkey_cam_vars.txt",      
       "echo  export cam_vm_dns_servers=${join(",",var.vm_dns_servers)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /opt/monkey_cam_vars.txt",
       
-      "echo  export cam_public_nic_name=${var.public_nic_name} >> /opt/monkey_cam_vars.txt",
       "echo  export cloud_install_tar_file_name=${var.cloud_install_tar_file_name} >> /opt/monkey_cam_vars.txt",
             
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_driver_ip=${var.driver_ip} >> /opt/monkey_cam_vars.txt",    
          
-      "echo  export cam_hdp_addnodes_ip=${join(",",ibm_compute_vm_instance.hdp-datanodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_hdp_addnodes_name=${join(",",ibm_compute_vm_instance.hdp-datanodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_hdp_addnodes_ip=${join(",",ibm_compute_vm_instance.hdp-computenodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_hdp_addnodes_name=${join(",",ibm_compute_vm_instance.hdp-computenodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
     
       "echo ${var.ssh_key_passphrase} > /root/passphrase ",
       "chmod 600 /root/passphrase",
