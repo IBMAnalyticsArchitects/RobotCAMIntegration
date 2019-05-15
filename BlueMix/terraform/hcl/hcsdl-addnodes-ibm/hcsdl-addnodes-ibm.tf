@@ -201,14 +201,146 @@ resource "null_resource" "start_install" {
     user        = "root"
     private_key = "${tls_private_key.ssh.private_key_pem}"
   }
+  
+  
+  provisioner "file" {
+    content = <<EOF
+#!/usr/bin/expect
+set passphrase [lindex $argv 0]
+spawn ssh-add
+while { 1 == 1 } {
+ expect {
+   "(y/n)?" { send "y\r"; exp_continue; }
+   "Enter passphrase for /root/.ssh/id_rsa:" { send "$passphrase\r"; exp_continue; }
+   eof { exit }
+ }
+}
+EOF
+    destination = "/opt/addSshKeyId.exp"
+  }
+
+  provisioner "file" {
+    content = <<EOF
+#!/bin/sh
+
+set -x 
+
+yum install -y expect
+
+#passphrase=`cat /root/passphrase.fifo`
+passphrase=`cat /root/passphrase`
+rm -f /root/passphrase
+
+eval `ssh-agent`
+chmod 700 /opt/addSshKeyId.exp
+/opt/addSshKeyId.exp $passphrase
+
+
+yum install -y ksh rsync unzip  
+
+mkdir -p /opt/cloud_install; 
+
+cd /opt/cloud_install;
+
+. /opt/monkey_cam_vars.txt;
+
+wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
+
+tar xf ./$cloud_install_tar_file_name
+
+echo "Generate new hosts.add"
+perl -f cam_integration/01_gen_cam_addnodes_properties.pl
+
+#####################
+# Do some preparation on the original driver
+
+ssh ${var.driver_ip} "set -x
+cd /opt/cloud_install
+. ./setenv
+env|egrep "^cloud_" >global.properties
+rm -rf /opt/cloud_install_${var.node_label}/
+mkdir -p /opt/cloud_install_${var.node_label}
+cd /opt/cloud_install_${var.node_label}
+wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
+tar xf ./$cloud_install_tar_file_name
+cp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/
+cp /opt/cloud_install/hosts /opt/cloud_install_${var.node_label}/
+cp -r /opt/cloud_install/ssh_keys /opt/cloud_install_${var.node_label}/"
+
+######################
+# Copy hosts.add to driver
+scp /opt/cloud_install/hosts.add ${var.driver_ip}:/opt/cloud_install_${var.node_label}
+
+######################
+# Create addNodes-${var.node_label}.sh to be executed on the driver
+exclusions=""
+if [ "${var.excluded_services}" != "" ]
+then
+	exclusions=" -e `echo ${var.excluded_services} | sed -r 's/[ \t]+/,/g'` "
+fi
+cat<<END>addNodes-${var.node_label}.sh
+passphr=\$1
+set -x
+eval \`ssh-agent\`
+/opt/addSshKeyId.exp \$passphr
+cd /opt/cloud_install_${var.node_label}
+. ./setenv
+/opt/cloud_install_${var.node_label}/biginsights_files/01_add_datanodes.sh $exclusions /opt/cloud_install_${var.node_label}/hosts.add
+END
+chmod 700 addNodes-${var.node_label}.sh
+
+#######################
+# Copy addNodes-${var.node_label}.sh to driver
+scp addNodes-${var.node_label}.sh ${var.driver_ip}:/opt/cloud_install_${var.node_label}/
+
+#######################
+# Invoke addNodes-${var.node_label}.sh w/ nohup
+ssh ${var.driver_ip} "set -x
+cd /opt/cloud_install_${var.node_label}/
+nohup /opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.sh $passphrase >/opt/cloud_install_${var.node_label}/addNodes-${var.node_label}.log 2>&1 &
+sleep 60"
+
+EOF
+
+    destination = "/opt/addnode.sh"
+
+  }
+  
 
   provisioner "remote-exec" {
+    # Bootstrap script called with private_ip of each node in the clutser
     inline = [
+      "echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa",
+      "chmod 600 /root/.ssh/id_rsa",
     
-      "echo  export cam_sudo_password=XXXXXX >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ssh_user=${var.ssh_user} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ssh_user_password=${var.ssh_user_password} >> /opt/monkey_cam_vars.txt",
       
-      "echo ${var.ssh_key_passphrase} > /root/passphrase &",
-      "chmod 600 /root/passphrase"
+      "echo  export cam_sudo_password=XXXXX >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_node_label=${var.node_label} >> /opt/monkey_cam_vars.txt",   
+      "echo  export cam_vm_domain=${var.vm_domain} >> /opt/monkey_cam_vars.txt",      
+      "echo  export cam_vm_dns_servers=${join(",",var.vm_dns_servers)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_public_nic_name=${var.public_nic_name} >> /opt/monkey_cam_vars.txt",
+      "echo  export cloud_install_tar_file_name=${var.cloud_install_tar_file_name} >> /opt/monkey_cam_vars.txt",
+            
+      "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
+    
+      "echo  export cam_driver_ip=${var.driver_ip} >> /opt/monkey_cam_vars.txt",    
+         
+      "echo  export cam_hdp_addnodes_ip=${join(",",ibm_compute_vm_instance.hdp-datanodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_hdp_addnodes_name=${join(",",ibm_compute_vm_instance.hdp-datanodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
+    
+      "echo ${var.ssh_key_passphrase} > /root/passphrase ",
+      "chmod 600 /root/passphrase",
+
+      "chmod 700 /opt/addnode.sh",
+      "nohup /opt/addnode.sh &",
+      
+      "sleep 120"
     ]
   }
 }
+
