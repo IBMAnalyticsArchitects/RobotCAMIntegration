@@ -10,7 +10,7 @@
       "required": false,
       "immutable": false,
       "group_name": "Cloud",
-      "default": "10.176.112.137"
+      "default": "10.176.112.139"
     },
     {
       "name": "num_workers",
