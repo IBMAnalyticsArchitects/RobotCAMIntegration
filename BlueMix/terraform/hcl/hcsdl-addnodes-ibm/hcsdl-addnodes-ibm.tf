@@ -225,7 +225,7 @@ EOF
 
 set -x 
 
-yum install -y expect
+yum install -y perl ksh rsync expect unzip  
 
 #passphrase=`cat /root/passphrase.fifo`
 passphrase=`cat /root/passphrase`
@@ -234,10 +234,6 @@ rm -f /root/passphrase
 eval `ssh-agent`
 chmod 700 /opt/addSshKeyId.exp
 /opt/addSshKeyId.exp $passphrase
-
-
-yum install -y perl ksh rsync expect unzip  
-#yum groupinstall "Infrastructure Server" -y
 
 mkdir -p /opt/cloud_install; 
 
@@ -345,9 +341,10 @@ EOF
       "chmod 600 /root/passphrase",
 
       "chmod 700 /opt/addnode.sh",
+      "sleep 30",
       "nohup /opt/addnode.sh &",
       
-      "sleep 30"
+      "sleep 60"
     ]
   }
 }
