@@ -22,7 +22,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Existing Cluster",
       "default": ""
     },
     {
@@ -59,7 +59,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Existing Cluster"
     },
     {
       "name": "node_label",
@@ -94,7 +94,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Existing Cluster",
       "default": "jlerm.com"
     },
     {
@@ -354,7 +354,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Existing Cluster",
       "default": ""
     },
     {
@@ -366,7 +366,7 @@
       "secured": true,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Existing Cluster",
       "default": ""
     },
     {
@@ -378,7 +378,7 @@
       "secured": true,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Existing Cluster",
       "default": ""
     }
     ,
