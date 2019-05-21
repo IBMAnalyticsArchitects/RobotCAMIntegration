@@ -837,7 +837,7 @@ resource "vsphere_virtual_machine" "icpnfs" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icpnfs-${ count.index }"
+        host_name = "${var.vm_name_prefix}-nfs-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 6 + var.num_workers }"
