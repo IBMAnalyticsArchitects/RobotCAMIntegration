@@ -17,9 +17,9 @@ provider "vsphere" {
 }
 
 provider "vsphere" {
+  alias = "default"
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
   version = "~> 1.3" 
-  alias = "default"
 }
 
 
