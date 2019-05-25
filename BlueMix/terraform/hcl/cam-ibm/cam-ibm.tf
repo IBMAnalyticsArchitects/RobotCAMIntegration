@@ -19,12 +19,6 @@
 #################################################################
 
 #########################################################
-# Define the ibmcloud provider
-#########################################################
-provider "ibm" {
-}
-
-#########################################################
 # Define the variables
 #########################################################
 variable "datacenter" {
@@ -543,7 +537,7 @@ resource "null_resource" "start_install" {
   ]
   
   connection {
-    host     = "${ibm_compute_vm_instance.driver.0.ipv4_address_private}"
+    host     = "${ibm_compute_vm_instance.driver.ipv4_address_private}"
     type     = "ssh"
     user     = "root"
     private_key = "${tls_private_key.ssh.private_key_pem}"
