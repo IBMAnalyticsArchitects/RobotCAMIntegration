@@ -8,14 +8,6 @@ variable "allow_unverified_ssl" {
 }
 
 ##############################################################
-# Define the vsphere provider
-##############################################################
-provider "vsphere" {
-  allow_unverified_ssl = "${var.allow_unverified_ssl}"
-  version = "~> 1.3" 
-}
-
-##############################################################
 # Define pattern variables
 ##############################################################
 ##############################################################
@@ -279,6 +271,7 @@ resource "vsphere_virtual_machine" "driver" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -437,6 +430,7 @@ resource "vsphere_virtual_machine" "idm" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -501,6 +495,7 @@ resource "vsphere_virtual_machine" "haproxy" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -598,6 +593,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -698,6 +694,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -795,6 +792,7 @@ resource "vsphere_virtual_machine" "icpinfra" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
   
   provisioner "remote-exec" {
@@ -868,6 +866,7 @@ resource "vsphere_virtual_machine" "icpnfs" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -903,7 +902,7 @@ resource "null_resource" "start_install" {
   # Bootstrap script can run on any instance of the cluster
   # So we just choose the first in this case
   connection {
-    host     = "${vsphere_virtual_machine.driver.0.clone.0.customize.0.network_interface.0.ipv4_address}"
+    host     = "${vsphere_virtual_machine.driver.clone.0.customize.0.network_interface.0.ipv4_address}"
     type     = "ssh"
     user     = "root"
     password = "${var.ssh_user_password}"
