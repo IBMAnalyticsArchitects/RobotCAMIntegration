@@ -13,6 +13,12 @@ variable "allow_unverified_ssl" {
 provider "vsphere" {
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
   version = "~> 1.3" 
+  alias = "default"
+}
+
+provider "vsphere" {
+  allow_unverified_ssl = "${var.allow_unverified_ssl}"
+  version = "~> 1.3" 
 }
 
 
@@ -47,6 +53,11 @@ data "vsphere_virtual_machine" "vm_template" {
 
 variable "vm_name_prefix" {
   description = "Prefix for vm names"
+}
+
+variable "provider_alias" {
+  description = "Provider alias name"
+  default = "default"
 }
 
 
@@ -219,6 +230,7 @@ locals {
 
 # Driver 
 resource "vsphere_virtual_machine" "driver" {
+  provider = ${var.provider_alias}
   name = "${var.vm_name_prefix}-drv"
   num_cpus = "4"
   memory = "4096"
