@@ -16,13 +16,6 @@ provider "vsphere" {
   version = "~> 1.3" 
 }
 
-provider "vsphere" {
-  alias = "default"
-  allow_unverified_ssl = "${var.allow_unverified_ssl}"
-  version = "~> 1.3" 
-}
-
-
 ##############################################################
 # Define pattern variables
 ##############################################################
@@ -55,13 +48,6 @@ data "vsphere_virtual_machine" "vm_template" {
 variable "vm_name_prefix" {
   description = "Prefix for vm names"
 }
-
-variable "provider_alias" {
-  description = "Provider alias name"
-  default = "vsphere.default"
-}
-
-
 
 
 #########################################################
@@ -231,7 +217,6 @@ locals {
 
 # Driver 
 resource "vsphere_virtual_machine" "driver" {
-  provider = ${var.provider_alias}
   name = "${var.vm_name_prefix}-drv"
   num_cpus = "4"
   memory = "4096"
