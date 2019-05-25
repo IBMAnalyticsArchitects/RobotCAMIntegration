@@ -230,7 +230,7 @@ locals {
 
 # Driver 
 resource "vsphere_virtual_machine" "driver" {
-  provider = ${var.provider_alias}
+  provider = "${var.provider_alias}"
   name = "${var.vm_name_prefix}-drv"
   num_cpus = "4"
   memory = "4096"
