@@ -231,7 +231,7 @@ locals {
 
 # Driver 
 resource "vsphere_virtual_machine" "driver" {
-  provider = vsphere.default
+  provider = vsphere.defaultXXX
   name = "${var.vm_name_prefix}-drv"
   num_cpus = "4"
   memory = "4096"
