@@ -15,9 +15,6 @@ provider "vsphere" {
   version = "~> 1.3" 
 }
 
-provider "camc" {
-  version = "~> 0.1"
-}
 
 ##############################################################
 # Define pattern variables
