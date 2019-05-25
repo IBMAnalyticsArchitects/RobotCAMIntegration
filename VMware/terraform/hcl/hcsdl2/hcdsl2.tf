@@ -58,7 +58,7 @@ variable "vm_name_prefix" {
 
 variable "provider_alias" {
   description = "Provider alias name"
-  default = "default"
+  default = "vsphere.default"
 }
 
 
@@ -231,7 +231,7 @@ locals {
 
 # Driver 
 resource "vsphere_virtual_machine" "driver" {
-  provider = "vsphere.${var.provider_alias}"
+  provider = "${var.provider_alias}"
   name = "${var.vm_name_prefix}-drv"
   num_cpus = "4"
   memory = "4096"
