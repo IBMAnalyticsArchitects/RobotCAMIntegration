@@ -257,6 +257,7 @@ resource "vsphere_virtual_machine" "driver" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
   
   
@@ -405,6 +406,7 @@ resource "vsphere_virtual_machine" "idm" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -465,6 +467,7 @@ resource "vsphere_virtual_machine" "ishttp" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -526,6 +529,7 @@ resource "vsphere_virtual_machine" "iswasnd" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -586,6 +590,7 @@ resource "vsphere_virtual_machine" "isdb2" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -648,6 +653,7 @@ resource "vsphere_virtual_machine" "isds" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -721,6 +727,7 @@ resource "vsphere_virtual_machine" "ises" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -790,6 +797,7 @@ resource "vsphere_virtual_machine" "haproxy" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -900,6 +908,7 @@ resource "vsphere_virtual_machine" "bigsql-head" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -987,6 +996,7 @@ resource "vsphere_virtual_machine" "hdp-mgmtnodes" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -1096,6 +1106,7 @@ resource "vsphere_virtual_machine" "hdp-datanodes" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -1158,6 +1169,7 @@ resource "vsphere_virtual_machine" "hdp-edgenodes" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -1244,6 +1256,7 @@ resource "vsphere_virtual_machine" "cassandra-nodes" {
     type = "ssh"
     user     = "${var.ssh_user}"
     password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
 
@@ -1285,7 +1298,7 @@ resource "null_resource" "start_install" {
   # Bootstrap script can run on any instance of the cluster
   # So we just choose the first in this case
   connection {
-    host     = "${vsphere_virtual_machine.driver.0.clone.0.customize.0.network_interface.0.ipv4_address}"
+    host     = "${vsphere_virtual_machine.driver.clone.0.customize.0.network_interface.0.ipv4_address}"
     type     = "ssh"
     user     = "root"
     password = "${var.ssh_user_password}"
