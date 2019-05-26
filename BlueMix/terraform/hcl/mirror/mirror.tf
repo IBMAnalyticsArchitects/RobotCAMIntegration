@@ -19,6 +19,14 @@
 #
 #################################################################
 
+
+#########################################################
+# Define the ibmcloud provider
+#########################################################
+provider "ibm" {
+}
+
+
 #########################################################
 # Define the variables
 #########################################################
@@ -96,7 +104,7 @@ resource "ibm_compute_ssh_key" "temp_public_key" {
 }
 
 data "ibm_network_vlan" "cluster_vlan" {
-    number = "${var.vlan_number}",
+    number = "${var.vlan_number}"
     router_hostname = "${var.vlan_router}"
 }
 
