@@ -269,6 +269,7 @@ wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
 tar xf ./$cloud_install_tar_file_name
 cp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/
 # Set the devices for this platform
+echo "" >> /opt/cloud_install_${var.node_label}/global.properties
 echo "cloud_biginsights_data_devices=$cam_cloud_biginsights_data_devices" >> /opt/cloud_install_${var.node_label}/global.properties
 echo "cloud_cassandra_data_devices=$cam_cloud_biginsights_data_devices" >> /opt/cloud_install_${var.node_label}/global.properties
 cp /opt/cloud_install/hosts /opt/cloud_install_${var.node_label}/
