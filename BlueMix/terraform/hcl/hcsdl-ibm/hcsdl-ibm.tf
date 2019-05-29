@@ -1011,10 +1011,10 @@ resource "null_resource" "start_install" {
       # It must be updated if the data node template is modified.
       # This list must match the naming format, for the data node template definition.
       
-      # For the SL VMs used so far, /dev/xvdb is defined as swap. Removing it for now...
-      #"echo  export cam_cloud_biginsights_data_devices=/disk1@/dev/xvdb,/disk2@/dev/xvdc,/disk3@/dev/xvdd,/disk4@/dev/xvde,/disk5@/dev/xvdf,/disk6@/dev/xvdg,/disk7@/dev/xvdh,/disk8@/dev/xvdi,/disk9@/dev/xvdj,/disk10@/dev/xvdk,/disk11@/dev/xvdl,/disk12@/dev/xvdm,/disk13@/dev/xvdn >> /opt/monkey_cam_vars.txt",
-      #"echo  export cam_cloud_biginsights_data_devices=/disk2@/dev/xvdc,/disk3@/dev/xvdd,/disk4@/dev/xvde,/disk5@/dev/xvdf,/disk6@/dev/xvdg,/disk7@/dev/xvdh,/disk8@/dev/xvdi,/disk9@/dev/xvdj,/disk10@/dev/xvdk,/disk11@/dev/xvdl,/disk12@/dev/xvdm,/disk13@/dev/xvdn >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_cloud_biginsights_data_devices=/disk3@/dev/xvdd,/disk4@/dev/xvde,/disk5@/dev/xvdf,/disk6@/dev/xvdg,/disk7@/dev/xvdh,/disk8@/dev/xvdi,/disk9@/dev/xvdj,/disk10@/dev/xvdk,/disk11@/dev/xvdl,/disk12@/dev/xvdm,/disk13@/dev/xvdn >> /opt/monkey_cam_vars.txt",
+      # For the SL VMs used so far, /dev/xvdb is defined as swap.
+      # /dev/xvdc is used for file systems such as /var,/home,/tmp.
+      # /dev/xvdd does not exist.
+      "echo  export cam_cloud_biginsights_data_devices=/disk1@/dev/xvde,/disk2@/dev/xvdf,/disk3@/dev/xvdg,/disk4@/dev/xvdh,/disk5@/dev/xvdi,/disk6@/dev/xvdj,/disk7@/dev/xvdk,/disk8@/dev/xvdl,/disk9@/dev/xvdm,/disk10@/dev/xvdn >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     

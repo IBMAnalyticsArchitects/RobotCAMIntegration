@@ -268,6 +268,9 @@ cd /opt/cloud_install_${var.node_label}
 wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
 tar xf ./$cloud_install_tar_file_name
 cp /opt/cloud_install/global.properties /opt/cloud_install_${var.node_label}/
+# Set the devices for this platform
+echo "cloud_biginsights_data_devices=$cam_cloud_biginsights_data_devices" >> /opt/cloud_install_${var.node_label}/global.properties
+echo "cloud_cassandra_data_devices=$cam_cloud_biginsights_data_devices" >> /opt/cloud_install_${var.node_label}/global.properties
 cp /opt/cloud_install/hosts /opt/cloud_install_${var.node_label}/
 cp -r /opt/cloud_install/ssh_keys /opt/cloud_install_${var.node_label}/"
 
@@ -338,6 +341,11 @@ EOF
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_driver_ip=${var.driver_ip} >> /opt/monkey_cam_vars.txt",    
+      
+      # For the SL VMs used so far, /dev/xvdb is defined as swap.
+      # /dev/xvdc is used for file systems such as /var,/home,/tmp.
+      # /dev/xvdd does not exist.
+      "echo  export cam_cloud_biginsights_data_devices=/disk1@/dev/xvde,/disk2@/dev/xvdf,/disk3@/dev/xvdg,/disk4@/dev/xvdh,/disk5@/dev/xvdi,/disk6@/dev/xvdj,/disk7@/dev/xvdk,/disk8@/dev/xvdl,/disk9@/dev/xvdm,/disk10@/dev/xvdn >> /opt/monkey_cam_vars.txt",
          
       "echo  export cam_hdp_addnodes_ip=${join(",",ibm_compute_vm_instance.hdp-computenodes.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_hdp_addnodes_name=${join(",",ibm_compute_vm_instance.hdp-computenodes.*.hostname)} >> /opt/monkey_cam_vars.txt",
