@@ -717,10 +717,18 @@ resource "vsphere_virtual_machine" "ises" {
 
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
-    size = "600"
+    size = "1000"
     keep_on_remove = "false"
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
     unit_number = "1"
+  }
+
+  disk {
+    label = "${var.vm_name_prefix}2.vmdk"
+    size = "600"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "2"
   }
 
   connection {
@@ -741,7 +749,11 @@ resource "vsphere_virtual_machine" "ises" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
+      "pvcreate /dev/sdb",
+      "vgextend vg_node1 /dev/sdb",
+      "lvextend /dev/vg_node1/lv_root /dev/sdb",
+      "resize2fs /dev/mapper/vg_node1-lv_root"
     ]
   }
 
@@ -1350,7 +1362,7 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_ises_ip=${join(",",vsphere_virtual_machine.ises.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_name=${join(",",vsphere_virtual_machine.ises.*.name)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_ises_device=/dev/sdb >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ises_ug_device=/dev/sdc >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_haproxy_ip=${join(",",vsphere_virtual_machine.haproxy.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_haproxy_name=${join(",",vsphere_virtual_machine.haproxy.*.name)} >> /opt/monkey_cam_vars.txt",

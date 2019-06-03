@@ -1039,7 +1039,7 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_ises_ip=${join(",",ibm_compute_vm_instance.ises.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_name=${join(",",ibm_compute_vm_instance.ises.*.hostname)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_ises_device=/dev/xvdd >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ises_ug_device=/dev/xvde >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_haproxy_ip=${join(",",ibm_compute_vm_instance.haproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_haproxy_name=${join(",",ibm_compute_vm_instance.haproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",
