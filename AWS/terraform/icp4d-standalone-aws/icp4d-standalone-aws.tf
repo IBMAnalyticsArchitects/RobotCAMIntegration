@@ -201,6 +201,11 @@ variable "subnet_ids" {
 }
 
 
+variable "ebs_vol_iops" {
+  type = "string"
+  description = "IOPS for EBS volume (ICP storage)"
+  default = "1000"
+}
 
 locals {
   idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
@@ -453,7 +458,7 @@ resource "aws_instance" "icphaproxyvip" {
 # HAProxy
 #
 resource "aws_instance" "icphaproxy" {
-  count         = "1"
+  count         = "0"
   tags { Name = "${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxy-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "m4.2xlarge"
   ami           = "${var.aws_image}"
@@ -519,9 +524,9 @@ resource "aws_instance" "icpmaster" {
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
-  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
-  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
+  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   
   connection {
     user        = "ec2-user"
@@ -582,9 +587,9 @@ resource "aws_instance" "icpworker" {
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
-  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="20000" }
-  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "4000", "delete_on_termination" = true iops="20000" }
+  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "4000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   
   connection {
     user        = "ec2-user"
@@ -704,6 +709,9 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_haproxy_vip=${join(",",aws_instance.icphaproxyvip.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icp_haproxy_ip=${join(",",aws_instance.icphaproxy.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icp_haproxy_name=${join(",",aws_instance.icphaproxy.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
+      
+      # cam_icp_load_balancer_name
+      "echo  export cam_icp_load_balancer_name=${aws_lb.icp-console.dns_name} >> /tmp/monkey_cam_vars.txt",
     
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /tmp/monkey_cam_vars.txt",
