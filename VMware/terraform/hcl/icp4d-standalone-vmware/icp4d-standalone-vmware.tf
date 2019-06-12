@@ -547,6 +547,10 @@ resource "vsphere_virtual_machine" "icpmaster" {
     ipv4_gateway = "${var.vm_ipv4_gateway}"
     }
   }
+  
+  hv_mode = "hvOn"
+  ept_rvi_mode = "on"
+  nested_hv_enabled = "true"
 
   network_interface {
     network_id = "${data.vsphere_network.vm_network.id}"
@@ -648,6 +652,10 @@ resource "vsphere_virtual_machine" "icpworker" {
     ipv4_gateway = "${var.vm_ipv4_gateway}"
     }
   }
+  
+  hv_mode = "hvOn"
+  ept_rvi_mode = "on"
+  nested_hv_enabled = "true"
 
   network_interface {
     network_id = "${data.vsphere_network.vm_network.id}"
