@@ -1363,6 +1363,8 @@ resource "null_resource" "start_install" {
       "echo  export cam_ises_ip=${join(",",vsphere_virtual_machine.ises.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_name=${join(",",vsphere_virtual_machine.ises.*.name)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_ug_device=/dev/sdc >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ises_weave_net_ip_range=172.30.0.0/16 >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ises_service_ip_range=172.31.200.0/21 >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_haproxy_ip=${join(",",vsphere_virtual_machine.haproxy.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_haproxy_name=${join(",",vsphere_virtual_machine.haproxy.*.name)} >> /opt/monkey_cam_vars.txt",

@@ -10,7 +10,7 @@
       "required": false,
       "immutable": false,
       "group_name": "Cloud",
-      "default": "10.176.112.137"
+      "default": "10.176.112.139"
     },
     {
       "name": "num_datanodes",
@@ -263,7 +263,7 @@
       "name": "vm_number_of_vcpu",
       "type": "string",
       "description": "Number of virtual CPU for the virtual machine, which is required to be a positive Integer",
-      "default": "8",
+      "default": "16",
       "hidden": false,
       "label": "Virtual Machine vCPUs",
       "secured": false,
