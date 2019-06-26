@@ -385,6 +385,18 @@
       "required": true,
       "immutable": false,
       "group_name": "Cloud"
+    },
+    {
+      "name": "ebs_vol_iops",
+      "type": "string",
+      "description": "IOPS for EBS volume (ICP storage)",
+      "hidden": false,
+      "label": "IOPS for EBS volume (ICP storage)",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "1000"
     }
     
 ]
