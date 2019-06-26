@@ -204,7 +204,7 @@ variable "subnet_ids" {
 variable "ebs_vol_iops" {
   type = "string"
   description = "IOPS for EBS volume (ICP storage)"
-  default = "5000"
+  default = "1000"
 }
 
 locals {
