@@ -1014,7 +1014,8 @@ resource "null_resource" "start_install" {
       # For the SL VMs used so far, /dev/xvdb is defined as swap.
       # /dev/xvdc is used for file systems such as /var,/home,/tmp.
       # /dev/xvdd does not exist.
-      "echo  export cam_cloud_biginsights_data_devices=/disk1@/dev/xvde,/disk2@/dev/xvdf,/disk3@/dev/xvdg,/disk4@/dev/xvdh,/disk5@/dev/xvdi,/disk6@/dev/xvdj,/disk7@/dev/xvdk,/disk8@/dev/xvdl,/disk9@/dev/xvdm,/disk10@/dev/xvdn >> /opt/monkey_cam_vars.txt",
+#      "echo  export cam_cloud_biginsights_data_devices=/disk1@/dev/xvde,/disk2@/dev/xvdf,/disk3@/dev/xvdg,/disk4@/dev/xvdh,/disk5@/dev/xvdi,/disk6@/dev/xvdj,/disk7@/dev/xvdk,/disk8@/dev/xvdl,/disk9@/dev/xvdm,/disk10@/dev/xvdn >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cloud_biginsights_data_devices=/disk1@/dev/xvde,/disk2@/dev/xvdf,/disk3@/dev/xvdg >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     
