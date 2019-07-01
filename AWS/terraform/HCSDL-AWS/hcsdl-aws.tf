@@ -654,8 +654,8 @@ resource "aws_instance" "ises" {
   subnet_id     = "${element(var.subnet_ids, count.index )}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "st1", "volume_size" = "1000", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1500", "delete_on_termination" = true }
+#  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "st1", "volume_size" = "1000", "delete_on_termination" = true }
 #  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "st1", "volume_size" = "1000", "delete_on_termination" = true }
   
   connection {
@@ -686,9 +686,9 @@ resource "aws_instance" "ises" {
  
  provisioner "file" {
     content = <<EOF
-var=500
+var=1200
 tmp=100
-opt=100
+opt=200
 home=100
 EOF
     destination = "/tmp/filesystemLayout.txt"
@@ -1079,7 +1079,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_ises_ip=${join(",",aws_instance.ises.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_ises_name=${join(",",aws_instance.ises.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
 #      "echo  export cam_ises_docker_device=/dev/xvdc >> /tmp/monkey_cam_vars.txt",
-      "echo  export cam_ises_ug_device=/dev/xvdc >> /tmp/monkey_cam_vars.txt",
+#      "echo  export cam_ises_ug_device=/dev/xvdc >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_ises_weave_net_ip_range=${var.ises_weave_net_ip_range} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_ises_service_ip_range=${var.ises_service_ip_range} >> /tmp/monkey_cam_vars.txt",
     

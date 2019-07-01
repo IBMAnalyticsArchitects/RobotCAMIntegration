@@ -597,7 +597,7 @@ resource "ibm_compute_vm_instance" "ises" {
   private_network_only     = true
   cores                    = "${var.enterprise_search_num_cpus}"
   memory                   = "${var.enterprise_search_mem}"
-  disks                    = [100,1000,1000]
+  disks                    = [100,1500]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -626,7 +626,7 @@ resource "ibm_compute_vm_instance" "ises" {
   
  provisioner "file" {
     content = <<EOF
-var=400
+var=1200
 tmp=100
 opt=200
 home=100
@@ -1040,7 +1040,7 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_ises_ip=${join(",",ibm_compute_vm_instance.ises.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_name=${join(",",ibm_compute_vm_instance.ises.*.hostname)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_ises_ug_device=/dev/xvde >> /opt/monkey_cam_vars.txt",
+#      "echo  export cam_ises_ug_device=/dev/xvde >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_weave_net_ip_range=172.30.0.0/16 >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_service_ip_range=172.31.200.0/21 >> /opt/monkey_cam_vars.txt",
     

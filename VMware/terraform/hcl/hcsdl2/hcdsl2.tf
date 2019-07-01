@@ -723,13 +723,13 @@ resource "vsphere_virtual_machine" "ises" {
     unit_number = "1"
   }
 
-  disk {
-    label = "${var.vm_name_prefix}2.vmdk"
-    size = "600"
-    keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
-    unit_number = "2"
-  }
+#  disk {
+#    label = "${var.vm_name_prefix}2.vmdk"
+#    size = "600"
+#    keep_on_remove = "false"
+#    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+#    unit_number = "2"
+#  }
 
   connection {
     type = "ssh"
@@ -1362,7 +1362,7 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_ises_ip=${join(",",vsphere_virtual_machine.ises.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_name=${join(",",vsphere_virtual_machine.ises.*.name)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_ises_ug_device=/dev/sdc >> /opt/monkey_cam_vars.txt",
+#      "echo  export cam_ises_ug_device=/dev/sdc >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_weave_net_ip_range=172.30.0.0/16 >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ises_service_ip_range=172.31.200.0/21 >> /opt/monkey_cam_vars.txt",
     
