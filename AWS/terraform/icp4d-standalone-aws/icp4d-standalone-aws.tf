@@ -459,7 +459,7 @@ resource "aws_instance" "icphaproxyvip" {
 # HAProxy
 #
 resource "aws_instance" "icphaproxy" {
-  count         = "0"
+  count         = "1"
   tags { Name = "${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxy-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "m4.2xlarge"
   ami           = "${var.aws_image}"
@@ -554,7 +554,12 @@ resource "aws_instance" "icpmaster" {
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "systemctl enable rpcbind",
+      "systemctl start rpcbind",
+      "sed -i -e  's/ipv6.disable=1//g'   /etc/default/grub",
+      "sed -r -i -e 's/(GRUB_CMDLINE_LINUX=.+)"/\1ipv6.disable=1"/'  /etc/default/grub",
+      "grub2-mkconfig -o /boot/grub2/grub.cfg"
     ]
  }
 
@@ -619,7 +624,12 @@ resource "aws_instance" "icpworker" {
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "systemctl enable rpcbind",
+      "systemctl start rpcbind",
+      "sed -i -e  's/ipv6.disable=1//g' /etc/default/grub",
+      "sed -r -i -e 's/(GRUB_CMDLINE_LINUX=.+)"/\1ipv6.disable=1"/' /etc/default/grub",
+      "grub2-mkconfig -o /boot/grub2/grub.cfg"
     ]
  }
 
@@ -712,7 +722,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_haproxy_name=${join(",",aws_instance.icphaproxy.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
       
       # cam_icp_load_balancer_name
-      "echo  export cam_icp_load_balancer_name=${aws_lb.icp-console.dns_name} >> /tmp/monkey_cam_vars.txt",
+      #"echo  export cam_icp_load_balancer_name=${aws_lb.icp-console.dns_name} >> /tmp/monkey_cam_vars.txt",
     
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /tmp/monkey_cam_vars.txt",
