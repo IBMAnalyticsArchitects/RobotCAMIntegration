@@ -624,7 +624,12 @@ resource "aws_instance" "icpworker" {
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "systemctl enable rpcbind",
+      "systemctl start rpcbind",
+      "sed -i -e  's/ipv6.disable=1//g'   /etc/default/grub",
+      "sed -r -i -e 's/GRUB_CMDLINE_LINUX=\"/GRUB_CMDLINE_LINUX=\"ipv6.disable=1 /'  /etc/default/grub",
+      "grub2-mkconfig -o /boot/grub2/grub.cfg"
     ]
  }
 
