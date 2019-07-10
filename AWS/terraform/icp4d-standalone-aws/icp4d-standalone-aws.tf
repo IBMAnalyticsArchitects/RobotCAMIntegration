@@ -555,11 +555,11 @@ resource "aws_instance" "icpmaster" {
       "sudo chmod 600 /root/.ssh/config",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
       "sudo mv /data /data.bkp",
-      "systemctl enable rpcbind",
-      "systemctl start rpcbind",
-      "sed -i -e  's/ipv6.disable=1//g'   /etc/default/grub",
-      "sed -r -i -e 's/GRUB_CMDLINE_LINUX=\"/GRUB_CMDLINE_LINUX=\"ipv6.disable=1 /'  /etc/default/grub",
-      "grub2-mkconfig -o /boot/grub2/grub.cfg"
+      "sudo su - -c 'systemctl enable rpcbind'",
+      "sudo su - -c 'systemctl start rpcbind'",
+      "sudo su - -c 'sed -i -e  \'s/ipv6.disable=1//g\'   /etc/default/grub'",
+      "sudo su - -c 'sed -r -i -e \'s/GRUB_CMDLINE_LINUX=\\\"/GRUB_CMDLINE_LINUX=\\\"ipv6.disable=1 /\'  /etc/default/grub'",
+      "sudo su - -c 'grub2-mkconfig -o /boot/grub2/grub.cfg'"
     ]
  }
 
@@ -625,11 +625,11 @@ resource "aws_instance" "icpworker" {
       "sudo chmod 600 /root/.ssh/config",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
       "sudo mv /data /data.bkp",
-      "systemctl enable rpcbind",
-      "systemctl start rpcbind",
-      "sed -i -e  's/ipv6.disable=1//g'   /etc/default/grub",
-      "sed -r -i -e 's/GRUB_CMDLINE_LINUX=\"/GRUB_CMDLINE_LINUX=\"ipv6.disable=1 /'  /etc/default/grub",
-      "grub2-mkconfig -o /boot/grub2/grub.cfg"
+      "sudo su - -c 'systemctl enable rpcbind'",
+      "sudo su - -c 'systemctl start rpcbind'",
+      "sudo su - -c 'sed -i -e  \'s/ipv6.disable=1//g\'   /etc/default/grub'",
+      "sudo su - -c 'sed -r -i -e \'s/GRUB_CMDLINE_LINUX=\\\"/GRUB_CMDLINE_LINUX=\\\"ipv6.disable=1 /\'  /etc/default/grub'",
+      "sudo su - -c 'grub2-mkconfig -o /boot/grub2/grub.cfg'"
     ]
  }
 
