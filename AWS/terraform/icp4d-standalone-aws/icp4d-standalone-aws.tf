@@ -554,9 +554,7 @@ resource "aws_instance" "icpmaster" {
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo mv /data /data.bkp",
-      "sudo su - -c 'systemctl enable rpcbind'",
-      "sudo su - -c 'systemctl start rpcbind'"
+      "sudo mv /data /data.bkp"
     ]
  }
 
@@ -621,9 +619,7 @@ resource "aws_instance" "icpworker" {
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo mv /data /data.bkp",
-      "sudo su - -c 'systemctl enable rpcbind'",
-      "sudo su - -c 'systemctl start rpcbind'"
+      "sudo mv /data /data.bkp"
     ]
  }
 
