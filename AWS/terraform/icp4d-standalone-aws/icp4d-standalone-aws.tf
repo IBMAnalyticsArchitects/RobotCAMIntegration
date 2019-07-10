@@ -558,7 +558,7 @@ resource "aws_instance" "icpmaster" {
       "systemctl enable rpcbind",
       "systemctl start rpcbind",
       "sed -i -e  's/ipv6.disable=1//g'   /etc/default/grub",
-      "sed -r -i -e 's/GRUB_CMDLINE_LINUX=\"/GRUB_CMDLINE_LINUX=\"ipv6.disable=1 /'  /etc/default/grub",
+      "sed -r -i -e 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX=""ipv6.disable=1 /'  /etc/default/grub",
       "grub2-mkconfig -o /boot/grub2/grub.cfg"
     ]
  }
