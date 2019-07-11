@@ -124,6 +124,7 @@ resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
   private_network_only     = true
   cores                    = 8
   memory                   = 8192
+  wait_time_minutes        = 200
   disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
