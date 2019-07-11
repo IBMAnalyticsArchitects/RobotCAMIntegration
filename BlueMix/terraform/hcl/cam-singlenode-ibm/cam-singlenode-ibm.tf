@@ -136,6 +136,7 @@ resource "ibm_compute_vm_instance" "driver" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
+  wait_time_minutes        = 200
   disks                    = [100]
   dedicated_acct_host_only = false
   local_disk               = false
