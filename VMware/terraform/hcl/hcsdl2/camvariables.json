@@ -469,7 +469,7 @@
       "description": "Memory assigned to data nodes in megabytes. This value is required to be an increment of 1024",
       "default": "16384",
       "hidden": false,
-      "label": "Management Node Machine Memory",
+      "label": "Data Node Machine Memory",
       "secured": false,
       "required": true,
       "immutable": false,
