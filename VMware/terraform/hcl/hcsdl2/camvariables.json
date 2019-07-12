@@ -548,18 +548,6 @@
       "default": "10.177.150.150"
     },
     {
-      "name": "vm_memory",
-      "type": "string",
-      "description": "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024",
-      "default": "16384",
-      "hidden": false,
-      "label": "Virtual Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
       "name": "vm_ipv4_prefix_length",
       "type": "string",
       "description": "IPv4 prefix length for vNIC configuration. The value must be a number between 8 and 32",
@@ -570,18 +558,6 @@
       "immutable": false,
       "group_name": "Cluster",
       "default": "26"
-    },
-    {
-      "name": "vm_number_of_vcpu",
-      "type": "string",
-      "description": "Number of virtual CPU for the virtual machine, which is required to be a positive Integer",
-      "default": "16",
-      "hidden": false,
-      "label": "Virtual Machine vCPUs",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
     },
     {
       "name": "vm_network_interface_label",
