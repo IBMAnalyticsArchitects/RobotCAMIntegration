@@ -191,6 +191,7 @@ resource "ibm_compute_vm_instance" "driver" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
+  wait_time_minutes        = 200
   disks                    = [100]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -324,6 +325,7 @@ resource "ibm_compute_vm_instance" "idm" {
   hourly_billing           = true
   private_network_only     = true
   cores                    = 4
+  wait_time_minutes        = 200
   memory                   = 4096
   disks                    = [100,1000]
   dedicated_acct_host_only = false
@@ -377,6 +379,7 @@ resource "ibm_compute_vm_instance" "ishttp" {
   private_network_only     = true
   cores                    = 4
   memory                   = 16384
+  wait_time_minutes        = 200
   disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -431,6 +434,7 @@ resource "ibm_compute_vm_instance" "iswasnd" {
   private_network_only     = true
   cores                    = 8
   memory                   = 32768
+  wait_time_minutes        = 200
   disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -486,6 +490,7 @@ resource "ibm_compute_vm_instance" "isdb2" {
   private_network_only     = true
   cores                    = 8
   memory                   = 32768
+  wait_time_minutes        = 200
   disks                    = [100,1000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -541,6 +546,7 @@ resource "ibm_compute_vm_instance" "isds" {
   private_network_only     = true
   cores                    = "${var.dsengine_num_cpus}"
   memory                   = "${var.dsengine_mem}"
+  wait_time_minutes        = 200
   disks                    = [100,1000,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -597,6 +603,7 @@ resource "ibm_compute_vm_instance" "ises" {
   private_network_only     = true
   cores                    = "${var.enterprise_search_num_cpus}"
   memory                   = "${var.enterprise_search_mem}"
+  wait_time_minutes        = 200
   disks                    = [100,1500]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -652,6 +659,7 @@ resource "ibm_compute_vm_instance" "haproxy" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
+  wait_time_minutes        = 200
   disks                    = [100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -705,6 +713,7 @@ resource "ibm_compute_vm_instance" "hdp-mgmtnodes" {
   hourly_billing           = true
   private_network_only     = true
   cores                    = "${var.mgmtnode_num_cpus}"
+  wait_time_minutes        = 200
   memory                   = "${var.mgmtnode_mem}"
 #  disks                    = "${var.mgmtnode_disks}"
   disks                    = [ 100,1000,2000,2000 ]
@@ -760,6 +769,7 @@ resource "ibm_compute_vm_instance" "hdp-datanodes" {
   hourly_billing           = true
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
+  wait_time_minutes        = 200
   memory                   = "${var.datanode_mem}"
 #  disks                    = "${var.datanode_disks}"
   disks                    = [100,1000,2000,2000,2000]
@@ -815,6 +825,7 @@ resource "ibm_compute_vm_instance" "hdp-edgenodes" {
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
+  wait_time_minutes        = 200
 #  disks                    = "${var.datanode_disks}"
   disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
@@ -869,6 +880,7 @@ resource "ibm_compute_vm_instance" "bigsql-head" {
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
+  wait_time_minutes        = 200
 #  disks                    = "${var.datanode_disks}"
   disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false
@@ -925,6 +937,7 @@ resource "ibm_compute_vm_instance" "cassandra-nodes" {
   private_network_only     = true
   cores                    = "${var.datanode_num_cpus}"
   memory                   = "${var.datanode_mem}"
+  wait_time_minutes        = 200
 #  disks                    = "${var.datanode_disks}"
   disks                    = [100,1000,2000,2000,2000]
   dedicated_acct_host_only = false

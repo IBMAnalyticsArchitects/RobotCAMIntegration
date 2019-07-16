@@ -215,6 +215,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
+  wait_time_minutes        = 200
   disks                    = [100,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
