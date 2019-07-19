@@ -1,5 +1,4 @@
 [
-   
     {
       "name": "monkey_mirror",
       "type": "string",
@@ -58,7 +57,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_dns_servers",
@@ -81,7 +80,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "jlerm.com"
     },
     {
@@ -106,7 +105,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_root_disk_controller_type",
@@ -145,7 +144,7 @@
       ],
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_root_disk_datastore",
@@ -156,7 +155,7 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "datastoreA"
     },
     {
@@ -185,7 +184,7 @@
       ],
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_mgmtnode_disk_size",
@@ -248,78 +247,6 @@
       "group_name": "Cluster"
     },
     {
-      "name": "http_num_cpus",
-      "type": "string",
-      "description": "Number of virtual CPU's for IS HTTP nodes",
-      "default": "4",
-      "hidden": false,
-      "label": "IS HTTP node virtual CPU's",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "http_mem",
-      "type": "string",
-      "description": "Memory assigned to IS HTTP nodes in megabytes. This value is required to be an increment of 1024",
-      "default": "4096",
-      "hidden": false,
-      "label": "IS HTTP Node Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "was_num_cpus",
-      "type": "string",
-      "description": "Number of virtual CPU's for IS Services WAS nodes",
-      "default": "8",
-      "hidden": false,
-      "label": "IS Services WAS node virtual CPU's",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "was_mem",
-      "type": "string",
-      "description": "Memory assigned to IS Services WAS nodes in megabytes. This value is required to be an increment of 1024",
-      "default": "16384",
-      "hidden": false,
-      "label": "IS Services WAS Node Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "db2_num_cpus",
-      "type": "string",
-      "description": "Number of virtual CPU's for IS Db2 nodes",
-      "default": "4",
-      "hidden": false,
-      "label": "IS Db2 node virtual CPU's",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "db2_mem",
-      "type": "string",
-      "description": "Memory assigned to IS Db2 nodes in megabytes. This value is required to be an increment of 1024",
-      "default": "8192",
-      "hidden": false,
-      "label": "IS Db2 Node Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
       "name": "haproxy_num_cpus",
       "type": "string",
       "description": "Number of virtual CPU's for HAProxy nodes",
@@ -338,30 +265,6 @@
       "default": "4096",
       "hidden": false,
       "label": "HAProxy Node Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "bigsql_num_cpus",
-      "type": "string",
-      "description": "Number of virtual CPU's for BigSQL management nodes",
-      "default": "8",
-      "hidden": false,
-      "label": "BigSQL management node virtual CPU's",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "bigsql_mem",
-      "type": "string",
-      "description": "Memory assigned to BigSQL management nodes in megabytes. This value is required to be an increment of 1024",
-      "default": "16384",
-      "hidden": false,
-      "label": "BigSQL Management Node Machine Memory",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -470,54 +373,6 @@
       "default": "16384",
       "hidden": false,
       "label": "Data Node Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "dsengine_num_cpus",
-      "type": "string",
-      "description": "Number of virtual CPU's for DataStage Engine",
-      "default": "4",
-      "hidden": false,
-      "label": "DataStage Engine virtual CPU's",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "dsengine_mem",
-      "type": "string",
-      "description": "Memory assigned to DataStage Engine in megabytes. This value is required to be an increment of 1024",
-      "default": "16384",
-      "hidden": false,
-      "label": "DataStage Engine Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "enterprise_search_num_cpus",
-      "type": "string",
-      "description": "Number of virtual CPU's for Microservices node. Minimum requirement is 16.",
-      "default": "16",
-      "hidden": false,
-      "label": "Microservices node virtual CPU's",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
-      "name": "enterprise_search_mem",
-      "type": "string",
-      "description": "Memory assigned to Microservices node in megabytes. This value is required to be an increment of 1024",
-      "default": "65536",
-      "hidden": false,
-      "label": "Microservices Machine Memory",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -751,7 +606,126 @@
       "group_name": "Information Server",
       "default": "1"
     },
-    
+    {
+      "name": "http_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for IS HTTP nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "IS HTTP node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "http_mem",
+      "type": "string",
+      "description": "Memory assigned to IS HTTP nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "4096",
+      "hidden": false,
+      "label": "IS HTTP Node Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "was_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for IS Services WAS nodes",
+      "default": "8",
+      "hidden": false,
+      "label": "IS Services WAS node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "was_mem",
+      "type": "string",
+      "description": "Memory assigned to IS Services WAS nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "IS Services WAS Node Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "db2_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for IS Db2 nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "IS Db2 node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "db2_mem",
+      "type": "string",
+      "description": "Memory assigned to IS Db2 nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "8192",
+      "hidden": false,
+      "label": "IS Db2 Node Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "dsengine_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for DataStage Engine",
+      "default": "4",
+      "hidden": false,
+      "label": "DataStage Engine virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "dsengine_mem",
+      "type": "string",
+      "description": "Memory assigned to DataStage Engine in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "DataStage Engine Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "enterprise_search_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for Microservices node. Minimum requirement is 16.",
+      "default": "16",
+      "hidden": false,
+      "label": "Microservices node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "enterprise_search_mem",
+      "type": "string",
+      "description": "Memory assigned to Microservices node in megabytes. This value is required to be an increment of 1024",
+      "default": "65536",
+      "hidden": false,
+      "label": "Microservices Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
     {
       "name": "install_bigsql",
       "type": "string",
@@ -762,8 +736,31 @@
       "required": true,
       "immutable": false,
       "regex": "(0|1)",
-      "group_name": "HDP",
+      "group_name": "Big SQL",
       "default": "1"
+    },
+    {
+      "name": "bigsql_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for BigSQL management nodes",
+      "default": "8",
+      "hidden": false,
+      "label": "BigSQL management node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Big SQL"
+    },
+    {
+      "name": "bigsql_mem",
+      "type": "string",
+      "description": "Memory assigned to BigSQL management nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "BigSQL Management Node Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Big SQL"
     }
-    
   ]
