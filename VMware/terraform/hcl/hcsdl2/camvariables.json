@@ -750,5 +750,5 @@
       "required": true,
       "immutable": false,
       "group_name": "Cassandra"
-    },
+    }
   ]
