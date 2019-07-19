@@ -644,6 +644,42 @@
       "group_name": "Big SQL"
     },
     {
+      "name": "num_cassandra_nodes",
+      "type": "string",
+      "description": "Number of Cassandra Nodes",
+      "hidden": false,
+      "label": "Number of Cassandra nodes to create",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cassandra",
+      "default": "1"
+    },
+    {
+      "name": "cassandra_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for Cassandra nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "Cassandra node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cassandra"
+    },
+    {
+      "name": "cassandra_mem",
+      "type": "string",
+      "description": "Memory assigned to Cassandra nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "Cassandra Node Machine Memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cassandra"
+    },
+    {
       "name": "drv_num_cpus",
       "type": "string",
       "description": "Number of virtual CPU's for Driver nodes",
@@ -714,41 +750,5 @@
       "required": true,
       "immutable": false,
       "group_name": "Other Nodes"
-    },
-    {
-      "name": "num_cassandra_nodes",
-      "type": "string",
-      "description": "Number of Cassandra Nodes",
-      "hidden": false,
-      "label": "Number of Cassandra nodes to create",
-      "secured": false,
-      "required": false,
-      "immutable": false,
-      "group_name": "Cassandra",
-      "default": "1"
-    },
-    {
-      "name": "cassandra_num_cpus",
-      "type": "string",
-      "description": "Number of virtual CPU's for Cassandra nodes",
-      "default": "4",
-      "hidden": false,
-      "label": "Cassandra node virtual CPU's",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cassandra"
-    },
-    {
-      "name": "cassandra_mem",
-      "type": "string",
-      "description": "Memory assigned to Cassandra nodes in megabytes. This value is required to be an increment of 1024",
-      "default": "16384",
-      "hidden": false,
-      "label": "Cassandra Node Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cassandra"
     }
   ]
