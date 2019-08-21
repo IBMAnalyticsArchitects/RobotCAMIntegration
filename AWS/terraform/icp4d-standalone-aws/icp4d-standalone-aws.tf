@@ -591,6 +591,7 @@ resource "aws_instance" "icpworker" {
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "4000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  ebs_block_device = { "device_name" = "/dev/sdf", "volume_type" = "io1", "volume_size" = "4000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   
   connection {
     user        = "ec2-user"
@@ -685,6 +686,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_docker_device=/dev/xvdc >> /tmp/monkey_cam_vars.txt",
       
       "echo  export cam_icp_data_devices=/ibm@/dev/xvdd,/data@/dev/xvde >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_icp_portworx_devices=/dev/xvdf >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_icpmasters_ip=${join(",",aws_instance.icpmaster.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icpmasters_name=${join(",",aws_instance.icpmaster.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",    
