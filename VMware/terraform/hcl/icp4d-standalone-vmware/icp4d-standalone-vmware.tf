@@ -700,6 +700,14 @@ resource "vsphere_virtual_machine" "icpworker" {
     datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
     unit_number = "4"
   }
+  
+  disk {
+    label = "${var.vm_name_prefix}5.vmdk"
+    size = "1000"
+    keep_on_remove = "false"
+    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    unit_number = "5"
+  }
 
 
   connection {
@@ -879,6 +887,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_docker_device=/dev/sdc >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_icp_data_devices=/ibm@/dev/sdd,/data@/dev/sde >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_portworx_devices=/dev/sdf >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     
