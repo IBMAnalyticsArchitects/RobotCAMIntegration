@@ -686,7 +686,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_docker_device=/dev/xvdc >> /tmp/monkey_cam_vars.txt",
       
       "echo  export cam_icp_data_devices=/ibm@/dev/xvdd,/data@/dev/xvde >> /tmp/monkey_cam_vars.txt",
-      "echo  export cam_icp_portworx_devices=/dev/xvdf >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_portworx_devices=/dev/xvdf >> /tmp/monkey_cam_vars.txt",
       
       "echo  export cam_icpmasters_ip=${join(",",aws_instance.icpmaster.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icpmasters_name=${join(",",aws_instance.icpmaster.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",    
