@@ -151,7 +151,7 @@ resource "ibm_compute_vm_instance" "hdp-computenodes" {
   cores                    = "${var.computenode_num_cpus}"
   memory                   = "${var.computenode_mem}"
 #  disks                    = "${var.computenode_disks}"
-  disks                    = [100,1000,2000,2000,2000]
+  disks                    = [100,1000,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
 #  ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
