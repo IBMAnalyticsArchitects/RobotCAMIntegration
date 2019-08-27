@@ -147,6 +147,7 @@ resource "ibm_compute_vm_instance" "hdp-computenodes" {
   network_speed            = 1000
   hourly_billing           = true
   private_network_only     = true
+  wait_time_minutes        = 400
   cores                    = "${var.computenode_num_cpus}"
   memory                   = "${var.computenode_mem}"
 #  disks                    = "${var.computenode_disks}"
