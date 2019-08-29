@@ -172,6 +172,7 @@ resource "ibm_compute_vm_instance" "hdp-computenodes" {
       "chmod 600 /root/.ssh/authorized_keys",
       "echo StrictHostKeyChecking no > /root/.ssh/config",
       "chmod 600 /root/.ssh/config",
+      "sleep 60",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
