@@ -228,7 +228,7 @@ EOF
 #!/bin/sh
 
 set -x 
-Sleep 300
+sleep 300
 
 yum install -y perl ksh rsync expect unzip  
 
