@@ -124,16 +124,16 @@
       "group_name": "Cluster"
     },
     {
-      "name": "vm_root_disk_datastore",
-      "type": "string",
-      "description": "Data store or storage cluster name for target virtual machine's disks",
+      "name": "vm_root_disk_datastores",
+      "type": "list",
+      "description": "Data store(s) for target virtual machine's disks. If multiple values are provided, VMs are round-robined across the listed datastores (in this case, they must match resource pools in same order, if located on different ESXi hosts)",
       "hidden": false,
-      "label": "Template Disk Datastore",
+      "label": "VM Datastores",
       "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "Cluster",
-      "default": "datastoreA"
+      "default": [ "datastoreA" ]
     },
     {
       "name": "vm_root_disk_type",
@@ -273,16 +273,16 @@
       "group_name": "Cluster"
     },
     {
-      "name": "vm_resource_pool",
+      "name": "vm_resource_pools",
       "type": "string",
-      "description": "Target vSphere Resource Pool to host the virtual machine",
+      "description": "Target vSphere Resource Pool(s) to host the virtual machines. If multiple values are provided, VMs are round-robined across the listed resource pools (in this case, they must match datastores in same order, if located on different ESXi hosts)",
       "hidden": false,
-      "label": "vSphere Resource Pool",
+      "label": "vSphere Resource Pools",
       "secured": false,
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
-      "default": "c1/Resources"
+      "default": [ "poolA" ]
     },
     {
         "name": "ssh_user",

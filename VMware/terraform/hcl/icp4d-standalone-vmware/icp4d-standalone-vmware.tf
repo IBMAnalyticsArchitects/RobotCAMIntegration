@@ -28,14 +28,19 @@ provider "vsphere" {
 data "vsphere_datacenter" "vm_datacenter" {
   name = "${var.vm_datacenter}"
 }
-data "vsphere_datastore" "vm_datastore" {
-  name = "${var.vm_root_disk_datastore}"
+
+data "vsphere_datastore" "vm_datastores" {
+  count         = "${length(var.vm_root_disk_datastores)}"
+  name          = "${var.vm_root_disk_datastores[count.index]}"
   datacenter_id = "${data.vsphere_datacenter.vm_datacenter.id}"
 }
-data "vsphere_resource_pool" "vm_resource_pool" {
-  name = "${var.vm_resource_pool}"
+
+data "vsphere_resource_pools" "vm_resource_pools" {
+  count         = "${length(var.vm_resource_pools)}"
+  name          = "${var.vm_resource_pools[count.index]}"
   datacenter_id = "${data.vsphere_datacenter.vm_datacenter.id}"
 }
+
 data "vsphere_network" "vm_network" {
   name = "${var.vm_network_interface_label}"
   datacenter_id = "${data.vsphere_datacenter.vm_datacenter.id}"
@@ -114,8 +119,9 @@ variable "vm_memory" {
 }
 
 
-variable "vm_resource_pool" {
-  description = "Target vSphere Resource Pool to host the virtual machine"
+variable "vm_resource_pools" {
+  description = "Target vSphere Resource Pool(s) to host the virtual machines. If multiple values are provided, VMs are round-robined across the listed resource pools (in this case, they must match datastores in same order, if located on different ESXi hosts)"
+  type = "list"
 }
 
 variable "vm_dns_servers" {
@@ -149,8 +155,9 @@ variable "vm_adapter_type" {
   default = "vmxnet3"
 }
 
-variable "vm_root_disk_datastore" {
-  description = "Data store or storage cluster name for target virtual machine's disks"
+variable "vm_root_disk_datastores" {
+  description = "Data store(s) for target virtual machine's disks. If multiple values are provided, VMs are round-robined across the listed datastores (in this case, they must match resource pools in same order, if located on different ESXi hosts)"
+  type = "list"
 }
 
 variable "vm_root_disk_type" {
@@ -248,8 +255,15 @@ resource "vsphere_virtual_machine" "driver" {
 #  folder = "${var.vm_folder}"
   num_cpus = "4"
   memory = "4096"
-  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  count = "1"
+  
+#"${element(var.availability_zones, count.index )}"
+#  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
+#  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+  
+  
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
@@ -399,8 +413,13 @@ resource "vsphere_virtual_machine" "idm" {
   name = "${var.vm_name_prefix}-idm-${ count.index }"
   num_cpus = "4"
   memory = "4096"
-  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+#  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
+#  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  
+  
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+  
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
@@ -464,8 +483,12 @@ resource "vsphere_virtual_machine" "haproxy" {
   name = "${var.vm_name_prefix}-icphaproxy-${ count.index }"
   num_cpus = "4"
   memory = "4096"
-  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  
+
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"  
+  
+  
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
@@ -527,11 +550,12 @@ resource "vsphere_virtual_machine" "haproxy" {
 resource "vsphere_virtual_machine" "icpmaster" {
   count="3"
   name = "${var.vm_name_prefix}-icpmaster-${ count.index }"
-#  folder = "${var.vm_folder}"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
-  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
@@ -632,11 +656,13 @@ resource "vsphere_virtual_machine" "icpmaster" {
 resource "vsphere_virtual_machine" "icpworker" {
   count="${var.num_workers}"
   name = "${var.vm_name_prefix}-icpworker-${ count.index }"
-#  folder = "${var.vm_folder}"
+
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
-  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+  
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"  
+  
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
@@ -743,11 +769,13 @@ resource "vsphere_virtual_machine" "icpworker" {
 resource "vsphere_virtual_machine" "icpproxy" {
   count="0"
   name = "${var.vm_name_prefix}-icpproxy-${ count.index }"
-#  folder = "${var.vm_folder}"
+
   num_cpus = "8"
   memory = "16384"
-  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
