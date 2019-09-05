@@ -274,7 +274,7 @@
     },
     {
       "name": "vm_resource_pools",
-      "type": "string",
+      "type": "list",
       "description": "Target vSphere Resource Pool(s) to host the virtual machines. If multiple values are provided, VMs are round-robined across the listed resource pools (in this case, they must match datastores in same order, if located on different ESXi hosts)",
       "hidden": false,
       "label": "vSphere Resource Pools",
