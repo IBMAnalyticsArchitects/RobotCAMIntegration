@@ -290,7 +290,7 @@ resource "vsphere_virtual_machine" "driver" {
     label = "${var.vm_name_prefix}0.vmdk"
     size = "${var.vm_root_disk_size}"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   }
 
   connection {
@@ -514,7 +514,7 @@ resource "vsphere_virtual_machine" "haproxy" {
     label = "${var.vm_name_prefix}0.vmdk"
     size = "${var.vm_root_disk_size}"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   }
 
   connection {
