@@ -416,9 +416,9 @@ resource "vsphere_virtual_machine" "idm" {
 #  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
 #  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   
-  
-  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
-  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore.*.id, count.index )}"
   
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
@@ -485,8 +485,8 @@ resource "vsphere_virtual_machine" "haproxy" {
   memory = "4096"
   
 
-  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
-  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"  
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore.*.id, count.index )}"
   
   
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -553,8 +553,8 @@ resource "vsphere_virtual_machine" "icpmaster" {
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
 
-  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
-  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore.*.id, count.index )}"
 
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
@@ -660,8 +660,8 @@ resource "vsphere_virtual_machine" "icpworker" {
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
   
-  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
-  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"  
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore.*.id, count.index )}"
   
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
@@ -773,8 +773,8 @@ resource "vsphere_virtual_machine" "icpproxy" {
   num_cpus = "8"
   memory = "16384"
 
-  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
-  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore.*.id, count.index )}"
 
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
