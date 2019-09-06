@@ -446,7 +446,7 @@ resource "vsphere_virtual_machine" "idm" {
     label = "${var.vm_name_prefix}0.vmdk"
     size = "${var.vm_root_disk_size}"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   }
 
   connection {
@@ -585,14 +585,14 @@ resource "vsphere_virtual_machine" "icpmaster" {
     label = "${var.vm_name_prefix}0.vmdk"
     size = "${var.vm_root_disk_size}"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   }
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
     size = "300"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
   }
   
@@ -600,7 +600,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
     label = "${var.vm_name_prefix}2.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "2"
   }
   
@@ -608,7 +608,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
     label = "${var.vm_name_prefix}3.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "3"
   }
   
@@ -616,7 +616,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
     label = "${var.vm_name_prefix}4.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "4"
   }
 
@@ -692,14 +692,14 @@ resource "vsphere_virtual_machine" "icpworker" {
     label = "${var.vm_name_prefix}0.vmdk"
     size = "${var.vm_root_disk_size}"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   }
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
     size = "300"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
   }
   
@@ -707,7 +707,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     label = "${var.vm_name_prefix}2.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "2"
   }
   
@@ -715,7 +715,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     label = "${var.vm_name_prefix}3.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "3"
   }
   
@@ -723,7 +723,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     label = "${var.vm_name_prefix}4.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "4"
   }
   
@@ -731,7 +731,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     label = "${var.vm_name_prefix}5.vmdk"
     size = "1000"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "5"
   }
 
@@ -801,14 +801,14 @@ resource "vsphere_virtual_machine" "icpproxy" {
     label = "${var.vm_name_prefix}0.vmdk"
     size = "${var.vm_root_disk_size}"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   }
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
     size = "300"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
   }
   
@@ -816,7 +816,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
     label = "${var.vm_name_prefix}2.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "2"
   }
   
@@ -824,7 +824,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
     label = "${var.vm_name_prefix}3.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "3"
   }
   
@@ -832,7 +832,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
     label = "${var.vm_name_prefix}4.vmdk"
     size = "700"
     keep_on_remove = "false"
-    datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "4"
   }
 
