@@ -35,7 +35,7 @@ data "vsphere_datastore" "vm_datastores" {
   datacenter_id = "${data.vsphere_datacenter.vm_datacenter.id}"
 }
 
-data "vsphere_resource_pools" "vm_resource_pools" {
+data "vsphere_resource_pool" "vm_resource_pools" {
   count         = "${length(var.vm_resource_pools)}"
   name          = "${var.vm_resource_pools[count.index]}"
   datacenter_id = "${data.vsphere_datacenter.vm_datacenter.id}"
@@ -773,8 +773,8 @@ resource "vsphere_virtual_machine" "icpproxy" {
   num_cpus = "8"
   memory = "16384"
 
-  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool.*.id, count.index )}"
-  datastore_id = "${element(data.vsphere_datastores.vm_datastore.*.id, count.index )}"
+  resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
 
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   clone {
