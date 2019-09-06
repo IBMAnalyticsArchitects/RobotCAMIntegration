@@ -260,8 +260,8 @@ resource "vsphere_virtual_machine" "driver" {
 #"${element(var.availability_zones, count.index )}"
 #  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
 #  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
-  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool, count.index ).id}"
-  datastore_id = "${element(data.vsphere_datastores.vm_datastore, count.index ).id}"
+  resource_pool_id = "${element(data.vsphere_resource_pools.vm_resource_pool.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastores.vm_datastore.*.id, count.index )}"
   
   
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
