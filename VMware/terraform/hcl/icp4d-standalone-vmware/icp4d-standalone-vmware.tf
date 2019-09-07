@@ -266,7 +266,8 @@ resource "vsphere_virtual_machine" "driver" {
 #  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
   guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
-    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+#    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
     customize {
       linux_options {
         domain = "${var.vm_domain}"
@@ -422,7 +423,7 @@ resource "vsphere_virtual_machine" "idm" {
   
   guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
-    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
     customize {
       linux_options {
         domain = "${var.vm_domain}"
@@ -491,7 +492,7 @@ resource "vsphere_virtual_machine" "haproxy" {
   
   guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
-    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
     customize {
       linux_options {
         domain = "${var.vm_domain}"
@@ -558,7 +559,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
 
   guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
-    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
     customize {
       linux_options {
         domain = "${var.vm_domain}"
@@ -665,7 +666,7 @@ resource "vsphere_virtual_machine" "icpworker" {
   
   guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
-    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
     customize {
       linux_options {
         domain = "${var.vm_domain}"
@@ -778,7 +779,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
 
   guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
-    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
     customize {
       linux_options {
         domain = "${var.vm_domain}"
