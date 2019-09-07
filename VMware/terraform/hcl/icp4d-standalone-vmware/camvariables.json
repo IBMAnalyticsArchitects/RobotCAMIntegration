@@ -70,7 +70,7 @@
       "required": true,
       "immutable": false,
       "group_name": "Cloud",
-      "default": [ "RHEL7-TEMPLATE" ]
+      "default": [ "" ]
     },
     {
       "name": "vm_root_disk_size",
