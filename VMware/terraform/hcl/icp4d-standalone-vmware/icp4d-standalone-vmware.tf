@@ -413,6 +413,7 @@ resource "vsphere_virtual_machine" "idm" {
   name = "${var.vm_name_prefix}-idm-${ count.index }"
   num_cpus = "4"
   memory = "4096"
+  firmware = "EFI"
 #  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
 #  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   
@@ -483,6 +484,7 @@ resource "vsphere_virtual_machine" "haproxy" {
   name = "${var.vm_name_prefix}-icphaproxy-${ count.index }"
   num_cpus = "4"
   memory = "4096"
+  firmware = "EFI"
   
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
@@ -552,6 +554,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
   name = "${var.vm_name_prefix}-icpmaster-${ count.index }"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
+  firmware = "EFI"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -659,6 +662,7 @@ resource "vsphere_virtual_machine" "icpworker" {
 
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
+  firmware = "EFI"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -772,6 +776,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
 
   num_cpus = "8"
   memory = "16384"
+  firmware = "EFI"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
