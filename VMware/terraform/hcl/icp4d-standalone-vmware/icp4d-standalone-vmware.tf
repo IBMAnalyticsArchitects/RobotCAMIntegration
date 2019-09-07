@@ -46,8 +46,9 @@ data "vsphere_network" "vm_network" {
   datacenter_id = "${data.vsphere_datacenter.vm_datacenter.id}"
 }
 
-data "vsphere_virtual_machine" "vm_template" {
-  name = "${var.vm-image}"
+data "vsphere_virtual_machine" "vm_templates" {
+  count         = "${length(var.vm-images)}"
+  name          = "${var.vm-images[count.index]}"
   datacenter_id = "${data.vsphere_datacenter.vm_datacenter.id}"
 }
 
@@ -257,14 +258,12 @@ resource "vsphere_virtual_machine" "driver" {
   memory = "4096"
   count = "1"
   
-#"${element(var.availability_zones, count.index )}"
-#  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-#  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   
   
-  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+#  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
     customize {
@@ -420,7 +419,7 @@ resource "vsphere_virtual_machine" "idm" {
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   
-  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
     customize {
@@ -489,7 +488,7 @@ resource "vsphere_virtual_machine" "haproxy" {
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   
   
-  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
     customize {
@@ -556,7 +555,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
 
-  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
     customize {
@@ -663,7 +662,7 @@ resource "vsphere_virtual_machine" "icpworker" {
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   
-  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
     customize {
@@ -776,7 +775,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
 
-  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
     template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
     customize {
