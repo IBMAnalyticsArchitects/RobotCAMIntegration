@@ -61,7 +61,7 @@
       "default": "jlerm.com"
     },
     {
-      "name": "vm-image",
+      "name": "vm-images",
       "type": "list",
       "description": "Operating system image id / template that should be used when creating the virtual image. . If multiple values are provided, VMs are round-robined across the listed templates (in this case, they must match resource pools in same order, if located on different ESXi hosts)",
       "hidden": false,
