@@ -177,8 +177,9 @@ variable "vm_root_disk_size" {
   description = "Size of template disk volume. Should be equal to template's disk size"
   default = "25"
 }
-variable "vm-image" {
+variable "vm-images" {
   description = "Operating system image id / template that should be used when creating the virtual image"
+  type = "list"
 }
 
 variable "public_nic_name" {
