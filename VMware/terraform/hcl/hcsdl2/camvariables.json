@@ -1,11 +1,10 @@
 [
-   
     {
       "name": "monkey_mirror",
       "type": "string",
-      "description": "Monkey Mirror IP or Hostname",
+      "description": "Monkey Mirror IP or hostname",
       "hidden": false,
-      "label": "Monkey Mirror IP or Hostname",
+      "label": "Monkey Mirror IP or hostname",
       "secured": false,
       "required": false,
       "immutable": false,
@@ -37,35 +36,23 @@
       "default": "1"
     },
     {
-      "name": "num_cassandra_nodes",
-      "type": "string",
-      "description": "Number of Cassandra Nodes",
-      "hidden": false,
-      "label": "Number of Cassandra nodes to create",
-      "secured": false,
-      "required": false,
-      "immutable": false,
-      "group_name": "Cluster",
-      "default": "1"
-    },
-    {
       "name": "vm_name_prefix",
       "type": "string",
       "description": "Prefix for vm names",
       "default": "hcsdl",
       "hidden": false,
-      "label": "Prefix for VM Short Host name",
+      "label": "Prefix for VM short host name",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_dns_servers",
       "type": "list",
       "description": "DNS servers for the virtual network adapter (NEW)",
       "hidden": false,
-      "label": "DNS Servers",
+      "label": "DNS servers",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -77,11 +64,11 @@
       "type": "string",
       "description": "Domain Name of virtual machine",
       "hidden": false,
-      "label": "Domain Name",
+      "label": "Domain name",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "jlerm.com"
     },
     {
@@ -89,7 +76,7 @@
       "type": "string",
       "description": "Operating system image id / template that should be used when creating the virtual image",
       "hidden": false,
-      "label": "Operating System ID / Template",
+      "label": "Operating system ID / template",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -102,11 +89,11 @@
       "description": "Size of template disk volume. Should be equal to template's disk size",
       "default": "100",
       "hidden": false,
-      "label": "Root Disk Size",
+      "label": "Root disk size",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_root_disk_controller_type",
@@ -114,7 +101,7 @@
       "description": "Type of template disk controller",
       "default": "scsi-paravirtual",
       "hidden": false,
-      "label": "Template Disk Controller",
+      "label": "Template disk controller",
       "secured": false,
       "options": [
         {
@@ -145,18 +132,18 @@
       ],
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_root_disk_datastore",
       "type": "string",
       "description": "Data store or storage cluster name for target virtual machine's disks",
       "hidden": false,
-      "label": "Template Disk Datastore",
+      "label": "Template disk datastore",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "datastoreA"
     },
     {
@@ -165,7 +152,7 @@
       "description": "Type of template disk volume",
       "default": "eager_zeroed",
       "hidden": false,
-      "label": "Template Disk Type",
+      "label": "Template disk type",
       "secured": false,
       "options": [
         {
@@ -185,7 +172,7 @@
       ],
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_mgmtnode_disk_size",
@@ -193,7 +180,31 @@
       "description": "Size of management node data disks",
       "default": "20",
       "hidden": false,
-      "label": "Management Node Data Disk Size",
+      "label": "Management node data disk size",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "mgmtnode_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for management nodes",
+      "default": "16",
+      "hidden": false,
+      "label": "Management node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "mgmtnode_mem",
+      "type": "string",
+      "description": "Memory assigned to management nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "32768",
+      "hidden": false,
+      "label": "Management node machine memory",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -205,7 +216,55 @@
       "description": "Size of data node data disks",
       "default": "50",
       "hidden": false,
-      "label": "Datanode Data Disk Size",
+      "label": "Datanode data disk size",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "datanode_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for Datanodes",
+      "default": "16",
+      "hidden": false,
+      "label": "Datanode virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "datanode_mem",
+      "type": "string",
+      "description": "Memory assigned to Datanodes in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "Datanode machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "edge_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for Edge nodes",
+      "default": "2",
+      "hidden": false,
+      "label": "Edge node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "edge_mem",
+      "type": "string",
+      "description": "Memory assigned to Edge nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "4096",
+      "hidden": false,
+      "label": "Edge node machine memory",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -216,11 +275,11 @@
       "type": "string",
       "description": "IPv4 gateway for vNIC configuration",
       "hidden": false,
-      "label": "Virtual Machine Gateway Address",
+      "label": "Virtual machine gateway address",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "10.177.150.129"
     },
     {
@@ -228,67 +287,43 @@
       "type": "string",
       "description": "Start IPv4 address for vNIC configuration",
       "hidden": false,
-      "label": "Starting IP Address for VMs",
+      "label": "Starting IP address for VMs",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "10.177.150.150"
-    },
-    {
-      "name": "vm_memory",
-      "type": "string",
-      "description": "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024",
-      "default": "16384",
-      "hidden": false,
-      "label": "Virtual Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
     },
     {
       "name": "vm_ipv4_prefix_length",
       "type": "string",
       "description": "IPv4 prefix length for vNIC configuration. The value must be a number between 8 and 32",
       "hidden": false,
-      "label": "Virtual Machine Netmask Prefix",
+      "label": "Virtual machine netmask prefix",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "26"
-    },
-    {
-      "name": "vm_number_of_vcpu",
-      "type": "string",
-      "description": "Number of virtual CPU for the virtual machine, which is required to be a positive Integer",
-      "default": "16",
-      "hidden": false,
-      "label": "Virtual Machine vCPUs",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
     },
     {
       "name": "vm_network_interface_label",
       "type": "string",
       "description": "vSphere port group or network label for virtual machine's vNIC",
       "hidden": false,
-      "label": "Virtual Machine vSphere Port Group",
+      "label": "Virtual machine vSphere port group",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "VM Network"
     },
     {
       "name": "vm_datacenter",
       "type": "string",
-      "description": "Target vSphere datacenter for virtual machine creation",
+      "description": "Target vSphere data center for virtual machine creation",
       "hidden": false,
-      "label": "vSphere Datacenter",
+      "label": "vSphere data center",
       "secured": false,
       "required": false,
       "immutable": false,
@@ -301,7 +336,7 @@
       "description": "Network adapter type for vNIC Configuration",
       "default": "vmxnet3",
       "hidden": false,
-      "label": "vSphere Network Adapter Type",
+      "label": "vSphere network adapter type",
       "secured": false,
       "options": [
         {
@@ -316,23 +351,23 @@
       ],
       "required": true,
       "immutable": false,
-      "group_name": "Cluster"
+      "group_name": "Cloud"
     },
     {
       "name": "vm_resource_pool",
       "type": "string",
-      "description": "Target vSphere Resource Pool to host the virtual machine",
+      "description": "Target vSphere resource pool to host the virtual machine",
       "hidden": false,
-      "label": "vSphere Resource Pool",
+      "label": "vSphere resource pool",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": ""
     },
     {
         "name": "ssh_user",
-        "label": "SSH User",
+        "label": "SSH user",
         "description": "The user for ssh connection, which is default in template",
         "default": "root",
         "hidden": false,
@@ -340,32 +375,30 @@
         "required": true,
         "secured": false,
         "type": "string",
-        "group_name": "Cluster"
+        "group_name": "Cloud"
     },
     {
         "name": "ssh_user_password",
-        "label": "SSH User Password",
+        "label": "SSH user password",
         "description": "The user password for ssh connection, which is default in template",
         "hidden": false,
         "immutable": false,
         "required": true,
         "secured": true,
         "type": "string",
-        "group_name": "Cluster",
+        "group_name": "Cloud",
         "default": "password"
     },
-     
-     
     {
       "name": "public_ssh_key",
       "type": "string",
-      "description": "Public SSH Key",
+      "description": "Public SSH key",
       "hidden": false,
       "label": "Public SSH Key",
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": ""
     },
     {
@@ -373,28 +406,25 @@
       "type": "string",
       "description": "Private SSH Key (must be base64 encoded WITHOUT newlines. Example: cat id_rsa|base64 -w 0)",
       "hidden": false,
-      "label": "Private SSH Key (base64 encoded without newlines)",
+      "label": "Private SSH key (base64 encoded without newlines)",
       "secured": true,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": ""
     },
     {
       "name": "ssh_key_passphrase",
       "type": "string",
-      "description": "SSH Key Passphrase",
+      "description": "SSH key passphrase",
       "hidden": false,
-      "label": "Private SSH Key Passphrase",
+      "label": "Private SSH key passphrase",
       "secured": true,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": ""
-    }
-    ,
-    
-    
+    },
     {
       "name": "time_server",
       "type": "string",
@@ -407,8 +437,6 @@
       "group_name": "Cloud",
       "default": "time.service.softlayer.com"
     },
-    
-    
     {
       "name": "public_nic_name",
       "type": "string",
@@ -418,38 +446,33 @@
       "secured": false,
       "required": true,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "Cloud",
       "default": "ens192"
     },
-    
-    
     {
       "name": "cluster_name",
       "type": "string",
-      "description": "Name of the HDP Cluster",
+      "description": "Name of the HDP cluster",
       "hidden": false,
-      "label": "Name of the HDP Cluster",
+      "label": "Name of the HDP cluster",
       "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "Cluster",
       "default": "MYCLUSTER"
     },
-    
-    
     {
       "name": "cloud_install_tar_file_name",
       "type": "string",
       "description": "Name of the tar file downloaded from the mirror, which contains the Cloud Installer code.",
       "hidden": false,
-      "label": "Cloud Install tar file name",
+      "label": "Cloud install tar file name",
       "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "Cloud",
       "default": "cloud_install.tar"
     },
-    
     {
       "name": "install_infoserver",
       "type": "string",
@@ -463,7 +486,126 @@
       "group_name": "Information Server",
       "default": "1"
     },
-    
+    {
+      "name": "http_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for IS HTTP nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "IS HTTP node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "http_mem",
+      "type": "string",
+      "description": "Memory assigned to IS HTTP nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "4096",
+      "hidden": false,
+      "label": "IS HTTP node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "was_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for IS Services WAS nodes",
+      "default": "8",
+      "hidden": false,
+      "label": "IS Services WAS node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "was_mem",
+      "type": "string",
+      "description": "Memory assigned to IS Services WAS nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "IS Services WAS node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "db2_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for IS Db2 nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "IS Db2 node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "db2_mem",
+      "type": "string",
+      "description": "Memory assigned to IS Db2 nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "8192",
+      "hidden": false,
+      "label": "IS Db2 node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "dsengine_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for DataStage Engine",
+      "default": "4",
+      "hidden": false,
+      "label": "DataStage Engine virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "dsengine_mem",
+      "type": "string",
+      "description": "Memory assigned to DataStage Engine in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "DataStage Engine machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "enterprise_search_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for Microservices node. Minimum requirement is 16.",
+      "default": "16",
+      "hidden": false,
+      "label": "Microservices node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
+    {
+      "name": "enterprise_search_mem",
+      "type": "string",
+      "description": "Memory assigned to Microservices node in megabytes. This value is required to be an increment of 1024",
+      "default": "65536",
+      "hidden": false,
+      "label": "Microservices machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Information Server"
+    },
     {
       "name": "install_bigsql",
       "type": "string",
@@ -474,8 +616,139 @@
       "required": true,
       "immutable": false,
       "regex": "(0|1)",
-      "group_name": "HDP",
+      "group_name": "Big SQL",
       "default": "1"
+    },
+    {
+      "name": "bigsql_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for BigSQL management nodes",
+      "default": "8",
+      "hidden": false,
+      "label": "BigSQL management node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Big SQL"
+    },
+    {
+      "name": "bigsql_mem",
+      "type": "string",
+      "description": "Memory assigned to BigSQL management nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "BigSQL management node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Big SQL"
+    },
+    {
+      "name": "num_cassandra_nodes",
+      "type": "string",
+      "description": "Number of Cassandra Nodes",
+      "hidden": false,
+      "label": "Number of Cassandra nodes to create",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cassandra",
+      "default": "1"
+    },
+    {
+      "name": "cassandra_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for Cassandra nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "Cassandra node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cassandra"
+    },
+    {
+      "name": "cassandra_mem",
+      "type": "string",
+      "description": "Memory assigned to Cassandra nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "16384",
+      "hidden": false,
+      "label": "Cassandra node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cassandra"
+    },
+    {
+      "name": "drv_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for Driver nodes",
+      "default": "2",
+      "hidden": false,
+      "label": "Driver node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Other Nodes"
+    },
+    {
+      "name": "drv_mem",
+      "type": "string",
+      "description": "Memory assigned to Driver nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "4096",
+      "hidden": false,
+      "label": "Driver node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Other Nodes"
+    },
+    {
+      "name": "idm_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for IDM nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "IDM node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Other Nodes"
+    },
+    {
+      "name": "idm_mem",
+      "type": "string",
+      "description": "Memory assigned to IDM nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "4096",
+      "hidden": false,
+      "label": "IDM node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Other Nodes"
+    },
+    {
+      "name": "haproxy_num_cpus",
+      "type": "string",
+      "description": "Number of virtual CPU's for HAProxy nodes",
+      "default": "4",
+      "hidden": false,
+      "label": "HAProxy node virtual CPU's",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Other Nodes"
+    },
+    {
+      "name": "haproxy_mem",
+      "type": "string",
+      "description": "Memory assigned to HAProxy nodes in megabytes. This value is required to be an increment of 1024",
+      "default": "4096",
+      "hidden": false,
+      "label": "HAProxy node machine memory",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Other Nodes"
     }
-    
   ]

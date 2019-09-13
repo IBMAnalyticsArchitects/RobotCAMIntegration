@@ -102,15 +102,15 @@ variable "vm_domain" {
   description = "Domain Name of virtual machine"
 }
 
-variable "vm_number_of_vcpu" {
-  description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
-  default = "1"
-}
+#variable "vm_number_of_vcpu" {
+#  description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
+#  default = "1"
+#}
 
-variable "vm_memory" {
-  description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
-  default = "1024"
-}
+#variable "vm_memory" {
+#  description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
+#  default = "1024"
+#}
 
 
 variable "vm_resource_pool" {
@@ -169,9 +169,97 @@ variable "vm_root_disk_size" {
   default = "25"
 }
 
+variable "drv_num_cpus" {
+  description = "Driver node CPU's"
+}
+
+variable "drv_mem" {
+  description = "Driver node memory amount"
+}
+
+variable "idm_num_cpus" {
+  description = "IDM node CPU's"
+}
+
+variable "idm_mem" {
+  description = "IDM node memory amount"
+}
+
+variable "http_num_cpus" {
+  description = "IS HTTP node CPU's"
+}
+
+variable "http_mem" {
+  description = "IS HTTP node memory amount"
+}
+
+variable "was_num_cpus" {
+  description = "IS Services WAS node CPU's"
+}
+
+variable "was_mem" {
+  description = "IS Services WAS node memory amount"
+}
+
+variable "db2_num_cpus" {
+  description = "IS DB2 node CPU's"
+}
+
+variable "db2_mem" {
+  description = "IS DB2 node memory amount"
+}
+
+variable "haproxy_num_cpus" {
+  description = "HAProxy node CPU's"
+}
+
+variable "haproxy_mem" {
+  description = "HAProxy node memory amount"
+}
+
+variable "bigsql_num_cpus" {
+  description = "BigSQL management node CPU's"
+}
+
+variable "bigsql_mem" {
+  description = "BigSQL management node memory amount"
+}
+
+variable "edge_num_cpus" {
+  description = "Edge node CPU's"
+}
+
+variable "edge_mem" {
+  description = "Edge node memory amount"
+}
+
+variable "cassandra_num_cpus" {
+  description = "Cassandra node CPU's"
+}
+
+variable "cassandra_mem" {
+  description = "Cassandra node memory amount"
+}
+
+variable "datanode_num_cpus" {
+  description = "datanode_num_cpus"
+}
+
+variable "datanode_mem" {
+  description = "datanode_mem"
+}
+
 variable "vm_datanode_disk_size" {
   description = "Datanode Data Disk Size"
   default = "100"
+}
+
+variable "mgmtnode_num_cpus" {
+  description = "mgmtnode_num_cpus"
+}
+
+variable "mgmtnode_mem" {
+  description = "mgmtnode_mem"
 }
 
 variable "vm_mgmtnode_disk_size" {
@@ -206,6 +294,22 @@ variable "install_bigsql" {
   description = "install_bigsql"
 }
 
+variable "dsengine_mem" {
+  description = "dsengine_mem"
+}
+
+variable "dsengine_num_cpus" {
+  description = "dsengine_num_cpus"
+}
+
+variable "enterprise_search_mem" {
+  description = "enterprise_search_mem"
+}
+
+variable "enterprise_search_num_cpus" {
+  description = "enterprise_search_num_cpus"
+}
+
 
 ########
 # Isolate IP address components:
@@ -220,8 +324,10 @@ locals {
 # Driver 
 resource "vsphere_virtual_machine" "driver" {
   name = "${var.vm_name_prefix}-drv"
-  num_cpus = "4"
-  memory = "4096"
+#  num_cpus = "4"
+  num_cpus = "${var.drv_num_cpus}"
+#  memory = "4096"
+  memory = "${var.drv_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -369,8 +475,10 @@ EOF
 resource "vsphere_virtual_machine" "idm" {
   count="2"
   name = "${var.vm_name_prefix}-idm-${ count.index }"
-  num_cpus = "4"
-  memory = "4096"
+#  num_cpus = "4"
+  num_cpus = "${var.idm_num_cpus}"
+#  memory = "4096"
+  memory = "${var.idm_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -431,8 +539,10 @@ resource "vsphere_virtual_machine" "idm" {
 resource "vsphere_virtual_machine" "ishttp" {
   count="${ 1 * var.install_infoserver}"
   name = "${var.vm_name_prefix}-ishttp-${ count.index }"
-  num_cpus = "4"
-  memory = "4096"
+#  num_cpus = "4"
+  num_cpus = "${var.http_num_cpus}"
+#  memory = "4096"
+  memory = "${var.http_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -493,8 +603,10 @@ resource "vsphere_virtual_machine" "ishttp" {
 resource "vsphere_virtual_machine" "iswasnd" {
   count="${ 3 * var.install_infoserver}"
   name = "${var.vm_name_prefix}-iswasnd-${ count.index }"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.was_num_cpus}"
+#  memory = "${var.vm_memory}"
+  memory = "${var.was_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -554,8 +666,10 @@ resource "vsphere_virtual_machine" "iswasnd" {
 resource "vsphere_virtual_machine" "isdb2" {
   count="${ 2 * var.install_infoserver}"
   name = "${var.vm_name_prefix}-isdb2-${ count.index }"
-  num_cpus = "4"
-  memory = "8192"
+#  num_cpus = "4"
+  num_cpus = "${var.db2_num_cpus}"
+#  memory = "8192"
+  memory = "${var.db2_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -617,8 +731,10 @@ resource "vsphere_virtual_machine" "isdb2" {
 resource "vsphere_virtual_machine" "isds" {
   count="${ 1 * var.install_infoserver}"
   name = "${var.vm_name_prefix}-isds"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.dsengine_num_cpus}"
+#  memory = "${var.vm_memory}"
+  memory = "${var.dsengine_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -673,18 +789,15 @@ resource "vsphere_virtual_machine" "isds" {
 
 }
 
-
-
-
-
-
 # IS Enterprise Search
 resource "vsphere_virtual_machine" "ises" {
   count="${ 1 * var.install_infoserver}"
   name = "${var.vm_name_prefix}-ises"
-  num_cpus = "${var.vm_number_of_vcpu}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.enterprise_search_num_cpus}"
 #  memory = "${var.vm_memory}"
-  memory = "65536"
+#  memory = "65536"
+  memory = "${var.enterprise_search_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -773,8 +886,10 @@ resource "vsphere_virtual_machine" "ises" {
 resource "vsphere_virtual_machine" "haproxy" {
   count="1"
   name = "${var.vm_name_prefix}-haproxy-${ count.index }"
-  num_cpus = "4"
-  memory = "4096"
+#  num_cpus = "4"
+  num_cpus = "${var.haproxy_num_cpus}"
+#  memory = "4096"
+  memory = "${var.haproxy_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -835,8 +950,10 @@ resource "vsphere_virtual_machine" "haproxy" {
 resource "vsphere_virtual_machine" "bigsql-head" {
   count         = "${ 1 * var.install_bigsql }"
   name = "${var.vm_name_prefix}-bigsql-${ count.index }"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.bigsql_num_cpus}"
+#  memory = "${var.vm_memory}"
+  memory = "${var.bigsql_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -948,8 +1065,10 @@ resource "vsphere_virtual_machine" "bigsql-head" {
 resource "vsphere_virtual_machine" "hdp-mgmtnodes" {
 	count  = "4"
   name = "${var.vm_name_prefix}-mn-${ count.index }"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.mgmtnode_num_cpus}"
+#  memory = "${var.vm_memory}"
+  memory = "${var.mgmtnode_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -1033,8 +1152,10 @@ resource "vsphere_virtual_machine" "hdp-mgmtnodes" {
 resource "vsphere_virtual_machine" "hdp-datanodes" {
 	count  = "${var.num_datanodes}"
   name = "${var.vm_name_prefix}-dn-${ count.index }"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.datanode_num_cpus}"
+#  memory = "${var.vm_memory}"
+  memory = "${var.datanode_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -1144,8 +1265,10 @@ resource "vsphere_virtual_machine" "hdp-datanodes" {
 resource "vsphere_virtual_machine" "hdp-edgenodes" {
 	count  = "${var.num_edgenodes}"
   name = "${var.vm_name_prefix}-en-${ count.index }"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.edge_num_cpus}"
+#  memory = "${var.vm_memory}"
+  memory = "${var.edge_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
@@ -1208,8 +1331,10 @@ resource "vsphere_virtual_machine" "hdp-edgenodes" {
 resource "vsphere_virtual_machine" "cassandra-nodes" {
 	count  = "${var.num_cassandra_nodes}"
   name = "${var.vm_name_prefix}-cass-${ count.index }"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+#  num_cpus = "${var.vm_number_of_vcpu}"
+  num_cpus = "${var.cassandra_num_cpus}"
+#  memory = "${var.vm_memory}"
+  memory = "${var.cassandra_mem}"
   resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
   datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
   guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
