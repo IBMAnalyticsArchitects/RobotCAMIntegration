@@ -401,14 +401,14 @@
     {
       "name": "cp4d_addons",
       "type": "string",
-      "description": "Comma-separated list of Cloud Pak for Data Add-Ons (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
+      "description": "Space-separated list of Cloud Pak for Data Add-Ons (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
       "hidden": false,
       "label": "List of Cloud Pak for Data Add-Ons",
       "secured": false,
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
-      "default": "analytics_environments,data_refinery,decision_optimization,data_virtualization,cognos,iisee,streams,regulatory,watson_explorer,watson_machine_learning,watson_knowledge_catalog,watson_openscale,spss_modeler,watson_speech_services,watson_assistant,watson_knowledge_studio,watson_discovery,watson_nlu"
+      "default": "analytics_environments data_refinery decision_optimization data_virtualization cognos iisee streams regulatory watson_explorer watson_machine_learning watson_knowledge_catalog watson_openscale spss_modeler watson_speech_services watson_assistant watson_knowledge_studio watson_discovery watson_nlu"
     }
     
 ]
