@@ -210,6 +210,7 @@ variable "ebs_vol_iops" {
 
 variable "cp4d_addons" {
   description = "List of Cloud Pak for Data Add-Ons"
+  type = "list"
 }
 
 
@@ -741,7 +742,7 @@ resource "null_resource" "start_install" {
       
       "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /tmp/monkey_cam_vars.txt",
       
-      "echo  export cam_cp4d_addons=${var.cp4d_addons} >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_cp4d_addons=${join(",",var.cp4d_addons)} >> /tmp/monkey_cam_vars.txt",
     
       "sudo mv /tmp/monkey_cam_vars.txt /opt/monkey_cam_vars.txt",
       "sudo mv /tmp/installation.sh /opt/installation.sh",

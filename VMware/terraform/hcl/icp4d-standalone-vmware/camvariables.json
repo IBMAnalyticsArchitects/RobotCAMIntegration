@@ -533,7 +533,7 @@
     {
       "name": "cp4d_addons",
       "type": "list",
-      "description": "Space-separated list of Cloud Pak for Data Add-Ons (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
+      "description": "List of Cloud Pak for Data Add-Ons (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
       "hidden": false,
       "label": "List of Cloud Pak for Data Add-Ons",
       "secured": false,

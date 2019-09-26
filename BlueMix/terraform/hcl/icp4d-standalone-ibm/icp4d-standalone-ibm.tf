@@ -149,6 +149,7 @@ variable "idm_directory_manager_password" {
 
 variable "cp4d_addons" {
   description = "List of Cloud Pak for Data Add-Ons"
+  type = "list"
 }
 
 locals {
@@ -657,7 +658,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_haproxy_ip=${join(",",ibm_compute_vm_instance.icphaproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_haproxy_name=${join(",",ibm_compute_vm_instance.icphaproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",
       
-      "echo  export cam_cp4d_addons=${var.cp4d_addons} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cp4d_addons=${join(",",var.cp4d_addons)} >> /opt/monkey_cam_vars.txt",
 
       "mkfifo /root/passphrase.fifo",
       "chmod 600 /root/passphrase.fifo",
