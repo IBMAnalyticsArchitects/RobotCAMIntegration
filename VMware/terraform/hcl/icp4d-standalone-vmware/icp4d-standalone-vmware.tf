@@ -241,6 +241,7 @@ variable "idm_directory_manager_password" {
 
 variable "cp4d_addons" {
   description = "List of Cloud Pak for Data Add-Ons"
+  type = "list"
 }
 
 
@@ -958,7 +959,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
       
-      "echo  export cam_cp4d_addons=${var.cp4d_addons} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cp4d_addons=${join(",",var.cp4d_addons)} >> /opt/monkey_cam_vars.txt",
       
 #      "echo  export cam_icp_cluster_vip=${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start} >> /opt/monkey_cam_vars.txt",
 #      "echo  export cam_icp_proxy_vip=${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 1} >> /opt/monkey_cam_vars.txt",
