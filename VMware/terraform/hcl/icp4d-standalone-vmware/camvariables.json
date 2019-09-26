@@ -543,7 +543,7 @@
       "default": [ "analytics_environments","data_refinery",
       				"decision_optimization","data_virtualization",
       				"cognos","iisee","streams","regulatory",
-      				"watson_explorer","watson_machine_learning","
+      				"watson_explorer","watson_machine_learning",
       				"watson_knowledge_catalog","watson_openscale",
       				"spss_modeler","watson_speech_services",
       				"watson_assistant","watson_knowledge_studio",
