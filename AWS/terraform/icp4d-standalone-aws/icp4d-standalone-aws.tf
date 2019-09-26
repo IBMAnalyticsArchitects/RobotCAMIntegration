@@ -208,6 +208,11 @@ variable "ebs_vol_iops" {
   default = "1000"
 }
 
+variable "cp4d_addons" {
+  description = "List of Cloud Pak for Data Add-Ons"
+}
+
+
 locals {
   idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
 }
@@ -735,6 +740,8 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /tmp/monkey_cam_vars.txt",
       
       "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /tmp/monkey_cam_vars.txt",
+      
+      "echo  export cam_cp4d_addons=${var.cp4d_addons} >> /tmp/monkey_cam_vars.txt",
     
       "sudo mv /tmp/monkey_cam_vars.txt /opt/monkey_cam_vars.txt",
       "sudo mv /tmp/installation.sh /opt/installation.sh",
