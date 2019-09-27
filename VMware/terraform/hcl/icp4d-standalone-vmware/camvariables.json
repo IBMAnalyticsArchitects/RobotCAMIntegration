@@ -546,8 +546,8 @@
       				"watson_explorer","watson_machine_learning",
       				"watson_knowledge_catalog","watson_openscale",
       				"spss_modeler","watson_speech_services",
-      				"watson_assistant","watson_knowledge_studio",
-      				"watson_discovery","watson_nlu"]
+      				"watson_assistant","watson_discovery",
+      				"watson_nlu","watson_knowledge_studio"]
     }
     
   ]
