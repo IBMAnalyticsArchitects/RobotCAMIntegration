@@ -427,7 +427,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
-  disks                    = [100,1000,2000,2000,2000]
+  disks                    = [100,1000,500,600]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -449,7 +449,10 @@ resource "ibm_compute_vm_instance" "icpmaster" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
+      "parted -s /dev/xvdf mklabel gpt",
+      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 500",
+      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 501 600"
     ]
   }
   
@@ -479,7 +482,7 @@ resource "ibm_compute_vm_instance" "icpworker" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
-  disks                    = [100,1000,2000,2000,2000]
+  disks                    = [100,1000,500,2000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -501,7 +504,10 @@ resource "ibm_compute_vm_instance" "icpworker" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
+      "parted -s /dev/xvdf mklabel gpt",
+      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 500",
+      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 501 2000"
     ]
   }
   
@@ -616,7 +622,9 @@ resource "null_resource" "start_install" {
       # For the SL VMs used so far, /dev/xvdb is defined as swap. Removing it for now...
       #"echo  export cam_icp_nfs_data_devices=/disk2@/dev/xvdc >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_docker_device=/dev/xvde >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icp_data_devices=/ibm@/dev/xvdf,/data@/dev/xvdg >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_data_devices=/ibm@/dev/xvdf1,/data@/dev/xvdf2 >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_icp_portworx_devices=/dev/xvdg >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     
