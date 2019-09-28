@@ -427,7 +427,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   private_network_only     = true
   cores                    = "${var.icp_num_cpus}"
   memory                   = "${var.icp_mem}"
-  disks                    = [100,1000,1000,1000]
+  disks                    = [100,1000,2000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -451,8 +451,8 @@ resource "ibm_compute_vm_instance" "icpmaster" {
       "systemctl stop NetworkManager",
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
       "parted -s /dev/xvdf mklabel gpt",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 500",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 501 1000"
+      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 1000",
+      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 1001 2000"
     ]
   }
   
