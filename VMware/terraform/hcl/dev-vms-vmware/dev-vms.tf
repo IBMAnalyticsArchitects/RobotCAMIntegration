@@ -288,7 +288,18 @@ resource "vsphere_virtual_machine" "devvm" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
+      "parted -s /dev/sdb mklabel gpt",
+      "sleep 2",
+      "parted -s -a optimal /dev/sdb mkpart primary 0% 100%",
+      "sleep 2",
+      "pvcreate /dev/sdb1",
+      "sleep 2",
+      "vgextend vg_node1 /dev/sdb1",
+      "sleep 2",
+      "lvextend /dev/vg_node1/lv_root /dev/sdb1",
+      "sleep 2",
+      "resize2fs /dev/mapper/vg_node1-lv_root"
     ]
  }
 
