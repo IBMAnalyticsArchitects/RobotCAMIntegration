@@ -306,7 +306,7 @@ resource "vsphere_virtual_machine" "devvm" {
  
   
   provisioner "file" {
-    source      = "../common/test1"
+    source      = "test1"
     destination = "/tmp/test1"
   }
 
