@@ -65,8 +65,8 @@ variable "ssh_user_password" {
 }
 
 
-variable "num_client_vms" {
-  description = "Number of client VMs to create"
+variable "num_vms" {
+  description = "Number of dev VMs to create"
 }
 
 variable "vm_datacenter" {
@@ -180,7 +180,7 @@ locals {
 
 # Dev VMs
 resource "vsphere_virtual_machine" "devvm" {
-	count  = "${var.num_client_vms}"
+	count  = "${var.num_vms}"
   name = "${var.vm_name_prefix}-${ count.index }"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
