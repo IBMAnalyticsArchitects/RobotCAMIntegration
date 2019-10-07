@@ -288,11 +288,7 @@ resource "vsphere_virtual_machine" "devvm" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "pvcreate /dev/sdb",
-      "vgextend vg_node1 /dev/sdb",
-      "lvextend /dev/vg_node1/lv_root /dev/sdb",
-      "resize2fs /dev/mapper/vg_node1-lv_root"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
  }
 
