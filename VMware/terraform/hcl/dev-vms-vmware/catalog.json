@@ -1,0 +1,53 @@
+{
+   "name": "Develoment VMs",
+   "description": "Creates a set of simple dev VMs",
+   "version": "2.0.0",
+   "type": "userCreated",
+   "manifest": {
+     "template_type": "Terraform",
+     "template_format": "HCL",
+     "template_provider": "VMware vSphere",
+     "template": {
+       "templateData": "",
+       "templateVariables": "",
+       "templateOutput": ""
+     },
+     "template_source": {
+       "githubRepoUrl": "",
+       "githubAccessToken": "",
+       "relativePathToTemplateFolder": "VMware/terraform/hcl/dev-vms-vmware",
+       "templateFileName": "dev-vms.tf"
+     }
+   },
+   "metadata": {
+     "displayName": "Development VMs",
+     "templateCategory": "Secure Data Lakes",
+     "longDescription": "Creates  a set of simple Development VMs",
+     "bullets": [
+       {
+         "title": "Clouds",
+         "description": "VMware"
+       },
+       {
+         "title": "Template version",
+         "description": "V1.0"
+       },
+       {
+         "title": "Operating systems supported",
+         "description": "Red Hat Enterprise Linux 7"
+       },
+       {
+         "title": "Topology",
+         "description": "1 or more development VMs."
+       },
+       {
+         "title": "Software deployed",
+         "description": "<table style=\"width:100%\"><tr><td width=\"20%\" valign=\"top\">IDM</td><td>RHEL.</td></tr></table>"
+       },
+       {
+         "title": "Usage and special notes",
+         "description": "<ul><li>1. This pattern requires a contiguous range of N IPs addresses (where N is the number of development VMs and N>=1).</li></ul>"
+       }
+     ]
+   }
+ }
