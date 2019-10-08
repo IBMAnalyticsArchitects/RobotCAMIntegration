@@ -299,7 +299,8 @@ resource "vsphere_virtual_machine" "devvm" {
       "sleep 2",
       "lvextend /dev/vg_node1/lv_root /dev/sdb1",
       "sleep 2",
-      "resize2fs /dev/mapper/vg_node1-lv_root"
+      "resize2fs /dev/mapper/vg_node1-lv_root",
+      "tar zxf /opt/vmtools/yumdefs-softlayer-*-RHEL7.tar.gz -C /"
     ]
  }
 
