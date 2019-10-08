@@ -302,15 +302,6 @@ resource "vsphere_virtual_machine" "devvm" {
       "resize2fs /dev/mapper/vg_node1-lv_root"
     ]
  }
- 
- 
-  
-  provisioner "file" {
-    source      = "test1"
-    destination = "/tmp/test1"
-  }
-
-   
 
 
 }
