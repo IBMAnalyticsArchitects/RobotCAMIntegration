@@ -284,7 +284,7 @@ aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_cloud_ins
 
 # Install HTTP server
 
-yum -y install httpd
+yum -y install httpd firewalld
 firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
 firewall-cmd --reload
