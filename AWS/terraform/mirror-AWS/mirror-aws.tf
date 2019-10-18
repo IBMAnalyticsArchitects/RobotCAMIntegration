@@ -208,7 +208,11 @@ EOF
       "sudo su -c 'echo ${var.sudo_password} | passwd ${var.sudo_user} --stdin'",
       "sudo usermod ${var.sudo_user} -g wheel",
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
-      "sudo su - -c 'systemctl restart sshd'"
+      "sudo su - -c 'systemctl restart sshd'",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
+      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
     ]
  }
 
