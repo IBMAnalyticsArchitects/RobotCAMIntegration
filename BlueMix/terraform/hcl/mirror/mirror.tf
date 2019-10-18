@@ -60,6 +60,7 @@ variable "ibm_cos_endpoint_url" {
 
 variable "ibm_cos_source_mirror_path_list" {
   description = "AWS Source Mirror Path List (list of tar files containing the product distributions, open source components and EPEL and RHEL 7 mirrors)."
+  type="list"
 }
 
 variable "ibm_cos_source_cloud_install_path" {

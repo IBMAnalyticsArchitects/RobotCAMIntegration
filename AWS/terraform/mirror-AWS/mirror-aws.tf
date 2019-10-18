@@ -93,8 +93,9 @@ variable "ibm_cos_endpoint_url" {
   description = "IBM Cloud COS Endpoint URL"
 }
 
-variable "ibm_cos_source_mirror_path" {
+variable "ibm_cos_source_mirror_path_list" {
   description = "IBM Cloud COS  Source Mirror Path (points to a tar file containing the product distributions, open source components and EPEL and RHEL 7 mirrors)."
+  type="list"
 }
 
 variable "ibm_cos_source_cloud_install_path" {
