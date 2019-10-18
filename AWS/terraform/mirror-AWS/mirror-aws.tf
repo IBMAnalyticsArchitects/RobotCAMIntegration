@@ -362,7 +362,7 @@ resource "null_resource" "start_install" {
       "sudo su - -c 'echo  export cam_ibm_cos_access_key_id=${var.ibm_cos_access_key_id} >> /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'echo  export cam_ibm_cos_secret_access_key=${var.ibm_cos_secret_access_key} >> /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'echo  export cam_ibm_cos_endpoint_url=${var.ibm_cos_endpoint_url} >> /opt/monkey_cam_vars.txt'",
-      "sudo su - -c 'echo  export cam_ibm_cos_source_mirror_path_list={join(",",var.ibm_cos_source_mirror_path_list)} >> /opt/monkey_cam_vars.txt'",
+      "sudo su - -c 'echo  export cam_ibm_cos_source_mirror_path_list=${join(",",var.ibm_cos_source_mirror_path_list)} >> /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'echo  export cam_ibm_cos_source_cloud_install_path=${var.ibm_cos_source_cloud_install_path} >> /opt/monkey_cam_vars.txt'",
       
       "sudo su - -c 'echo  export cam_redhat_user=${var.redhat_user} >> /opt/monkey_cam_vars.txt'",
