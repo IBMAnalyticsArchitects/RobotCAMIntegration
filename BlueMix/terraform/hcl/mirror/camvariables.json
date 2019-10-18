@@ -236,16 +236,16 @@
         "default": "https://s3-api.dal-us-geo.objectstorage.service.networklayer.com"
     },
     {
-        "description": "IBM COS Source Mirror Path (points to a tar file containing the product distributions, open source components and EPEL and RHEL 7 mirrors).", 
+        "description": "IBM COS Source Mirror Path List (list of tar files containing the product distributions, open source components and EPEL and RHEL 7 mirrors).", 
         "hidden": false, 
         "immutable": false, 
-        "label": "IBM COS Source Mirror Path", 
-        "name": "ibm_cos_source_mirror_path", 
+        "label": "IBM COS Source Mirror Path List", 
+        "name": "ibm_cos_source_mirror_path_list", 
         "required": true, 
         "secured": false, 
-        "type": "string",
+        "type": "list",
         "group_name": "IBM Cloud Object Storage",
-        "default": "s3://robotmirror1/robotmirror-10.176.112.137-11oct2018-1337.tar"
+        "default": [ "s3://robotmirror1/mirror.tar" ]
     },
     {
         "description": "IBM COS Source Cloud Installer Path (points to a tar file containing the Cloud Install scripts).", 
@@ -257,7 +257,7 @@
         "secured": false, 
         "type": "string",
         "group_name": "IBM Cloud Object Storage",
-        "default": "s3://robotmirror1/cloud_install-10oct2018-1712.tar"
+        "default": "s3://robotmirror1/cloud_install.tar"
     },
      
     {

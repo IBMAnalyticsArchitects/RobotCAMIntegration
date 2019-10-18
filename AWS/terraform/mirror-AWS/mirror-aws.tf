@@ -243,20 +243,35 @@ mkdir -p /var/www/html
 echo "/$partname /var/www/html xfs defaults 1 1" >> /etc/fstab
 mount -a 
 
-# Download mirror
-#aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_mirror_path /var/www/html
-for f in `echo $cam_ibm_cos_source_mirror_path | sed 's/[,;]/ /g'`
+## Download mirror
+##aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_mirror_path /var/www/html
+#for f in `echo $cam_ibm_cos_source_mirror_path_list | sed 's/[,;]/ /g'`
+#do
+#	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /var/www/html
+#done
+#
+## Expand mirror
+#cd /var/www/html
+##tar xf *.tar
+#for f in *.tar
+#do
+#	tar xf $f
+#done 
+
+
+for f in `echo $cam_ibm_cos_source_mirror_path_list | sed 's/[,;]/ /g'`
 do
+  echo "Downloading ${f}..."  
 	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /var/www/html
 done
 
-# Expand mirror
 cd /var/www/html
-#tar xf *.tar
 for f in *.tar
 do
+  echo "Expanding ${f}..."
 	tar xf $f
 done 
+
 
 # Also download cloud_installer from IBM Cloud COS into /var/www/html/cloud_install
 mkdir -p /var/www/html/cloud_install
@@ -346,7 +361,7 @@ resource "null_resource" "start_install" {
       "sudo su - -c 'echo  export cam_ibm_cos_access_key_id=${var.ibm_cos_access_key_id} >> /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'echo  export cam_ibm_cos_secret_access_key=${var.ibm_cos_secret_access_key} >> /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'echo  export cam_ibm_cos_endpoint_url=${var.ibm_cos_endpoint_url} >> /opt/monkey_cam_vars.txt'",
-      "sudo su - -c 'echo  export cam_ibm_cos_source_mirror_path=${var.ibm_cos_source_mirror_path} >> /opt/monkey_cam_vars.txt'",
+      "sudo su - -c 'echo  export cam_ibm_cos_source_mirror_path_list={join(",",var.ibm_cos_source_mirror_path_list)} >> /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'echo  export cam_ibm_cos_source_cloud_install_path=${var.ibm_cos_source_cloud_install_path} >> /opt/monkey_cam_vars.txt'",
       
       "sudo su - -c 'echo  export cam_redhat_user=${var.redhat_user} >> /opt/monkey_cam_vars.txt'",
@@ -360,4 +375,3 @@ resource "null_resource" "start_install" {
     ]
   }
 }
-

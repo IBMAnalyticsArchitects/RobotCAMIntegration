@@ -58,8 +58,8 @@ variable "ibm_cos_endpoint_url" {
   description = "AWS Endpoint URL"
 }
 
-variable "ibm_cos_source_mirror_path" {
-  description = "AWS Source Mirror Path (points to a tar file containing the product distributions, open source components and EPEL and RHEL 7 mirrors)."
+variable "ibm_cos_source_mirror_path_list" {
+  description = "AWS Source Mirror Path List (list of tar files containing the product distributions, open source components and EPEL and RHEL 7 mirrors)."
 }
 
 variable "ibm_cos_source_cloud_install_path" {
@@ -185,12 +185,19 @@ mkdir -p /var/www/html
 echo "/$partname /var/www/html xfs defaults 1 1" >> /etc/fstab
 mount -a 
 
-# Download mirror
-aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_mirror_path /var/www/html
 
-# Expand mirror
+for f in `echo $cam_ibm_cos_source_mirror_path_list | sed 's/[,;]/ /g'`
+do
+  echo "Downloading ${f}..."  
+	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /var/www/html
+done
+
 cd /var/www/html
-tar xf *.tar
+for f in *.tar
+do
+  echo "Expanding ${f}..."
+	tar xf $f
+done 
 
 # Also download cloud_installer from AWS into /var/www/html/cloud_install
 mkdir -p /var/www/html/cloud_install
@@ -211,44 +218,6 @@ cat /etc/selinux/config|grep -v "^SELINUX=">/tmp/__selinuxConfig
 echo "SELINUX=disabled">>/tmp/__selinuxConfig
 mv -f /tmp/__selinuxConfig /etc/selinux/config
 setenforce 0
-
-# This section is commented out, since we assume a Softlayer account
-# has access to Softlayer's RHEL YUM repos.
-#
-## Set up /opt/cloud_install
-#mkdir -p /opt/cloud_install
-#cd /opt/cloud_install
-#tar xf /var/www/html/cloud_install/`basename $cam_ibm_cos_source_cloud_install_path`
-#
-## Set up /repo/sync folder
-#mkdir -p /repo/sync/
-#cp rpm_repo_files/02_epel_sync.sh /repo/sync/
-#chmod 755 /repo/sync/02_epel_sync.sh
-#cp rpm_repo_files/02_rhel_sync.sh /repo/sync/
-#chmod 755 /repo/sync/02_rhel_sync.sh
-#
-#
-#cd /
-#tar xf /var/www/html/software/subscription.rhsm.redhat.com.tar
-#
-## Set up RHEL subscription
-#subscription-manager register --force --username=$cam_redhat_user --password="$cam_redhat_password"
-#subscription-manager subscribe
-#subscription-manager repos --enable=rhel-7-server-extras-rpms
-#subscription-manager repos --enable=rhel-7-server-optional-rpms
-#subscription-manager repos --enable=rhel-7-server-rpms
-#subscription-manager repos --enable=rhel-7-server-supplementary-rpms
-#subscription-manager repos --enable=rhel-ha-for-rhel-7-server-rpms
-#subscription-manager repos --enable=rhel-rs-for-rhel-7-server-rpms
-#subscription-manager repos --enable=rhel-server-rhscl-7-rpms
-#
-## Sync EPEL
-#cd /repo/sync
-#./02_epel_sync.sh
-#
-## Sync RHEL
-#cd /repo/sync
-#./02_rhel_sync.sh
 
 echo "Mirror setup complete. Rebooting..."
 
@@ -287,7 +256,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_ibm_cos_access_key_id=${var.ibm_cos_access_key_id} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ibm_cos_secret_access_key=${var.ibm_cos_secret_access_key} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ibm_cos_endpoint_url=${var.ibm_cos_endpoint_url} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_ibm_cos_source_mirror_path=${var.ibm_cos_source_mirror_path} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_ibm_cos_source_mirror_path_list=${join(",",var.ibm_cos_source_mirror_path_list)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_ibm_cos_source_cloud_install_path=${var.ibm_cos_source_cloud_install_path} >> /opt/monkey_cam_vars.txt",
             
       "chmod 755 /opt/monkey_cam_vars.txt",
@@ -300,3 +269,6 @@ resource "null_resource" "start_install" {
 
   }
 }
+
+
+# ${join(",",var.cp4d_addons)}
