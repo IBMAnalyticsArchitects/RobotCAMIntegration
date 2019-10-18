@@ -189,7 +189,7 @@ mount -a
 
 for f in `echo $cam_ibm_cos_source_mirror_path_list | sed 's/[,;]/ /g'`
 do
-  echo "Downloading ${f}..."  
+  echo "Downloading $f ..."  
 	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /var/www/html
 done
 
