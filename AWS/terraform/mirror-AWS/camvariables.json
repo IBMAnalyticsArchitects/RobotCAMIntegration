@@ -256,8 +256,8 @@
         "required": true, 
         "secured": false, 
         "type": "list",
-        "default": "s3://robotmirror1/robotmirror.tar",
-        "group_name": [ "IBM Cloud COS" ]
+        "default": [ "s3://robotmirror1/robotmirror.tar" ],
+        "group_name":  "IBM Cloud COS" 
     },
     {
         "description": "IBM Cloud COS Source Cloud Installer Path (points to a tar file containing the Cloud Install scripts).", 
