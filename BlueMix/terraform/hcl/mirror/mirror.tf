@@ -196,7 +196,7 @@ done
 cd /var/www/html
 for f in *.tar
 do
-  echo "Expanding ${f}..."
+  echo "Expanding $f ..."
 	tar xf $f
 done 
 
