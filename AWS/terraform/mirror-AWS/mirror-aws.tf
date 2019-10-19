@@ -242,10 +242,13 @@ END
 devname=/dev/xvdb
 partname=/dev/xvdb1
 parted -s $devname mklabel gpt
+sleep 5
 parted -s -a optimal $devname mkpart primary 0% 100%
+sleep 5
 mkfs.xfs $partname
+sleep 5
 mkdir -p /var/www/html
-echo "/$partname /var/www/html xfs defaults 1 1" >> /etc/fstab
+echo "$partname /var/www/html xfs defaults 1 1" >> /etc/fstab
 mount -a 
 
 ## Download mirror
