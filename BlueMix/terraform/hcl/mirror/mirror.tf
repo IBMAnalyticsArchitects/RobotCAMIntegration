@@ -162,7 +162,7 @@ set -x
 
 . /opt/monkey_cam_vars.txt
 
-yum install python rsync unzip ksh perl  wget expect createrepo -y
+yum install python rsync unzip ksh perl  wget expect httpd firewalld createrepo -y
 #curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
 #unzip awscli-bundle.zip
 unzip /tmp/awscli-bundle.zip
@@ -206,7 +206,7 @@ aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_cloud_ins
 
 # Install HTTP server
 
-sudo yum -y install httpd
+#sudo yum -y install httpd
 sudo firewall-cmd --permanent --add-port=80/tcp
 sudo firewall-cmd --permanent --add-port=443/tcp
 sudo firewall-cmd --reload
