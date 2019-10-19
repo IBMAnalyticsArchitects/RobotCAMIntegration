@@ -126,7 +126,7 @@ resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
   cores                    = 8
   memory                   = 8192
   wait_time_minutes        = 200
-  disks                    = [100,1000]
+  disks                    = [100,2000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -207,9 +207,9 @@ aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_cloud_ins
 # Install HTTP server
 
 #sudo yum -y install httpd
-sudo firewall-cmd --permanent --add-port=80/tcp
-sudo firewall-cmd --permanent --add-port=443/tcp
-sudo firewall-cmd --reload
+#sudo firewall-cmd --permanent --add-port=80/tcp
+#sudo firewall-cmd --permanent --add-port=443/tcp
+#sudo firewall-cmd --reload
 sudo systemctl start httpd
 sudo systemctl enable httpd
 
