@@ -111,13 +111,6 @@ variable "vm_domain" {
   description = "Domain Name of virtual machine"
 }
 
-variable "sudo_user" {
-  description = "Sudo User"
-}
-
-variable "sudo_password" {
-  description = "Sudo Password"
-}
 
 variable "time_server" {
   description = "time_server"
@@ -129,15 +122,9 @@ variable "vm_dns_servers" {
 }
 
 
-
-variable "redhat_user" {
-  description = "RedHat User"
+variable "instance_type" {
+  description = "instance_type"
 }
-
-variable "redhat_password" {
-  description = "RedHat Password"
-}
-
 
 #######################
 
@@ -169,7 +156,7 @@ resource "aws_key_pair" "temp_public_key" {
 resource "aws_instance" "mirror" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-mirror.${var.vm_domain}", Owner = "${var.aws_owner}" }
-  instance_type = "m4.16xlarge"
+  instance_type = "${var.instance_type}"
   ami           = "${var.aws_image}"
   subnet_id     = "${data.aws_subnet.selected.id}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
@@ -203,11 +190,6 @@ EOF
       "sudo mv /tmp/hostname /etc/hostname",
       "sudo hostname \"${var.vm_name_prefix}-mirror.${var.vm_domain}\"",
       "sudo chmod +x /tmp/addkey.sh; sudo bash /tmp/addkey.sh \"${var.public_ssh_key}\"",
-      "sudo sed -i -e 's/# %wheel/%wheel/' -e 's/Defaults    requiretty/#Defaults    requiretty/' /etc/sudoers",
-      "sudo useradd ${var.sudo_user}",
-      "sudo su -c 'echo ${var.sudo_password} | passwd ${var.sudo_user} --stdin'",
-      "sudo usermod ${var.sudo_user} -g wheel",
-      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
       "sudo su - -c 'systemctl restart sshd'",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
       "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
@@ -310,27 +292,12 @@ tar xf /var/www/html/cloud_install/`basename $cam_ibm_cos_source_cloud_install_p
 mkdir -p /repo/sync/
 cp rpm_repo_files/02_epel_sync.sh /repo/sync/
 chmod 755 /repo/sync/02_epel_sync.sh
-cp rpm_repo_files/02_rhel_sync.sh /repo/sync/
-chmod 755 /repo/sync/02_rhel_sync.sh
 
-# Set up RHEL subscription
-subscription-manager register --force --username=$cam_redhat_user --password="$cam_redhat_password"
-subscription-manager subscribe
-subscription-manager repos --enable=rhel-7-server-extras-rpms
-subscription-manager repos --enable=rhel-7-server-optional-rpms
-subscription-manager repos --enable=rhel-7-server-rpms
-subscription-manager repos --enable=rhel-7-server-supplementary-rpms
-subscription-manager repos --enable=rhel-ha-for-rhel-7-server-rpms
-subscription-manager repos --enable=rhel-rs-for-rhel-7-server-rpms
-subscription-manager repos --enable=rhel-server-rhscl-7-rpms
 
 # Sync EPEL
 cd /repo/sync
 ./02_epel_sync.sh
 
-# Sync RHEL
-cd /repo/sync
-./02_rhel_sync.sh
 
 echo "Mirror setup complete. Rebooting..."
 

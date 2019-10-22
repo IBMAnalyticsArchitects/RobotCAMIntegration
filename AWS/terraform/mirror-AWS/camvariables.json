@@ -134,58 +134,6 @@
         "group_name": "AWS Cluster",  
         "default": ""
     },
-     
-    {
-      "name": "sudo_user",
-      "type": "string",
-      "description": "User name for sudo access",
-      "hidden": false,
-      "label": "Sudo User",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "AWS Cluster",
-      "default": "sudo1"
-    },
-    {
-      "name": "sudo_password",
-      "type": "string",
-      "description": "Password for sudo user",
-      "hidden": false,
-      "label": "Sudo Password",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "AWS Cluster",
-      "default": "pwd12345"
-    },
-     
-     
-     
-    {
-      "name": "redhat_user",
-      "type": "string",
-      "description": "User name for RedHat subscription",
-      "hidden": false,
-      "label": "User name for RedHat subscription",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "RedHat Subscription",
-      "default": "jlerm"
-    },
-    {
-      "name": "redhat_password",
-      "type": "string",
-      "description": "User password for RedHat subscription",
-      "hidden": false,
-      "label": "User password for RedHat subscription",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "RedHat Subscription",
-      "default": "pwd12345"
-    },
     
     {
       "name": "vm_domain",
@@ -270,6 +218,19 @@
         "type": "string",
         "default": "s3://robotmirror1/cloud_install.tar",
         "group_name": "IBM Cloud COS" 
+    },
+    
+    {
+      "name": "instance_type",
+      "type": "string",
+      "description": "Type of AWS EC2 instance for mirror server",
+      "hidden": false,
+      "label": "Type of AWS EC2 instance for mirror server",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "m4.10xlarge"
     }
     
     
