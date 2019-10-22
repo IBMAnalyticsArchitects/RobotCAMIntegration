@@ -229,7 +229,7 @@
       "secured": false,
       "required": false,
       "immutable": false,
-      "group_name": "Cluster",
+      "group_name": "AWS Cluster",
       "default": "m4.10xlarge"
     }
     

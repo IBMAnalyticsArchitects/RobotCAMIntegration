@@ -339,9 +339,6 @@ resource "null_resource" "start_install" {
       "sudo su - -c 'echo  export cam_ibm_cos_source_mirror_path_list=${join(",",var.ibm_cos_source_mirror_path_list)} >> /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'echo  export cam_ibm_cos_source_cloud_install_path=${var.ibm_cos_source_cloud_install_path} >> /opt/monkey_cam_vars.txt'",
       
-      "sudo su - -c 'echo  export cam_redhat_user=${var.redhat_user} >> /opt/monkey_cam_vars.txt'",
-      "sudo su - -c 'echo  export cam_redhat_password=${var.redhat_password} >> /opt/monkey_cam_vars.txt'",
-      
       "sudo su - -c 'chmod 755 /opt/monkey_cam_vars.txt'",
       "sudo su - -c 'mv /tmp/installation.sh /opt/installation.sh'",
       "sudo su - -c 'chmod 755 /opt/installation.sh'",
