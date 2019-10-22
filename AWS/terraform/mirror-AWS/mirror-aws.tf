@@ -161,7 +161,7 @@ resource "aws_instance" "mirror" {
   subnet_id     = "${data.aws_subnet.selected.id}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "st1", "volume_size" = "1000", "delete_on_termination" = true, "encrypted" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "st1", "volume_size" = "2000", "delete_on_termination" = true, "encrypted" = true }
   
   connection {
     user        = "ec2-user"
