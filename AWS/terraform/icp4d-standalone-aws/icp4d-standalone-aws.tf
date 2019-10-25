@@ -300,10 +300,12 @@ EOF
       "sudo chmod 600 /root/.ssh/config",
       "sudo cp /tmp/addSshKeyId.exp /opt/addSshKeyId.exp",
       "sudo chmod 700 /opt/addSshKeyId.exp",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
+      "sudo yum update -y",
+      "sudo yum-config-manager --enable *rhel*"
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
     ]
  }
 
@@ -412,10 +414,12 @@ resource "aws_instance" "icpidm" {
       "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
+      "sudo yum update -y",
+      "sudo yum-config-manager --enable *rhel*"
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
     ]
  }
 
@@ -505,10 +509,12 @@ resource "aws_instance" "icphaproxy" {
       "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
+      "sudo yum update -y",
+      "sudo yum-config-manager --enable *rhel*"
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
     ]
  }
 
@@ -568,10 +574,12 @@ resource "aws_instance" "icpmaster" {
       "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'",
+      "sudo yum update -y",
+      "sudo yum-config-manager --enable *rhel*",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
       "sudo mv /data /data.bkp"
     ]
  }
@@ -637,10 +645,12 @@ resource "aws_instance" "icpworker" {
       "sudo chmod 600 /root/.ssh/id_rsa",
       "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
       "sudo chmod 600 /root/.ssh/config",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
-      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'",
+      "sudo yum update -y",
+      "sudo yum-config-manager --enable *rhel*",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-optional'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-rhscl'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-extras'",
+#      "sudo su - -c 'yum-config-manager --enable rhui-REGION-rhel-server-supplementary'"
       "sudo mv /data /data.bkp"
     ]
  }
