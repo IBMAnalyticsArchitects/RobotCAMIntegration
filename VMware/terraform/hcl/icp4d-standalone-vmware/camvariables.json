@@ -413,8 +413,6 @@
       "group_name": "Cluster",
       "default": "MYCLUSTER"
     },
-    
-    
         
     {
       "name": "idm_primary_hostname",
@@ -547,7 +545,40 @@
       				"watson_knowledge_catalog","watson_openscale",
       				"spss_modeler","watson_speech_services",
       				"watson_assistant","watson_discovery",
-      				"watson_nlu","watson_knowledge_studio"]
+      				"watson_nlu","watson_knowledge_studio","hadoop_integration"]
+    },
+    { 
+      "name": "hdp_driver_ip",
+      "type": "string",
+      "description": "IP of the driver for HDP cluster.  Only need to supply if installaing hadoop integration add-on.",
+      "hidden": false,
+      "label": "IP of the driver for HDP cluster (Supply if installatiing hadoop integration add-on)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "hdp_edge_node_hostname",
+      "type": "string",
+      "description": "Hostname of HDP Edge Node, hadoop integration service host. Only need to supply if installaing hadoop integration add-on.",
+      "hidden": false,
+      "label": "Hostname of HDP Edge Node, hadoop integration service host (Supply if installatiing hadoop integration add-on)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
+      "name": "hdp_edge_node_ip",
+      "type": "string",
+      "description": "IP of HDP Edge Node, hadoop integration service host. Only need to supply if installaing hadoop integration add-on.",
+      "hidden": false,
+      "label": "IP of HDP Edge Node, hadoop integration service host (Supply if installatiing hadoop integration add-on)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster"
     }
-    
+
   ]
