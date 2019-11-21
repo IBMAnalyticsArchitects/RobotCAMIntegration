@@ -164,6 +164,18 @@
       "group_name": "Cluster"
     },
     {
+      "name": "vm_rootfs_extend_disk_size",
+      "type": "string",
+      "description": "Size of disk for root fs expansion",
+      "default": "500",
+      "hidden": false,
+      "label": "Size of disk for root fs expansion",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster"
+    },
+    {
       "name": "vm_ipv4_gateway",
       "type": "string",
       "description": "IPv4 gateway for vNIC configuration",
