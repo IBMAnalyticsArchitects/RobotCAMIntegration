@@ -592,7 +592,7 @@ resource "aws_instance" "icpmaster" {
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
-  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+#  ebs_block_device = { "device_name" = "/dev/sde", "volume_type" = "io1", "volume_size" = "1000", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   
   connection {
     user        = "ec2-user"
