@@ -201,6 +201,10 @@ variable "subnet_ids" {
   description = "subnet_ids"
 }
 
+variable "security_group_ids" {
+  type = "list"
+  description = "security_group_ids"
+}
 
 variable "ebs_vol_iops" {
   type = "string"
@@ -264,6 +268,7 @@ resource "aws_instance" "driver" {
   availability_zone = "${element(var.availability_zones, 0)}"
   ami           = "${var.aws_image}"
   subnet_id     = "${element(var.subnet_ids, 0)}"
+  vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   
@@ -429,6 +434,7 @@ resource "aws_instance" "icpidm" {
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
+  vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
@@ -493,6 +499,7 @@ resource "aws_instance" "icphaproxyvip" {
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, 0)}"
   subnet_id     = "${element(var.subnet_ids, 0)}"
+  vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "20", "delete_on_termination" = true }
   
@@ -520,6 +527,7 @@ resource "aws_instance" "icphaproxy" {
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
+  vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
@@ -578,6 +586,7 @@ resource "aws_instance" "icpmaster" {
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
+  vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
@@ -642,6 +651,7 @@ resource "aws_instance" "icpworker" {
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
+  vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }

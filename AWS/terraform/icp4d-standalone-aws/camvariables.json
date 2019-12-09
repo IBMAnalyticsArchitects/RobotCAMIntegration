@@ -83,6 +83,17 @@
         "group_name": "Cloud"
     },
     {
+        "description": "Security Group IDs",
+        "hidden": false,
+        "immutable": false,
+        "label": "Security Group IDs",
+        "name": "security_group_ids",
+        "required": true,
+        "secured": false,
+        "type": "list",
+        "group_name": "Cloud"
+    },
+    {
         "description": "CIDR Network Prefix Length for VM subnets. This is used to set, for example, virtual IPs managed through Pacemaker (HDP and ICP4D HAProxies). Please make sure all subnets specified share the same network prefix length.",
         "hidden": false,
         "immutable": false,
