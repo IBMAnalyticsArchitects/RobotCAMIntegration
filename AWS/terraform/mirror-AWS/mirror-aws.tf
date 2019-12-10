@@ -66,6 +66,12 @@ data "aws_subnet" "selected" {
   cidr_block = "${var.subnet_cidr}"
 }
 
+
+variable "security_group_ids" {
+  type = "list"
+  description = "security_group_ids"
+}
+
 variable "public_ssh_key_name" {
   description = "Name of the public SSH key used to connect to the virtual guest"
 }
@@ -126,6 +132,11 @@ variable "instance_type" {
   description = "instance_type"
 }
 
+
+variable "mirror_volume_size" {
+  description = "Size of /var/www/html volume"
+}
+
 #######################
 
 resource "aws_key_pair" "orpheus_public_key" {
@@ -151,7 +162,7 @@ resource "aws_key_pair" "temp_public_key" {
 ##############################################################
 
 ###########################################################################################################################################################
-# Driver
+# Mirror
 #
 resource "aws_instance" "mirror" {
   count         = "1"
@@ -159,9 +170,10 @@ resource "aws_instance" "mirror" {
   instance_type = "${var.instance_type}"
   ami           = "${var.aws_image}"
   subnet_id     = "${data.aws_subnet.selected.id}"
+  vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "st1", "volume_size" = "2000", "delete_on_termination" = true, "encrypted" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "st1", "volume_size" = "${var.mirror_volume_size}", "delete_on_termination" = true, "encrypted" = true }
   
   connection {
     user        = "ec2-user"

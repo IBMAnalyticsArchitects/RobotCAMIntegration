@@ -83,6 +83,17 @@
         "default": "",
         "group_name": "AWS Cloud"
     },
+    {
+        "description": "Security Group IDs",
+        "hidden": false,
+        "immutable": false,
+        "label": "Security Group IDs",
+        "name": "security_group_ids",
+        "required": true,
+        "secured": false,
+        "type": "list",
+        "group_name": "Cloud"
+    },
     
     {
       "name": "time_server",
@@ -231,6 +242,18 @@
       "immutable": false,
       "group_name": "AWS Cluster",
       "default": "m4.10xlarge"
+    },
+    {
+        "default": "2000",
+        "description": "Size of /var/www/html volume",
+        "hidden": false,
+        "immutable": false,
+        "label": "Size of /var/www/html volume",
+        "name": "mirror_volume_size",
+        "required": true,
+        "secured": false,
+        "type": "string",
+        "group_name": "AWS Cluster"
     }
     
     
