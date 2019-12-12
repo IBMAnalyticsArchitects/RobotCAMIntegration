@@ -545,7 +545,7 @@ resource "aws_instance" "icphaproxyvip" {
 # HAProxy
 #
 resource "aws_instance" "icphaproxy" {
-  count         = "1"
+  count         = "0"
   tags { Name = "${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxy-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "m4.2xlarge"
   ami           = "${var.aws_image}"
