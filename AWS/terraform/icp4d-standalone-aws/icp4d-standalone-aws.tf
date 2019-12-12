@@ -801,12 +801,12 @@ resource "null_resource" "start_install" {
       "echo  export cam_idm_ip=${join(",",aws_instance.icpidm.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_idm_name=${join(",",aws_instance.icpidm.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
   
-      "echo  export cam_icp_haproxy_vip=${join(",",aws_instance.icphaproxyvip.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
-      "echo  export cam_icp_haproxy_ip=${join(",",aws_instance.icphaproxy.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
-      "echo  export cam_icp_haproxy_name=${join(",",aws_instance.icphaproxy.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
+#      "echo  export cam_icp_haproxy_vip=${join(",",aws_instance.icphaproxyvip.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
+#      "echo  export cam_icp_haproxy_ip=${join(",",aws_instance.icphaproxy.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
+#      "echo  export cam_icp_haproxy_name=${join(",",aws_instance.icphaproxy.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
       
       # cam_icp_load_balancer_name
-      #"echo  export cam_icp_load_balancer_name=${aws_lb.icp-console.dns_name} >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_icp_load_balancer_name=${aws_lb.icp-console.dns_name} >> /tmp/monkey_cam_vars.txt",
     
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /tmp/monkey_cam_vars.txt",
