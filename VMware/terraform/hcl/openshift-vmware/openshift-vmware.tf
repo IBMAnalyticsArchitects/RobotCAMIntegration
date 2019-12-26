@@ -383,7 +383,7 @@ done
 
 utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
-nohup $MASTER_INSTALLER_HOME/openshift_files/01_install_openshift.sh &
+nohup $MASTER_INSTALLER_HOME/okd3_files/01_install_openshift.sh &
 
 EOF
 
