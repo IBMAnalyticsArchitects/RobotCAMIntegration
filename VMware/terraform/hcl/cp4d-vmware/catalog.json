@@ -1,0 +1,57 @@
+{
+   "name": "CP4D on VMWare",
+   "description": "CP4D on VMWare",
+   "version": "2.0.0",
+   "type": "userCreated",
+   "manifest": {
+     "template_type": "Terraform",
+     "template_format": "HCL",
+     "template_provider": "VMware vSphere",
+     "template": {
+       "templateData": "",
+       "templateVariables": "",
+       "templateOutput": ""
+     },
+     "template_source": {
+       "githubRepoUrl": "",
+       "githubAccessToken": "",
+       "relativePathToTemplateFolder": "VMware/terraform/hcl/hcsdl1",
+       "templateFileName": "hcsdl1.tf"
+     }
+   },
+   "metadata": {
+     "displayName": "CP4D on VMWare",
+     "templateCategory": "Secure Data Lakes",
+     "longDescription": "CP4D on VMWare.",
+     "bullets": [
+       {
+         "title": "Clouds",
+         "description": "VMWare"
+       },
+       {
+         "title": "Template version",
+         "description": "V1.0"
+       },
+       {
+         "title": "Operating systems supported",
+         "description": "IBM Cloud: RHEL 7.4"
+       },
+       {
+         "title": "Topology",
+         "description": "CP4D on HA topology (3 masters, 3 proxies, N workers), IDM, HAProxy (load balancer)"
+       },
+       {
+         "title": "Software deployed",
+         "description": "<table style=\"width:100%\"><tr><td>OpenShift 3.11, CP4D 2.5, RedHat IDM and HAProxy</td></tr></table>"
+       },
+       {
+         "title": "Usage and special notes",
+         "description": "<ul><li>1. Creates VMs.</li><li>2. Downloads software from Robot mirror.</li><li>3. Installs CP4D, IDM and HAproxy.</li><li>Install progress can be monitored as follows:</li><li>On the driver node, check /root/nohup.out</li><li>On the first master, check /ibm/InstallPackage/tmp/wdp.*.log</li><li>5. This pattern requires a range of 10+N contiguous IPs addresses (where N is the number of worker nodes and N>=3).</li></ul>"
+       },
+       {
+         "title": "Monitoring install progress",
+         "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install; ls -lrt *.log </li>  </ul>"
+       }
+     ]
+   }
+ }
