@@ -784,7 +784,7 @@ resource "vsphere_virtual_machine" "icpworker" {
 
 # ICP Infra
 resource "vsphere_virtual_machine" "icpinfra" {
-  count="0"
+  count="3"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
 
   num_cpus = "8"
