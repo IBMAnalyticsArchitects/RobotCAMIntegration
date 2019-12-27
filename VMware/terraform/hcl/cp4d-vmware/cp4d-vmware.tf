@@ -620,22 +620,6 @@ resource "vsphere_virtual_machine" "icpmaster" {
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "2"
   }
-  
-  disk {
-    label = "${var.vm_name_prefix}3.vmdk"
-    size = "700"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "3"
-  }
-  
-  disk {
-    label = "${var.vm_name_prefix}4.vmdk"
-    size = "700"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "4"
-  }
 
 
   connection {
@@ -735,22 +719,6 @@ resource "vsphere_virtual_machine" "icpworker" {
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "3"
   }
-  
-  disk {
-    label = "${var.vm_name_prefix}4.vmdk"
-    size = "700"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "4"
-  }
-  
-  disk {
-    label = "${var.vm_name_prefix}5.vmdk"
-    size = "1000"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "5"
-  }
 
 
   connection {
@@ -836,22 +804,6 @@ resource "vsphere_virtual_machine" "icpinfra" {
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "2"
   }
-  
-  disk {
-    label = "${var.vm_name_prefix}3.vmdk"
-    size = "700"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "3"
-  }
-  
-  disk {
-    label = "${var.vm_name_prefix}4.vmdk"
-    size = "700"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "4"
-  }
 
   connection {
     type = "ssh"
@@ -931,8 +883,8 @@ resource "null_resource" "start_install" {
 
       "echo  export cam_icp_docker_device=/dev/sdc >> /opt/monkey_cam_vars.txt",
       
-      "echo  export cam_icp_data_devices=/ibm@/dev/sdd,/data@/dev/sde >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icp_portworx_devices=/dev/sdf >> /opt/monkey_cam_vars.txt",
+#      "echo  export cam_icp_data_devices=/ibm@/dev/sdd,/data@/dev/sde >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_portworx_devices=/dev/sdd >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
     
