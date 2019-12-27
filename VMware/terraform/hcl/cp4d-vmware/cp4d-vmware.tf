@@ -607,7 +607,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
-    size = "300"
+    size = "700"
     keep_on_remove = "false"
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
@@ -698,7 +698,7 @@ resource "vsphere_virtual_machine" "icpworker" {
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
-    size = "300"
+    size = "700"
     keep_on_remove = "false"
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
@@ -791,7 +791,7 @@ resource "vsphere_virtual_machine" "icpinfra" {
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
-    size = "300"
+    size = "700"
     keep_on_remove = "false"
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
