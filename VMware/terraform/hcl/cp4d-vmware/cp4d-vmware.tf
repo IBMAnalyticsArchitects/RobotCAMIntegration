@@ -782,10 +782,10 @@ resource "vsphere_virtual_machine" "icpworker" {
 
 ###########################################################################################################################################################
 
-# ICP Proxy
-resource "vsphere_virtual_machine" "icpproxy" {
+# ICP Infra
+resource "vsphere_virtual_machine" "icpinfra"
   count="0"
-  name = "${var.vm_name_prefix}-icpproxy-${ count.index }"
+  name = "${var.vm_name_prefix}-infra-${ count.index }"
 
   num_cpus = "8"
   memory = "16384"
@@ -799,7 +799,7 @@ resource "vsphere_virtual_machine" "icpproxy" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icpproxy-${ count.index }"
+        host_name = "${var.vm_name_prefix}-infra-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + var.num_workers + count.index }"
@@ -891,7 +891,7 @@ resource "null_resource" "start_install" {
   	"vsphere_virtual_machine.idm",   
   	"vsphere_virtual_machine.icpmaster",  
   	"vsphere_virtual_machine.icpworker",  
-  	"vsphere_virtual_machine.icpproxy"
+  	"vsphere_virtual_machine.icpinfra"
   ]
 
   # Bootstrap script can run on any instance of the cluster
@@ -945,8 +945,8 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpworkers_ip=${join(",",vsphere_virtual_machine.icpworker.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icpworkers_name=${join(",",vsphere_virtual_machine.icpworker.*.name)} >> /opt/monkey_cam_vars.txt", 
       
-      "echo  export cam_icpproxies_ip=${join(",",vsphere_virtual_machine.icpproxy.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpproxies_name=${join(",",vsphere_virtual_machine.icpproxy.*.name)} >> /opt/monkey_cam_vars.txt", 
+      "echo  export cam_icpinfra_ip=${join(",",vsphere_virtual_machine.icpinfra.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpinfra_name=${join(",",vsphere_virtual_machine.icpinfra.*.name)} >> /opt/monkey_cam_vars.txt", 
      
       "echo  export cam_idm_install=${local.idm_install} >> /opt/monkey_cam_vars.txt",
       # These variables are only relevant when tying the new cluster with an existing IDM instance
