@@ -497,7 +497,7 @@ resource "vsphere_virtual_machine" "idm" {
 # HAProxy
 resource "vsphere_virtual_machine" "haproxy" {
   count="1"
-  name = "${var.vm_name_prefix}-icphaproxy-${ count.index }"
+  name = "${var.vm_name_prefix}-haproxy-${ count.index }"
   num_cpus = "4"
   memory = "4096"
   
@@ -512,7 +512,7 @@ resource "vsphere_virtual_machine" "haproxy" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icphaproxy-${ count.index }"
+        host_name = "${var.vm_name_prefix}-haproxy-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 3 }"
@@ -566,7 +566,7 @@ resource "vsphere_virtual_machine" "haproxy" {
 # ICP Master
 resource "vsphere_virtual_machine" "icpmaster" {
   count="3"
-  name = "${var.vm_name_prefix}-icpmaster-${ count.index }"
+  name = "${var.vm_name_prefix}-master-${ count.index }"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
 
@@ -579,7 +579,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icpmaster-${ count.index }"
+        host_name = "${var.vm_name_prefix}-master-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 4 + count.index }"
@@ -672,7 +672,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
 # ICP Workers
 resource "vsphere_virtual_machine" "icpworker" {
   count="${var.num_workers}"
-  name = "${var.vm_name_prefix}-icpworker-${ count.index }"
+  name = "${var.vm_name_prefix}-worker-${ count.index }"
 
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
@@ -686,7 +686,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-icpworker-${ count.index }"
+        host_name = "${var.vm_name_prefix}-worker-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + count.index }"
