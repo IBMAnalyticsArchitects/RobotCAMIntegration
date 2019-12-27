@@ -783,7 +783,7 @@ resource "vsphere_virtual_machine" "icpworker" {
 ###########################################################################################################################################################
 
 # ICP Infra
-resource "vsphere_virtual_machine" "icpinfra"
+resource "vsphere_virtual_machine" "icpinfra" {
   count="0"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
 
