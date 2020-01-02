@@ -755,8 +755,8 @@ resource "vsphere_virtual_machine" "icpinfra" {
   count="3"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
 
-  num_cpus = "8"
-  memory = "16384"
+  num_cpus = "${var.vm_number_of_vcpu}"
+  memory = "${var.vm_memory}"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -833,6 +833,87 @@ resource "vsphere_virtual_machine" "icpinfra" {
 }
 
 
+###########################################################################################################################################################
+
+# NFS
+resource "vsphere_virtual_machine" "icpnfs" {
+  count="1"
+  name = "${var.vm_name_prefix}-nfs-${ count.index }"
+
+  num_cpus = "8"
+  memory = "16384"
+
+  resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
+  clone {
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
+    customize {
+      linux_options {
+        domain = "${var.vm_domain}"
+        host_name = "${var.vm_name_prefix}-nfs-${ count.index }"
+      }
+      network_interface {
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + var.num_workers + count.index }"
+        ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
+      }
+    ipv4_gateway = "${var.vm_ipv4_gateway}"
+    }
+  }
+
+  network_interface {
+    network_id = "${data.vsphere_network.vm_network.id}"
+    adapter_type = "${var.vm_adapter_type}"
+  }
+
+  disk {
+    label = "${var.vm_name_prefix}0.vmdk"
+    size = "${var.vm_root_disk_size}"
+    keep_on_remove = "false"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}1.vmdk"
+    size = "700"
+    keep_on_remove = "false"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+    unit_number = "1"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}2.vmdk"
+    size = "700"
+    keep_on_remove = "false"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+    unit_number = "2"
+  }
+
+  connection {
+    type = "ssh"
+    user     = "${var.ssh_user}"
+    password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
+  }
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh",
+      "chmod 700 /root/.ssh",
+      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "echo StrictHostKeyChecking no > /root/.ssh/config",
+      "chmod 600 /root/.ssh/config",
+      "systemctl disable NetworkManager",
+      "systemctl stop NetworkManager",
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+    ]
+  }
+}
+
+
 
 resource "null_resource" "start_install" {
 
@@ -843,7 +924,8 @@ resource "null_resource" "start_install" {
   	"vsphere_virtual_machine.idm",   
   	"vsphere_virtual_machine.icpmaster",  
   	"vsphere_virtual_machine.icpworker",  
-  	"vsphere_virtual_machine.icpinfra"
+  	"vsphere_virtual_machine.icpinfra",  
+  	"vsphere_virtual_machine.icpnfs"
   ]
 
   # Bootstrap script can run on any instance of the cluster
@@ -898,7 +980,10 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpworkers_name=${join(",",vsphere_virtual_machine.icpworker.*.name)} >> /opt/monkey_cam_vars.txt", 
       
       "echo  export cam_icpinfra_ip=${join(",",vsphere_virtual_machine.icpinfra.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpinfra_name=${join(",",vsphere_virtual_machine.icpinfra.*.name)} >> /opt/monkey_cam_vars.txt", 
+      "echo  export cam_icpinfra_name=${join(",",vsphere_virtual_machine.icpinfra.*.name)} >> /opt/monkey_cam_vars.txt",  
+     
+      "echo  export cam_icpnfs_ip=${join(",",vsphere_virtual_machine.icpnfs.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpnfs_name=${join(",",vsphere_virtual_machine.icpnfs.*.name)} >> /opt/monkey_cam_vars.txt", 
      
       "echo  export cam_idm_install=${local.idm_install} >> /opt/monkey_cam_vars.txt",
       # These variables are only relevant when tying the new cluster with an existing IDM instance
