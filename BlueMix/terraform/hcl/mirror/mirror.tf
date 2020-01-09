@@ -242,7 +242,7 @@ cat<<END>/etc/containers/registries.conf
 registries = ["${self.ipv4_address_private}:5000"]
 END
 systemctl restart docker
-docker run  -d -p 5000:5000 --restart=always --name registry registry:2
+docker run -v /data -d -p 5000:5000 --restart=always --name registry registry:2
 
 sleep 20
 docker ps -a
