@@ -303,6 +303,9 @@ yum -y install httpd firewalld
 #firewall-cmd --add-port=443/tcp
 #firewall-cmd --permanent --add-port=443/tcp
 #firewall-cmd --reload
+systemctl stop firewalld
+systemctl disable firewalld
+
 
 # Disable SELinux
 #cat /etc/selinux/config|grep -v "^SELINUX=">/tmp/__selinuxConfig
