@@ -174,6 +174,7 @@ resource "aws_instance" "mirror" {
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "st1", "volume_size" = "${var.mirror_volume_size}", "delete_on_termination" = true, "encrypted" = true }
+  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "st1", "volume_size" = "500", "delete_on_termination" = true, "encrypted" = true }
   
   connection {
     user        = "ec2-user"
@@ -279,23 +280,6 @@ done
 mkdir -p /var/www/html/cloud_install
 aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_cloud_install_path /var/www/html/cloud_install
 
-# Install HTTP server
-
-yum -y install httpd firewalld
-firewall-cmd --add-port=80/tcp
-firewall-cmd --permanent --add-port=80/tcp
-firewall-cmd --add-port=443/tcp
-firewall-cmd --permanent --add-port=443/tcp
-firewall-cmd --reload
-systemctl start httpd
-systemctl enable httpd
-
-
-# Disable SELinux
-cat /etc/selinux/config|grep -v "^SELINUX=">/tmp/__selinuxConfig
-echo "SELINUX=disabled">>/tmp/__selinuxConfig
-mv -f /tmp/__selinuxConfig /etc/selinux/config
-setenforce 0
 
 # Set up /opt/cloud_install
 mkdir -p /opt/cloud_install
@@ -307,11 +291,59 @@ mkdir -p /repo/sync/
 cp rpm_repo_files/02_epel_sync.sh /repo/sync/
 chmod 755 /repo/sync/02_epel_sync.sh
 
-
 # Sync EPEL
 cd /repo/sync
 ./02_epel_sync.sh
 
+# Install HTTP server
+
+yum -y install httpd firewalld
+#firewall-cmd --add-port=80/tcp
+#firewall-cmd --permanent --add-port=80/tcp
+#firewall-cmd --add-port=443/tcp
+#firewall-cmd --permanent --add-port=443/tcp
+#firewall-cmd --reload
+
+# Disable SELinux
+#cat /etc/selinux/config|grep -v "^SELINUX=">/tmp/__selinuxConfig
+#echo "SELINUX=disabled">>/tmp/__selinuxConfig
+#mv -f /tmp/__selinuxConfig /etc/selinux/config
+#setenforce 0
+
+yum install -y policycoreutils-python
+semanage fcontext -a -t httpd_sys_content_t "/var/www/html(/.*)?"
+restorecon -Rv /var/www/html
+
+systemctl start httpd
+systemctl enable httpd
+
+yum install -y docker
+cat<<END>/etc/sysconfig/docker-storage-setup
+DEVS=/dev/xvdc
+VG=docker-vg
+END
+docker-storage-setup
+sleep 5
+systemctl enable docker
+systemctl start docker
+
+docker load -i /var/www/html/software/docker-registry.tar
+cat<<END>/etc/containers/registries.conf
+[registries.insecure]
+registries = ["${self.private_ip}:5000"]
+END
+systemctl restart docker
+sleep 5
+docker run -v /data -d -p 5000:5000 --restart=always --name registry registry:2
+sleep 5
+docker ps -a
+sleep 5
+# Test registry
+docker images
+docker tag docker.io/busybox  ${self.private_ip}:5000/busybox
+docker push ${self.private_ip}:5000/busybox
+
+systemctl stop docker
 
 echo "Mirror setup complete. Rebooting..."
 
