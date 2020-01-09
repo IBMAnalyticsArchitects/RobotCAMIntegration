@@ -126,7 +126,7 @@ resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
   cores                    = 8
   memory                   = 8192
   wait_time_minutes        = 200
-  disks                    = [100,2000]
+  disks                    = [100,2000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -224,6 +224,30 @@ cat /etc/selinux/config|grep -v "^SELINUX=">/tmp/__selinuxConfig
 echo "SELINUX=disabled">>/tmp/__selinuxConfig
 mv -f /tmp/__selinuxConfig /etc/selinux/config
 setenforce 0
+
+# Set up docker registry
+yum install -y docker
+cat <<EOF > /etc/sysconfig/docker-storage-setup
+DEVS=/dev/xvdd
+VG=docker-vg
+EOF
+docker-storage-setup;
+systemctl enable docker
+systemctl start docker
+
+
+docker load -i /var/www/html/software/docker-registry.tar
+cat<<END>/etc/containers/registries.conf
+[registries.insecure]
+registries = ["${aws_instance.driver.*.private_ip}:5000"]
+END
+systemctl restart docker
+docker run  -d -p 5000:5000 --restart=always --name registry registry:2
+
+# Test registry
+docker images
+docker tag docker.io/busybox  ${aws_instance.driver.*.private_ip}:5000/busybox
+docker push ${aws_instance.driver.*.private_ip}:5000/busybox
 
 echo "Mirror setup complete. Rebooting..."
 
