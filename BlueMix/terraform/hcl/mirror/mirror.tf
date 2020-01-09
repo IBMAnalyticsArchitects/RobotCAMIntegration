@@ -225,6 +225,8 @@ echo "SELINUX=disabled">>/tmp/__selinuxConfig
 mv -f /tmp/__selinuxConfig /etc/selinux/config
 setenforce 0
 
+subscription-manager repos --enable=rhel-7-server-extras-rpms
+
 yum install -y docker
 cat<<END>/etc/sysconfig/docker-storage-setup
 DEVS=/dev/xvdd
