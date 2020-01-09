@@ -226,10 +226,10 @@ mv -f /tmp/__selinuxConfig /etc/selinux/config
 setenforce 0
 
 yum install -y docker
-cat<<EOF>/etc/sysconfig/docker-storage-setup
+cat<<END>/etc/sysconfig/docker-storage-setup
 DEVS=/dev/xvdd
 VG=docker-vg
-EOF
+END
 docker-storage-setup
 systemctl enable docker
 systemctl start docker
