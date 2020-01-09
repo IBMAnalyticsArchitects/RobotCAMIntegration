@@ -234,6 +234,19 @@ docker-storage-setup
 systemctl enable docker
 systemctl start docker
 
+docker load -i /var/www/html/software/docker-registry.tar
+cat<<END>/etc/containers/registries.conf
+[registries.insecure]
+registries = ["${aws_instance.driver.*.private_ip}:5000"]
+END
+systemctl restart docker
+docker run  -d -p 5000:5000 --restart=always --name registry registry:2
+
+# Test registry
+docker images
+docker tag docker.io/busybox  ${aws_instance.driver.*.private_ip}:5000/busybox
+docker push ${aws_instance.driver.*.private_ip}:5000/busybox
+
 echo "Mirror setup complete. Rebooting..."
 
 reboot
