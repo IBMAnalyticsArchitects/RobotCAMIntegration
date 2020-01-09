@@ -244,6 +244,9 @@ END
 systemctl restart docker
 docker run  -d -p 5000:5000 --restart=always --name registry registry:2
 
+sleep 20
+docker ps -a
+sleep 20
 # Test registry
 docker images
 docker tag docker.io/busybox  ${self.ipv4_address_private}:5000/busybox
