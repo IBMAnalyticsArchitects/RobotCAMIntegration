@@ -214,16 +214,22 @@ aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_cloud_ins
 #sudo firewall-cmd --permanent --add-port=443/tcp
 #sudo firewall-cmd --add-port=80/tcp
 #sudo firewall-cmd --add-port=443/tcp
+#sudo firewall-cmd --permanent --add-port=5000/
+#sudo firewall-cmd --add-port=5000/tcp
 #sudo firewall-cmd --reload
 sudo systemctl start httpd
 sudo systemctl enable httpd
 
 
-# Disable SELinux
-cat /etc/selinux/config|grep -v "^SELINUX=">/tmp/__selinuxConfig
-echo "SELINUX=disabled">>/tmp/__selinuxConfig
-mv -f /tmp/__selinuxConfig /etc/selinux/config
-setenforce 0
+## Disable SELinux
+#cat /etc/selinux/config|grep -v "^SELINUX=">/tmp/__selinuxConfig
+#echo "SELINUX=disabled">>/tmp/__selinuxConfig
+#mv -f /tmp/__selinuxConfig /etc/selinux/config
+#setenforce 0
+
+yum install -y policycoreutils-python
+semanage fcontext -a -t httpd_sys_content_t "/var/www/html(/.*)?"
+restorecon -Rv /var/www/html
 
 subscription-manager repos --enable=rhel-7-server-extras-rpms
 
