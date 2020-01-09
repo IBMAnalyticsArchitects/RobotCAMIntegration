@@ -253,6 +253,8 @@ docker images
 docker tag docker.io/busybox  ${self.ipv4_address_private}:5000/busybox
 docker push ${self.ipv4_address_private}:5000/busybox
 
+systemctl stop docker
+
 echo "Mirror setup complete. Rebooting..."
 
 reboot
