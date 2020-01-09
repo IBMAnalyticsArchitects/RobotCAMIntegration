@@ -231,7 +231,7 @@ cat <<EOF > /etc/sysconfig/docker-storage-setup
 DEVS=/dev/xvdd
 VG=docker-vg
 EOF
-docker-storage-setup;
+docker-storage-setup
 systemctl enable docker
 systemctl start docker
 
