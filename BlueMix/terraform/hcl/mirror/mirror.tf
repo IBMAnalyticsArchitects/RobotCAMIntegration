@@ -229,7 +229,7 @@ subscription-manager repos --enable=rhel-7-server-extras-rpms
 
 yum install -y docker
 cat<<END>/etc/sysconfig/docker-storage-setup
-DEVS=/dev/xvdd
+DEVS=/dev/xvde
 VG=docker-vg
 END
 docker-storage-setup
