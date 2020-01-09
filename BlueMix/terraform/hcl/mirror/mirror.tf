@@ -225,18 +225,6 @@ echo "SELINUX=disabled">>/tmp/__selinuxConfig
 mv -f /tmp/__selinuxConfig /etc/selinux/config
 setenforce 0
 
-# Set up docker registry
-yum install -y docker
-cat<<EOF>/etc/sysconfig/docker-storage-setup
-DEVS=/dev/xvdd
-VG=docker-vg
-EOF
-docker-storage-setup
-systemctl enable docker
-systemctl start docker
-
-
-
 echo "Mirror setup complete. Rebooting..."
 
 reboot
