@@ -240,7 +240,7 @@ DEVS=/dev/xvde
 VG=docker-vg
 END
 docker-storage-setup
-sleep 10
+sleep 5
 systemctl enable docker
 systemctl start docker
 
@@ -250,11 +250,11 @@ cat<<END>/etc/containers/registries.conf
 registries = ["${self.ipv4_address_private}:5000"]
 END
 systemctl restart docker
-sleep 10
+sleep 5
 docker run -v /data -d -p 5000:5000 --restart=always --name registry registry:2
-sleep 20
+sleep 5
 docker ps -a
-sleep 20
+sleep 5
 # Test registry
 docker images
 docker tag docker.io/busybox  ${self.ipv4_address_private}:5000/busybox
