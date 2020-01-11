@@ -209,7 +209,7 @@ aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_cloud_ins
 
 mkdir -p /opt/cloud_install
 cd /opt/cloud_install
-tar xf var/www/html/cloud_install/`basename $cam_ibm_cos_source_cloud_install_path`
+tar xf /var/www/html/cloud_install/`basename $cam_ibm_cos_source_cloud_install_path`
 
 # Install HTTP server
 
