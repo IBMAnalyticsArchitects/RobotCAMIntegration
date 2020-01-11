@@ -207,6 +207,10 @@ done
 mkdir -p /var/www/html/cloud_install
 aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_cloud_install_path /var/www/html/cloud_install
 
+mkdir -p /opt/cloud_install
+cd /opt/cloud_install
+tar xf var/www/html/cloud_install/`basename $cam_ibm_cos_source_cloud_install_path`
+
 # Install HTTP server
 
 #sudo yum -y install httpd
@@ -234,6 +238,8 @@ sudo systemctl enable httpd
 
 subscription-manager repos --enable=rhel-7-server-extras-rpms
 
+# Install docker and set up image registry
+
 yum install -y docker
 cat<<END>/etc/sysconfig/docker-storage-setup
 DEVS=/dev/xvde
@@ -260,6 +266,7 @@ docker images
 docker tag docker.io/busybox  ${self.ipv4_address_private}:5000/busybox
 docker push ${self.ipv4_address_private}:5000/busybox
 
+# Load images into the registry
 cd /opt/cloud_install
 cp4d_files/02_load_tag_push.sh /var/www/html/product_distr/CP4D2.5/ose-images/  ${self.ipv4_address_private}:5000
 
