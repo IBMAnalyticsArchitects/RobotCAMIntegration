@@ -291,18 +291,14 @@ mkdir -p /repo/sync/
 cp rpm_repo_files/02_epel_sync.sh /repo/sync/
 chmod 755 /repo/sync/02_epel_sync.sh
 
-# Sync EPEL
-cd /repo/sync
-./02_epel_sync.sh
+## Sync EPEL
+#cd /repo/sync
+#./02_epel_sync.sh
 
 # Install HTTP server
 
 yum -y install httpd firewalld
-#firewall-cmd --add-port=80/tcp
-#firewall-cmd --permanent --add-port=80/tcp
-#firewall-cmd --add-port=443/tcp
-#firewall-cmd --permanent --add-port=443/tcp
-#firewall-cmd --reload
+
 systemctl stop firewalld
 systemctl disable firewalld
 
@@ -357,6 +353,10 @@ docker images
 docker tag docker.io/busybox  ${self.private_ip}:5000/busybox
 docker push ${self.private_ip}:5000/busybox
 
+# Load images into the registry
+cd /opt/cloud_install
+cp4d_files/02_load_tag_push.sh /var/www/html/product_distr/CP4D2.5/ose-images/  ${self.private_ip}:5000
+
 systemctl stop docker
 
 echo "Mirror setup complete. Rebooting..."
@@ -368,13 +368,6 @@ EOF
   }
 
 }
-
-#########################################################
-# Output
-#########################################################
-#output "The IP address of the VM with Mirror installed" {
-#  value = "join(",",ibm_compute_vm_instance.softlayer_virtual_guest.ipv4_address_private)}"
-#}
 
 
 resource "null_resource" "start_install" {
