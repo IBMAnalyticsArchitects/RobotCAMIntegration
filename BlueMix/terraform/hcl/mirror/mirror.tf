@@ -260,6 +260,10 @@ docker images
 docker tag docker.io/busybox  ${self.ipv4_address_private}:5000/busybox
 docker push ${self.ipv4_address_private}:5000/busybox
 
+cd /opt/cloud_install
+cp4d_files/02_load_tag_push.sh /var/www/html/product_distr/CP4D2.5/ose-images/  ${self.ipv4_address_private}:5000
+
+
 systemctl stop docker
 
 echo "Mirror setup complete. Rebooting..."
