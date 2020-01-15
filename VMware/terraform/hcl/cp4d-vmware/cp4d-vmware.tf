@@ -779,18 +779,10 @@ resource "vsphere_virtual_machine" "icpnfs" {
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
-    size = "700"
+    size = "1000"
     keep_on_remove = "false"
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
-  }
-  
-  disk {
-    label = "${var.vm_name_prefix}2.vmdk"
-    size = "700"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "2"
   }
 
   connection {
@@ -881,7 +873,7 @@ resource "vsphere_virtual_machine" "icpworker" {
   
   disk {
     label = "${var.vm_name_prefix}3.vmdk"
-    size = "700"
+    size = "1000"
     keep_on_remove = "false"
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "3"
