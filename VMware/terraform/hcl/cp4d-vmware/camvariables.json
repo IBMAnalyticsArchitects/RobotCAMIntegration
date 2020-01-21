@@ -531,21 +531,18 @@
     {
       "name": "cp4d_addons",
       "type": "list",
-      "description": "List of Cloud Pak for Data Add-Ons (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
+      "description": "List of Cloud Pak for Data Cartridges (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
       "hidden": false,
       "label": "List of Cloud Pak for Data Add-Ons",
       "secured": false,
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
-      "default": [ "db2_warehouse","analytics_environments","data_refinery",
-      				"decision_optimization","data_virtualization",
-      				"cognos","iisee","streams","regulatory",
-      				"watson_explorer","watson_machine_learning",
-      				"watson_knowledge_catalog","watson_openscale",
-      				"spss_modeler","watson_speech_services",
-      				"watson_assistant","watson_discovery",
-      				"watson_nlu","watson_knowledge_studio","hadoop_integration"]
+      "default": [ 
+      	"ds","wkc","wml","wsl","cde",
+      	"ca","dv","iira","osg","rstudio",
+      	"runtime-addon-gpupy36","runtime-addon-r36",
+      	"spark","spss-modeler","streams","dods"]
     },
     { 
       "name": "hdp_driver_ip",
