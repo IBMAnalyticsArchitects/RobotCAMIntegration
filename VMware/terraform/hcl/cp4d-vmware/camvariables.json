@@ -533,7 +533,7 @@
       "type": "list",
       "description": "List of Cloud Pak for Data Cartridges (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
       "hidden": false,
-      "label": "List of Cloud Pak for Data Add-Ons",
+      "label": "List of Cloud Pak for Data Cartridges",
       "secured": false,
       "required": false,
       "immutable": false,
