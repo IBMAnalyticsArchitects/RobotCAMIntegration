@@ -245,7 +245,7 @@ variable "cp4d_addons" {
 
 variable "cp4d_num_db2wh_nodes" {
   description = "Number of nodes dedicated to DB2WH"
-  type = "list"
+  type = "string"
 }
 
 variable "hdp_driver_ip" {
