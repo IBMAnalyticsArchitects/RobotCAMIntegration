@@ -238,9 +238,13 @@ variable "idm_directory_manager_password" {
   description = "Password for IDM directory admin user"
 }
 
-
 variable "cp4d_addons" {
   description = "List of Cloud Pak for Data Add-Ons"
+  type = "list"
+}
+
+variable "cp4d_num_db2wh_nodes" {
+  description = "Number of nodes dedicated to DB2WH"
   type = "list"
 }
 
@@ -999,6 +1003,8 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_cp4d_addons=${join(",",var.cp4d_addons)} >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_cp4d_num_db2wh_nodes=${var.cp4d_num_db2wh_nodes} >> /opt/monkey_cam_vars.txt",
 
       "echo  export cam_dsxhi_hostname=${var.hdp_edge_node_hostname} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_dsxhi_ip=${var.hdp_edge_node_ip} >> /opt/monkey_cam_vars.txt",
