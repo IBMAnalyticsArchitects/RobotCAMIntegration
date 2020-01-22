@@ -542,7 +542,19 @@
       	"ds","wkc","wml","wsl","cde",
       	"ca","dv","iira","osg","rstudio",
       	"runtime-addon-gpupy36","runtime-addon-r36",
-      	"spark","spss-modeler","streams","dods"]
+      	"spark","spss-modeler","streams","dods","db2wh"]
+    },
+    {
+      "name": "cp4d_num_db2wh_nodes",
+      "type": "string",
+      "description": "Number of nodes dedicated to DB2WH (to install DB2WH, 'db2wh' must be added to the list of cartridges)",
+      "hidden": false,
+      "label": "Number of nodes dedicated to DB2WH",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "1"
     },
     { 
       "name": "hdp_driver_ip",
