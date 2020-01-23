@@ -173,8 +173,9 @@ resource "aws_instance" "mirror" {
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "st1", "volume_size" = "${var.mirror_volume_size}", "delete_on_termination" = true, "encrypted" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "st1", "volume_size" = "${var.mirror_volume_size}", "delete_on_termination" = true, "encrypted" = false }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "st1", "volume_size" = "500", "delete_on_termination" = true, "encrypted" = true }
+  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "st1", "volume_size" = "${var.mirror_volume_size}", "delete_on_termination" = true, "encrypted" = false }
   
   connection {
     user        = "ec2-user"
@@ -244,32 +245,29 @@ mkfs.xfs $partname
 sleep 5
 mkdir -p /var/www/html
 echo "$partname /var/www/html xfs defaults 1 1" >> /etc/fstab
-mount -a 
+mount -a END
 
-## Download mirror
-##aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $cam_ibm_cos_source_mirror_path /var/www/html
-#for f in `echo $cam_ibm_cos_source_mirror_path_list | sed 's/[,;]/ /g'`
-#do
-#	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /var/www/html
-#done
-#
-## Expand mirror
-#cd /var/www/html
-##tar xf *.tar
-#for f in *.tar
-#do
-#	tar xf $f
-#done 
+devname=/dev/xvdd
+partname=/dev/xvdd1
+parted -s $devname mklabel gpt
+sleep 5
+parted -s -a optimal $devname mkpart primary 0% 100%
+sleep 5
+mkfs.xfs $partname
+sleep 5
+mkdir -p /landing
+echo "$partname /landing xfs defaults 1 1" >> /etc/fstab
+mount -a 
 
 
 for f in `echo $cam_ibm_cos_source_mirror_path_list | sed 's/[,;]/ /g'`
 do
   echo "Downloading $f ..."  
-	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /var/www/html
+	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /landing
 done
 
 cd /var/www/html
-for f in *.tar
+for f in /landing/*.tar
 do
   echo "Expanding $f ..."
 	tar xf $f
