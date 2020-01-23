@@ -190,14 +190,26 @@ echo "$partname /var/www/html xfs defaults 1 1" >> /etc/fstab
 mount -a 
 
 
+devname=/dev/xvdf
+partname=/dev/xvdf1
+parted -s $devname mklabel gpt
+sleep 5
+parted -s -a optimal $devname mkpart primary 0% 100%
+sleep 5
+mkfs.xfs $partname
+sleep 5
+mkdir -p /landing
+echo "$partname /landing xfs defaults 1 1" >> /etc/fstab
+mount -a
+
 for f in `echo $cam_ibm_cos_source_mirror_path_list | sed 's/[,;]/ /g'`
 do
   echo "Downloading $f ..."  
-	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /var/www/html
+	aws --endpoint-url=$cam_ibm_cos_endpoint_url s3 cp $f /landing
 done
 
 cd /var/www/html
-for f in *.tar
+for f in /landing/*.tar
 do
   echo "Expanding $f ..."
 	tar xf $f
