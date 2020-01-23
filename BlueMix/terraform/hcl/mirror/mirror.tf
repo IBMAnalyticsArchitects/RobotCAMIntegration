@@ -126,7 +126,7 @@ resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
   cores                    = 8
   memory                   = 8192
   wait_time_minutes        = 200
-  disks                    = [100,2000,1000]
+  disks                    = [100,2000,1000,2000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.cam_public_key.id}", "${ibm_compute_ssh_key.temp_public_key.id}"]
