@@ -542,7 +542,7 @@
       	"ds","wkc","wml","wsl","cde",
       	"ca","dv","iira","osg","rstudio",
       	"runtime-addon-gpupy36","runtime-addon-r36",
-      	"spark","spss-modeler","streams","dods","db2wh"]
+      	"spark","spss-modeler","streams","dods","db2wh","aiopenscale"]
     },
     {
       "name": "cp4d_num_db2wh_nodes",
