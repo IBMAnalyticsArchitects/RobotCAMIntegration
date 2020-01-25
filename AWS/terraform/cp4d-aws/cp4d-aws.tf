@@ -457,7 +457,8 @@ EOF
 # ICP IDM
 #
 resource "aws_instance" "icpidm" {
-  count="${ 2 * local.idm_install }"
+#  count="${ 2 * local.idm_install }"
+  count="1"
   tags { Name = "${var.vm_name_prefix}-icpidm-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpidm-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "m4.2xlarge"
   ami           = "${var.aws_image}"
@@ -512,45 +513,10 @@ EOF
 
 
 ###########################################################################################################################################################
-# HAProxyVIP
-#
-# This VM is created for the sole purpose of obtaining a VIP.
-# It is immediately shut down after created.
-# It's create with the smallest instance type and should not be destroyed so as to keep the IP allocated and never reused, for as long as this cluster is in use.
-#
-# Update: This approach does not work on AWS. You can't re-use the IP address of an instance as VIP for other instances.
-# Setting count to 0.
-#
-resource "aws_instance" "icphaproxyvip" {
-  count         = "0"
-  tags { Name = "${var.vm_name_prefix}-icphaproxyvip.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxyvip", Owner = "${var.aws_owner}", Obs = "Make sure to keep this VM down. Don't destroy it until the entire cluster is removed. Its only purpose is get an IP allocated for ICP4D HAProxy purposes."  }
-  instance_type = "t3.nano"
-  ami           = "${var.aws_image}"
-  availability_zone = "${element(var.availability_zones, 0)}"
-  subnet_id     = "${element(var.subnet_ids, 0)}"
-  vpc_security_group_ids = "${var.security_group_ids}"
-  key_name      = "${aws_key_pair.temp_public_key.id}"
-  root_block_device = { "volume_type" = "gp2", "volume_size" = "20", "delete_on_termination" = true }
-  
-  connection {
-    user        = "ec2-user"
-    private_key = "${tls_private_key.ssh.private_key_pem}"
-    host        = "${self.private_ip}"
-  }
-   
- provisioner "remote-exec" {
-    inline = [
-      "sudo su - -c 'halt -p'"
-    ]
- }
-  
-}
-
-###########################################################################################################################################################
 # ICP Master
 #
 resource "aws_instance" "icpmaster" {
-  count         = "3"
+  count         = "1"
   tags { Name = "${var.vm_name_prefix}-icpmaster-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpmaster-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.instance_type}"
   ami           = "${var.aws_image}"
@@ -611,7 +577,7 @@ EOF
 # ICP Infra
 #
 resource "aws_instance" "icpinfra" {
-  count         = "3"
+  count         = "1"
   tags { Name = "${var.vm_name_prefix}-icpinfra-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpinfra-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.instance_type}"
   ami           = "${var.aws_image}"
