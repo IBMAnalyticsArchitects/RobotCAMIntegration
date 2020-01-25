@@ -904,8 +904,8 @@ resource "null_resource" "start_install" {
       "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /tmp/monkey_cam_vars.txt",
       
       
-      "echo  export cam_cp4d_addons=${join(",",var.cp4d_addons)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_cp4d_num_db2wh_nodes=${var.cp4d_num_db2wh_nodes} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_cp4d_addons=${join(",",var.cp4d_addons)} >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_cp4d_num_db2wh_nodes=${var.cp4d_num_db2wh_nodes} >> /tmp/monkey_cam_vars.txt",
 
       "echo  export cam_dsxhi_hostname=${var.hdp_edge_node_hostname} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_dsxhi_ip=${var.hdp_edge_node_ip} >> /tmp/monkey_cam_vars.txt",
