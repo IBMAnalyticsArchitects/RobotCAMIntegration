@@ -825,9 +825,10 @@ resource "null_resource" "start_install" {
   	"aws_instance.driver",   
   	"aws_instance.icpidm",   
   	"aws_instance.icphaproxy", 
-  	"aws_instance.icphaproxyvip",  
   	"aws_instance.icpmaster", 
-  	"aws_instance.icpworker"
+  	"aws_instance.icpworker", 
+  	"aws_instance.icpnfs",
+  	"aws_instance.icpinfra"
   ]
 
   
