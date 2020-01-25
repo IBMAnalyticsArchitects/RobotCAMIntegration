@@ -1,12 +1,15 @@
 {
-   "name": "CP4D on VMWare",
-   "description": "CP4D on VMWare",
+   "name": "CP4D on AWS",
+   "description": "CP4D on AWS",
    "version": "2.0.0",
+   "imageUrl": "./assets/svg/IBM_WebSphere_Standalone.svg",
+   "image": "tp_WAS_standalone.png",
    "type": "userCreated",
+   "status": "active",
    "manifest": {
      "template_type": "Terraform",
      "template_format": "HCL",
-     "template_provider": "VMware vSphere",
+     "template_provider": "Amazon EC2",
      "template": {
        "templateData": "",
        "templateVariables": "",
@@ -15,14 +18,14 @@
      "template_source": {
        "githubRepoUrl": "",
        "githubAccessToken": "",
-       "relativePathToTemplateFolder": "VMware/terraform/hcl/hcsdl1",
-       "templateFileName": "hcsdl1.tf"
+       "relativePathToTemplateFolder": "AWS/terraform/cp4d-aws",
+       "templateFileName": "cp4d-aws.tf"
      }
    },
    "metadata": {
-     "displayName": "CP4D on VMWare",
+     "displayName": "CP4D on AWS",
      "templateCategory": "Secure Data Lakes",
-     "longDescription": "CP4D on VMWare.",
+     "longDescription": "CP4D on AWS.",
      "bullets": [
        {
          "title": "Clouds",
@@ -52,6 +55,30 @@
          "title": "Monitoring install progress",
          "description": "<ul><li>Once template instance is in 'Running' (green) state:</li><li>1. Log into driver VM either as root or sudo user</li><li>2. Execute: tail -f /root/nohup.out</li> <li>3. Check log files as they are being generated: </li> <li>    cd /opt/cloud_install; ls -lrt *.log </li>  </ul>"
        }
+     ],
+     "featuredImageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_50.png",
+     "imageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_50.png",
+     "mediumImageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_32.png",
+     "smallImageUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/ic_patternengine_24.png",
+     "documentationUrl": "https://console.stage1.ng.bluemix.net/docs/services/CloudAutomationManager/index.html",
+     "termsUrl": "http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm-7448-01",
+     "media": [
+       {
+         "type": "image",
+         "thumbnailUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_1.png",
+         "url": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_1_large.png",
+         "caption": ""
+       },
+       {
+         "type": "image",
+         "thumbnailUrl": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_2.png",
+         "url": "https://ibmpatternengine-staticcontent-prod.eu-gb.mybluemix.net/screenshots_2_large.png",
+         "caption": ""
+       }
      ]
+   },
+   "toolchain": {
+     "git": "https://github.com/ibmcam/cam-toolchain"
    }
  }
+
