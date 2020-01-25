@@ -771,7 +771,8 @@ resource "aws_instance" "icphaproxy" {
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
-  
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
+
   connection {
     user        = "ec2-user"
     private_key = "${tls_private_key.ssh.private_key_pem}"
