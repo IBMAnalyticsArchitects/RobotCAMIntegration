@@ -891,8 +891,7 @@ resource "null_resource" "start_install" {
       # In this case, no IDM passwords are set here (they are created by the CAM integration Perl script)
       "echo  export cam_idm_ip=${join(",",aws_instance.icpidm.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_idm_name=${join(",",aws_instance.icpidm.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
-  
-      "echo  export cam_icp_haproxy_vip=${join(",",aws_instance.icphaproxyvip.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
+
       "echo  export cam_icp_haproxy_ip=${join(",",aws_instance.icphaproxy.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icp_haproxy_name=${join(",",aws_instance.icphaproxy.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
       
