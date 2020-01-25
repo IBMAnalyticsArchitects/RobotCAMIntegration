@@ -792,6 +792,64 @@ EOF
 
 
 
+###########################################################################################################################################################
+# ICP HAProxy
+#
+resource "aws_instance" "icphaproxy" {
+  count         = "1"
+  tags { Name = "${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxy-${ count.index }", Owner = "${var.aws_owner}" }
+  instance_type = "${var.instance_type}"
+  ami           = "${var.aws_image}"
+  availability_zone = "${element(var.availability_zones, count.index )}"
+  subnet_id     = "${element(var.subnet_ids, count.index )}"
+  vpc_security_group_ids = "${var.security_group_ids}"
+  key_name      = "${aws_key_pair.temp_public_key.id}"
+  root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
+  
+  connection {
+    user        = "ec2-user"
+    private_key = "${tls_private_key.ssh.private_key_pem}"
+    host        = "${self.private_ip}"
+  }
+  
+  
+  provisioner "remote-exec" {
+    inline = [
+      "echo \"${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}\">/tmp/hostname",
+      "sudo mv /tmp/hostname /etc/hostname",
+      "sudo hostname \"${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}\"",
+      
+      
+      "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
+      "sudo su - -c 'systemctl restart sshd'",
+      
+      "sudo mkdir -p /root/.ssh",
+      "sudo chmod 700 /root/.ssh",
+      "sudo su - -c 'echo ${var.public_ssh_key} > /root/.ssh/id_rsa.pub'",
+      "sudo su - -c 'echo ${var.public_ssh_key} >> /root/.ssh/authorized_keys'",
+      "sudo chmod 600 /root/.ssh/authorized_keys",
+      "sudo su - -c 'echo ${var.private_ssh_key} | base64 -d > /root/.ssh/id_rsa'",
+      "sudo chmod 600 /root/.ssh/id_rsa",
+      "sudo su - -c 'echo StrictHostKeyChecking no > /root/.ssh/config'",
+      "sudo chmod 600 /root/.ssh/config",
+      "sudo yum update -y",
+      "sudo yum-config-manager --enable *rhel*",
+      "sudo mv /data /data.bkp"
+    ]
+ }
+
+ provisioner "file" {
+    content = <<EOF
+var=50
+tmp=50
+EOF
+    destination = "/tmp/filesystemLayout.txt"
+}
+  
+}
+
+
+
 
 ############################################################################################################################################################
 # Start Install
