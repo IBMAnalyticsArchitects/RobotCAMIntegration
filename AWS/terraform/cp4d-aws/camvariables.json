@@ -458,7 +458,6 @@
       "default": "1000"
     },
     {
-    {
       "name": "cp4d_addons",
       "type": "list",
       "description": "List of Cloud Pak for Data Cartridges (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
