@@ -714,6 +714,7 @@ resource "aws_instance" "icpnfs" {
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "100", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
   
   connection {
     user        = "ec2-user"
@@ -865,7 +866,7 @@ resource "null_resource" "start_install" {
       
       "echo  export cam_icp_docker_device=/dev/xvdc >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icp_portworx_devices=/dev/xvdd >> /tmp/monkey_cam_vars.txt",
-      "echo  export cam_icp_nfs_data_devices=/disk2@/dev/xvdb >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_icp_nfs_data_devices=/disk2@/dev/xvdc >> /tmp/monkey_cam_vars.txt",
       
       "echo  export cam_icpmasters_ip=${join(",",aws_instance.icpmaster.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_icpmasters_name=${join(",",aws_instance.icpmaster.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",    
