@@ -442,7 +442,8 @@ aws_files/01_setup_ec2_instances.sh
 
 utils/01_prepare_all_nodes.sh
 
-nohup icp_files/01_master_standalone_icp4d.sh &
+#nohup icp_files/01_master_standalone_icp4d.sh &
+nohup cp4d_files/01_master_cp4d.sh &
 
 EOF
 
