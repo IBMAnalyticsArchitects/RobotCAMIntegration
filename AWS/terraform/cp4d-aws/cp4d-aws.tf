@@ -877,7 +877,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpinfra_name=${join(",",aws_instance.icpinfra.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt", 
       
       "echo  export cam_icpnfs_ip=${join(",",aws_instance.icpnfs.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
-      "echo  export cam_icpwnfs_name=${join(",",aws_instance.icpnfs.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt", 
+      "echo  export cam_icpnfs_name=${join(",",aws_instance.icpnfs.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt", 
      
       "echo  export cam_idm_install=${local.idm_install} >> /tmp/monkey_cam_vars.txt",
       # These variables are only relevant when tying the new cluster with an existing IDM instance
