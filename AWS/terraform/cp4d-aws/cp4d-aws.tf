@@ -555,7 +555,8 @@ resource "aws_instance" "icpmaster" {
       "sudo chmod 600 /root/.ssh/config",
       "sudo yum update -y",
       "sudo yum-config-manager --enable *rhel*",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "sudo su - -c 'sed -i \'s/NM_CONTROLLED=.*/NM_CONTROLLED=YES/\' /etc/sysconfig/network-scripts/ifcfg-eth0'"
     ]
  }
 
@@ -616,7 +617,8 @@ resource "aws_instance" "icpinfra" {
       "sudo chmod 600 /root/.ssh/config",
       "sudo yum update -y",
       "sudo yum-config-manager --enable *rhel*",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "sudo su - -c 'sed -i \'s/NM_CONTROLLED=.*/NM_CONTROLLED=YES/\' /etc/sysconfig/network-scripts/ifcfg-eth0'"
     ]
  }
 
@@ -682,7 +684,8 @@ resource "aws_instance" "icpworker" {
       "sudo chmod 600 /root/.ssh/config",
       "sudo yum update -y",
       "sudo yum-config-manager --enable *rhel*",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "sudo su - -c 'sed -i \'s/NM_CONTROLLED=.*/NM_CONTROLLED=YES/\' /etc/sysconfig/network-scripts/ifcfg-eth0'"
     ]
  }
 
@@ -744,7 +747,8 @@ resource "aws_instance" "icpnfs" {
       "sudo chmod 600 /root/.ssh/config",
       "sudo yum update -y",
       "sudo yum-config-manager --enable *rhel*",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "sudo su - -c 'sed -i \'s/NM_CONTROLLED=.*/NM_CONTROLLED=YES/\' /etc/sysconfig/network-scripts/ifcfg-eth0'"
     ]
  }
 
@@ -803,7 +807,8 @@ resource "aws_instance" "icphaproxy" {
       "sudo chmod 600 /root/.ssh/config",
       "sudo yum update -y",
       "sudo yum-config-manager --enable *rhel*",
-      "sudo mv /data /data.bkp"
+      "sudo mv /data /data.bkp",
+      "sudo su - -c 'sed -i \'s/NM_CONTROLLED=.*/NM_CONTROLLED=YES/\' /etc/sysconfig/network-scripts/ifcfg-eth0'"
     ]
  }
 
