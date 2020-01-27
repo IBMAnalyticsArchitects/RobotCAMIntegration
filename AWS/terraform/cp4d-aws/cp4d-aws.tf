@@ -566,8 +566,8 @@ resource "aws_instance" "icpmaster" {
     content = <<EOF
 var=400
 tmp=100
-opt=200
-home=100
+opt=400
+home=50
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
