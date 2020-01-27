@@ -246,35 +246,11 @@
       "default": "1"
     },
     {
-      "name": "ibm_vol_size",
-      "type": "string",
-      "description": "Size of /ibm volume",
-      "hidden": false,
-      "label": "Size of /ibm volume",
-      "secured": false,
-      "required": false,
-      "immutable": false,
-      "group_name": "Cluster",
-      "default": "1000"
-    },
-    {
       "name": "docker_vol_size",
       "type": "string",
       "description": "Size of docker volume",
       "hidden": false,
       "label": "Size of docker volume",
-      "secured": false,
-      "required": false,
-      "immutable": false,
-      "group_name": "Cluster",
-      "default": "1000"
-    },
-    {
-      "name": "data_vol_size",
-      "type": "string",
-      "description": "Size of /data volume",
-      "hidden": false,
-      "label": "Size of /data volume",
       "secured": false,
       "required": false,
       "immutable": false,

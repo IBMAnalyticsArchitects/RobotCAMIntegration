@@ -112,13 +112,13 @@ variable "public_nic_name" {
 }
 
 
-variable "icp_network_cidr" {
-  description = "ICP Network CIDR"
-}
-
-variable "icp_service_cluster_ip_range" {
-  description = "ICP Cluster IP Range"
-}
+#variable "icp_network_cidr" {
+#  description = "ICP Network CIDR"
+#}
+#
+#variable "icp_service_cluster_ip_range" {
+#  description = "ICP Cluster IP Range"
+#}
 
 variable "instance_type" {
   description = "instance_type"
@@ -212,21 +212,9 @@ variable "ebs_vol_iops" {
   default = "1000"
 }
 
-variable "ibm_vol_size" {
-  type = "string"
-  description = "Size of /ibm volume"
-  default = "1000"
-}
-
 variable "docker_vol_size" {
   type = "string"
   description = "Size of docker volume"
-  default = "1000"
-}
-
-variable "data_vol_size" {
-  type = "string"
-  description = "Size of /data volume"
   default = "1000"
 }
 
@@ -654,7 +642,7 @@ resource "aws_instance" "icpworker" {
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
-  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "${var.ibm_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "${var.portworx_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   
   connection {
     user        = "ec2-user"
@@ -906,8 +894,8 @@ resource "null_resource" "start_install" {
       # cam_icp_load_balancer_name
       #"echo  export cam_icp_load_balancer_name=${aws_lb.icp-console.dns_name} >> /tmp/monkey_cam_vars.txt",
     
-      "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /tmp/monkey_cam_vars.txt",
-      "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /tmp/monkey_cam_vars.txt",
+#      "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /tmp/monkey_cam_vars.txt",
+#      "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /tmp/monkey_cam_vars.txt",
       
       "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /tmp/monkey_cam_vars.txt",
       
