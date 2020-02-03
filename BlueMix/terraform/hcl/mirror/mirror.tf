@@ -24,6 +24,7 @@
 # Define the ibmcloud provider
 #########################################################
 provider "ibm" {
+  version = "~> 1.1.0"
 }
 
 
