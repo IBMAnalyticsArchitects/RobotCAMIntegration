@@ -162,7 +162,18 @@ set -x
 
 . /opt/monkey_cam_vars.txt
 
-yum install python rsync unzip ksh perl  wget expect httpd firewalld createrepo -y
+while true
+do
+	yum install python rsync unzip ksh perl  wget expect httpd firewalld createrepo -y
+	rc=$?
+	if [ $rc -ne 0 ]
+	then
+		echo "Retrying yum install (wait 5s)..."
+		sleep 5
+	else
+		break
+	fi
+done
 #curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
 #unzip awscli-bundle.zip
 unzip /tmp/awscli-bundle.zip

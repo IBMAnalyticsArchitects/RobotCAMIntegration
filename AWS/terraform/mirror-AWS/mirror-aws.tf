@@ -245,7 +245,7 @@ mkfs.xfs $partname
 sleep 5
 mkdir -p /var/www/html
 echo "$partname /var/www/html xfs defaults 1 1" >> /etc/fstab
-mount -a END
+mount -a
 
 devname=/dev/xvdd
 partname=/dev/xvdd1
