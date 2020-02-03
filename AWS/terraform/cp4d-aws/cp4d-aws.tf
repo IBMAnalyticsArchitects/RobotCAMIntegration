@@ -505,9 +505,10 @@ EOF
 # ICP Master
 #
 resource "aws_instance" "icpmaster" {
-  count         = "3"
+  count         = "1"
   tags { Name = "${var.vm_name_prefix}-icpmaster-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpmaster-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+#  instance_type = "${var.instance_type}"
+  instance_type = "m4.4xlarge"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
@@ -568,9 +569,10 @@ EOF
 # ICP Infra
 #
 resource "aws_instance" "icpinfra" {
-  count         = "3"
+  count         = "1"
   tags { Name = "${var.vm_name_prefix}-icpinfra-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpinfra-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+#  instance_type = "${var.instance_type}"
+  instance_type = "m4.4xlarge"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
