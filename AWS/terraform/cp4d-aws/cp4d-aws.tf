@@ -515,7 +515,7 @@ resource "aws_instance" "icpmaster" {
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "800", "delete_on_termination" = true }
 #  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
  
@@ -555,9 +555,9 @@ resource "aws_instance" "icpmaster" {
  provisioner "file" {
     content = <<EOF
 var=400
-tmp=100
-opt=400
-home=50
+tmp=30
+opt=300
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -579,7 +579,7 @@ resource "aws_instance" "icpinfra" {
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
 #  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
   
@@ -619,9 +619,9 @@ resource "aws_instance" "icpinfra" {
  provisioner "file" {
     content = <<EOF
 var=400
-tmp=100
-opt=200
-home=100
+tmp=30
+opt=10
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -644,7 +644,7 @@ resource "aws_instance" "icpworker" {
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "500", "delete_on_termination" = true }
 #  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
 #  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "${var.portworx_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
@@ -686,9 +686,9 @@ resource "aws_instance" "icpworker" {
  provisioner "file" {
     content = <<EOF
 var=400
-tmp=100
-opt=200
-home=100
+tmp=30
+opt=10
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -764,7 +764,8 @@ EOF
 resource "aws_instance" "icphaproxy" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxy-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+#  instance_type = "${var.instance_type}"
+  instance_type = "m4.2xlarge"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
