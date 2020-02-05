@@ -703,7 +703,8 @@ EOF
 resource "aws_instance" "icpnfs" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-icpnfs-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpnfs-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+#  instance_type = "${var.instance_type}"
+  instance_type = "m4.4xlarge"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
