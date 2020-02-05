@@ -381,7 +381,8 @@ EOF
 ###########################################################################################################################################################
 # ICP IDM
 resource "ibm_compute_vm_instance" "icpidm" {
-  count="${ 2 * local.idm_install }"
+#  count="${ 2 * local.idm_install }"
+  count="1"
   hostname = "${var.vm_name_prefix}-icpidm-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -650,7 +651,7 @@ EOF
 ############################################################################################################################################################
 # ICP NFS
 resource "ibm_compute_vm_instance" "icpnfs" {
-  count="${var.num_workers}"
+  count="1"
   hostname = "${var.vm_name_prefix}-icpnfs-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
