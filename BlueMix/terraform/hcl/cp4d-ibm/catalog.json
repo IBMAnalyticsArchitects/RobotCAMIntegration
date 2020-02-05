@@ -1,6 +1,6 @@
 {
-   "name": "ICP4D_Standalone_on_IBM_Cloud",
-   "description": "ICP4D Standalone on IBM Cloud",
+   "name": "CP4D_on_IBM_Cloud",
+   "description": "CP4D on IBM Cloud",
    "version": "2.0.0",
    "imageUrl": "./assets/svg/IBM_WebSphere_Standalone.svg",
    "image": "tp_WAS_standalone.png",
@@ -23,9 +23,9 @@
      }
    },
    "metadata": {
-     "displayName": "ICP4D Standalone on IBM Cloud",
+     "displayName": "CP4D on IBM Cloud",
      "providerDisplayName": "IBM",
-     "longDescription": "Deploys ICP4D Standalone on IBM Cloud.",
+     "longDescription": "Deploys CP4D on IBM Cloud.",
      "bullets": [
        {
          "title": "Clouds",
