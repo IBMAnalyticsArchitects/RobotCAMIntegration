@@ -516,10 +516,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "parted -s /dev/xvdf mklabel gpt",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 1500",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 1501 2000"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
   
@@ -572,10 +569,7 @@ resource "ibm_compute_vm_instance" "icpinfra" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "parted -s /dev/xvdf mklabel gpt",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 1500",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 1501 2000"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
   
@@ -627,10 +621,7 @@ resource "ibm_compute_vm_instance" "icpworker" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "parted -s /dev/xvdf mklabel gpt",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 500",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 501 2000"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
   
@@ -684,10 +675,7 @@ resource "ibm_compute_vm_instance" "icpnfs" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "parted -s /dev/xvdf mklabel gpt",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 0 500",
-      "parted -s -a optimal /dev/xvdf unit GB mkpart primary 501 2000"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
     ]
   }
   
