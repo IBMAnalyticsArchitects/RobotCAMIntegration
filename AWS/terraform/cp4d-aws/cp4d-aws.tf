@@ -687,7 +687,7 @@ resource "aws_instance" "icpworker" {
     content = <<EOF
 var=500
 tmp=30
-opt=10
+opt=30
 home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
@@ -704,7 +704,7 @@ resource "aws_instance" "icpnfs" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-icpnfs-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpnfs-${ count.index }", Owner = "${var.aws_owner}" }
 #  instance_type = "${var.instance_type}"
-  instance_type = "m4.4xlarge"
+  instance_type = "m4.10xlarge"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
