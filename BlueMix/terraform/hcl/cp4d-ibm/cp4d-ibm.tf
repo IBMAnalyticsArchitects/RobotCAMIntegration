@@ -270,7 +270,18 @@ EOF
     content = <<EOF
 #!/bin/sh
 
-yum install -y expect
+while true
+do
+	yum install python rsync unzip ksh perl  wget expect httpd firewalld createrepo -y
+	rc=$?
+	if [ $rc -ne 0 ]
+	then
+		echo "Retrying yum install (wait 5s)..."
+		sleep 5
+	else
+		break
+	fi
+done
 
 passphrase=`cat /root/passphrase.fifo`
 
@@ -279,7 +290,6 @@ eval `ssh-agent`
 
 set -x 
 
-yum install -y perl ksh rsync expect unzip  
 yum groupinstall "Infrastructure Server" -y
 
 mkdir -p /opt/cloud_install; 
