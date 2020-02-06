@@ -314,7 +314,8 @@ passwd -l root
 echo "Generate new global.properties"
 perl -f cam_integration/01_gen_cam_install_properties.pl
 
-sed -i 's/cloud_replace_rhel_repo=1/cloud_replace_rhel_repo=0/' global.properties
+
+sed -i 's/cloud_replace_rhel_repo=0/cloud_replace_rhel_repo=1/' global.properties
 echo "cloud_enable_yum_versionlock=0">>global.properties
 
 . ./setenv
