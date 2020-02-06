@@ -120,9 +120,47 @@ variable "public_nic_name" {
 #  description = "ICP Cluster IP Range"
 #}
 
-variable "instance_type" {
-  description = "instance_type"
+variable "num_masters" {
+  description = "number of masters"
 }
+
+variable "master_instance_type" {
+  description = "master_instance_type"
+}
+
+variable "num_infra" {
+  description = "number of infra nodes"
+}
+
+variable "infra_instance_type" {
+  description = "infra_instance_type"
+}
+
+variable "num_workers" {
+  description = "number of worker nodes"
+}
+
+variable "worker_instance_type" {
+  description = "worker_instance_type"
+}
+
+    
+variable "num_idm" {
+  description = "number of idm nodes"
+}
+
+variable "idm_instance_type" {
+  description = "idm_instance_type"
+}
+
+variable "haproxy_instance_type" {
+  description= "haproxy_instance_type"
+}
+
+variable "nfs_instance_type" {
+  description = "nfs_instance_type"
+}
+    
 
 ###
 
