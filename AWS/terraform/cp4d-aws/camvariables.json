@@ -184,19 +184,6 @@
     },
     
     {
-      "name": "instance_type",
-      "type": "string",
-      "description": "Type of AWS EC2 instance for ICP/CAM Nodes",
-      "hidden": false,
-      "label": "Type of AWS EC2 instance for ICP/CAM Nodes",
-      "secured": false,
-      "required": false,
-      "immutable": false,
-      "group_name": "Cluster",
-      "default": "m4.2xlarge"
-    },
-    
-    {
       "name": "icp_network_cidr",
       "type": "string",
       "description": "ICP Network CIDR",
@@ -233,18 +220,139 @@
       "group_name": "Cloud",
       "default": ["8.8.8.8"]
     },
+    
+    
+    {
+      "name": "num_masters",
+      "type": "string",
+      "description": "Number of CP4D masters",
+      "hidden": false,
+      "label": "Number of CP4D masters to create",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "3"
+    },
+    
+    {
+      "name": "master_instance_type",
+      "type": "string",
+      "description": "Type of AWS EC2 instance for CP4D Master nodes",
+      "hidden": false,
+      "label": "Type of AWS EC2 instance for CP4D Master Nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "m4.4xlarge"
+    },
+    
+    {
+      "name": "num_infra",
+      "type": "string",
+      "description": "Number of CP4D infra nodes",
+      "hidden": false,
+      "label": "Number of CP4D infra nodes to create",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "3"
+    },
+    
+    {
+      "name": "infra_instance_type",
+      "type": "string",
+      "description": "Type of AWS EC2 instance for CP4D Infra nodes",
+      "hidden": false,
+      "label": "Type of AWS EC2 instance for CP4D Infra Nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "m4.4xlarge"
+    },
+    
     {
       "name": "num_workers",
       "type": "string",
-      "description": "Number of ICP workers",
+      "description": "Number of CP4D workers",
       "hidden": false,
       "label": "Number of ICP workers to create",
       "secured": false,
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
-      "default": "1"
+      "default": "3"
     },
+    
+    {
+      "name": "worker_instance_type",
+      "type": "string",
+      "description": "Type of AWS EC2 instance for CP4D Worker nodes",
+      "hidden": false,
+      "label": "Type of AWS EC2 instance for CP4D Worker Nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "m4.10xlarge"
+    },
+    
+    
+    {
+      "name": "num_idm",
+      "type": "string",
+      "description": "Number of IDM servers",
+      "hidden": false,
+      "label": "Number of IDM servers to create",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "2"
+    },
+    
+    {
+      "name": "idm_instance_type",
+      "type": "string",
+      "description": "Type of AWS EC2 instance for IDM servers",
+      "hidden": false,
+      "label": "Type of AWS EC2 instance for IDM servers",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "m4.2xlarge"
+    },
+    
+    {
+      "name": "haproxy_instance_type",
+      "type": "string",
+      "description": "Type of AWS EC2 instance for HAProxy",
+      "hidden": false,
+      "label": "Type of AWS EC2 instance for HAProxy",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "m4.4xlarge"
+    },
+    
+    {
+      "name": "nfs_instance_type",
+      "type": "string",
+      "description": "Type of AWS EC2 instance for NFS server",
+      "hidden": false,
+      "label": "Type of AWS EC2 instance for NFS server",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "m4.4xlarge"
+    },
+    
     {
       "name": "docker_vol_size",
       "type": "string",
