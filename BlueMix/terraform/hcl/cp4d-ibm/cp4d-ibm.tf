@@ -685,8 +685,8 @@ resource "ibm_compute_vm_instance" "icpnfs" {
   network_speed            = 1000
   hourly_billing           = true
   private_network_only     = true
-  cores                    = "${var.icp_num_cpus}"
-  memory                   = "${var.icp_mem}"
+  cores                    = 4
+  memory                   = 4096
   disks                    = [100,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
