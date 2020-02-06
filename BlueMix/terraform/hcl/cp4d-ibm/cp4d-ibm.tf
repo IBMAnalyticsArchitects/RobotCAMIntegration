@@ -391,7 +391,7 @@ do
 	then
     hostPwd=`get_root_password $hostName`
 		ssh.exp $hostName $hostPwd "passwd -l root;"
-		ssh.exp $hostName $hostPwd "yum install -y bc perl ksh rsync expect unzip; yum groupinstall 'Infrastructure Server' -y"
+#		ssh.exp $hostName $hostPwd "yum install -y bc perl ksh rsync expect unzip; yum groupinstall 'Infrastructure Server' -y"
 	fi
 done
 
