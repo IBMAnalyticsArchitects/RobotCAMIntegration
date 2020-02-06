@@ -762,7 +762,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpnfs_ip=${join(",",ibm_compute_vm_instance.icpnfs.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icpnfs_name=${join(",",ibm_compute_vm_instance.icpnfs.*.hostname)} >> /opt/monkey_cam_vars.txt", 
      
-      "echo  export cam_cp4d_num_db2wh_nodes=${var.cp4d_num_db2wh_nodes} >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_cp4d_num_db2wh_nodes=${var.cp4d_num_db2wh_nodes} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
