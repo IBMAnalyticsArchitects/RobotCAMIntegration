@@ -175,12 +175,6 @@ variable "vm_dns_servers" {
   description = "DNS servers for the virtual network adapter"
 }
 
-variable "num_workers" {
-  description = "Number of ICP worker nodes to create"
-  default="3"
-}
-
-
 
 variable "public_ssh_key_name" {
   description = "Name of the public SSH key used to connect to the virtual guest"
