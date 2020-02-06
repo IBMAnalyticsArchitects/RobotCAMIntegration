@@ -283,7 +283,8 @@ do
 	fi
 done
 
-passphrase=`cat /root/passphrase.fifo`
+#passphrase=`cat /root/passphrase.fifo`
+passphrase=`cat /root/passphrase`
 
 eval `ssh-agent`
 /opt/addSshKeyId.exp $passphrase
@@ -797,9 +798,11 @@ resource "null_resource" "start_install" {
       "echo  export cam_dsxhi_hostname=${var.hdp_edge_node_hostname} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_dsxhi_ip=${var.hdp_edge_node_ip} >> /opt/monkey_cam_vars.txt",
 
-      "mkfifo /root/passphrase.fifo",
-      "chmod 600 /root/passphrase.fifo",
-      "echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &",
+#      "mkfifo /root/passphrase.fifo",
+#      "chmod 600 /root/passphrase.fifo",
+#      "echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &",
+       "echo ${var.ssh_key_passphrase} > /root/passphrase ",
+       "chmod 600 /root/passphrase",
 
       "chmod 755 /opt/installation.sh",
       "nohup /opt/installation.sh &",
