@@ -272,7 +272,7 @@ EOF
 
 while true
 do
-	yum install python rsync unzip ksh perl  wget expect httpd firewalld createrepo -y
+	yum install expect -y
 	rc=$?
 	if [ $rc -ne 0 ]
 	then
@@ -290,6 +290,7 @@ eval `ssh-agent`
 
 set -x 
 
+yum install python rsync unzip ksh perl  wget httpd firewalld createrepo -y
 yum groupinstall "Infrastructure Server" -y
 
 mkdir -p /opt/cloud_install; 
