@@ -313,11 +313,65 @@
     },
     
     {
-      "name": "icp_mem",
+      "name": "master_mem",
       "type": "string",
-      "description": "Memory (MBs) for ICP Master and Worker nodes",
+      "description": "Memory (MBs) for CP4D master nodes",
       "hidden": false,
-      "label": "Memory (MBs) for ICP Master and Worker nodes",
+      "label": "Memory (MBs) for CP4D master nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "65536"
+    },
+    
+    {
+      "name": "master_num_cpus",
+      "type": "string",
+      "description": "Number of CPUs for CP4D master nodes",
+      "hidden": false,
+      "label": "Number of CPUs for CP4D master nodes,
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "16"
+    },
+    
+    
+    {
+      "name": "infra_mem",
+      "type": "string",
+      "description": "Memory (MBs) for CP4D infra nodes",
+      "hidden": false,
+      "label": "Memory (MBs) for CP4D infra nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "65536"
+    },
+    
+    {
+      "name": "infra_num_cpus",
+      "type": "string",
+      "description": "Number of CPUs for CP4D infra nodes",
+      "hidden": false,
+      "label": "Number of CPUs for CP4D infra nodes,
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "16"
+    },
+    
+    
+    {
+      "name": "worker_mem",
+      "type": "string",
+      "description": "Memory (MBs) for CP4D worker nodes",
+      "hidden": false,
+      "label": "Memory (MBs) for CP4D worker nodes",
       "secured": false,
       "required": false,
       "immutable": false,
@@ -326,17 +380,19 @@
     },
     
     {
-      "name": "icp_num_cpus",
+      "name": "worker_num_cpus",
       "type": "string",
-      "description": "Number of CPUs for ICP Master and Worker nodes",
+      "description": "Number of CPUs for CP4D worker nodes",
       "hidden": false,
-      "label": "Number of CPUs for ICP Master and Worker nodes",
+      "label": "Number of CPUs for CP4D worker nodes,
       "secured": false,
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
       "default": "32"
     },
+    
+    
     {
       "name": "vm_dns_servers",
       "type": "list",

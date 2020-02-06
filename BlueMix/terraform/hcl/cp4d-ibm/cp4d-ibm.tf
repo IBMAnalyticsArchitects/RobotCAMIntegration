@@ -96,15 +96,34 @@ variable "num_workers" {
   default="3"
 }
 
-variable "icp_num_cpus" {
-  description = "Number of CPUs for ICP Master and Worker nodes"
-  default = "16"
+
+variable "master_num_cpus" {
+  description = "master_num_cpus"
 }
 
-variable "icp_mem" {
-  description = "Memory (MBs) for ICP Master and Worker nodes"
-  default = "98384"
+variable "master_mem" {
+  description = "master_mem"
 }
+
+
+variable "infra_num_cpus" {
+  description = "infra_num_cpus"
+}
+
+variable "infra_mem" {
+  description = "infra_mem"
+}
+
+
+variable "worker_num_cpus" {
+  description = "worker_num_cpus"
+}
+
+variable "worker_mem" {
+  description = "worker_mem"
+}
+
+
 
 
 
@@ -507,8 +526,8 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   network_speed            = 1000
   hourly_billing           = true
   private_network_only     = true
-  cores                    = "${var.icp_num_cpus}"
-  memory                   = "${var.icp_mem}"
+  cores                    = "${var.master_num_cpus}"
+  memory                   = "${var.master_mem}"
   disks                    = [100,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -560,8 +579,8 @@ resource "ibm_compute_vm_instance" "icpinfra" {
   network_speed            = 1000
   hourly_billing           = true
   private_network_only     = true
-  cores                    = "${var.icp_num_cpus}"
-  memory                   = "${var.icp_mem}"
+  cores                    = "${var.infra_num_cpus}"
+  memory                   = "${var.infra_mem}"
   disks                    = [100,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
@@ -612,8 +631,8 @@ resource "ibm_compute_vm_instance" "icpworker" {
   network_speed            = 1000
   hourly_billing           = true
   private_network_only     = true
-  cores                    = "${var.icp_num_cpus}"
-  memory                   = "${var.icp_mem}"
+  cores                    = "${var.worker_num_cpus}"
+  memory                   = "${var.worker_mem}"
   disks                    = [100,1000,1000,1000]
   dedicated_acct_host_only = false
   local_disk               = false
