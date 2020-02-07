@@ -260,6 +260,11 @@ variable "hdp_edge_node_ip" {
   description = "IP of HDP Edge Node, hadoop integration service host"
 }
 
+
+variable "install_portworx" {
+  description = "Install Portworx (0/1)"
+}
+
 ########
 # Isolate IP address components:
 locals {
@@ -1008,6 +1013,8 @@ resource "null_resource" "start_install" {
 
       "echo  export cam_dsxhi_hostname=${var.hdp_edge_node_hostname} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_dsxhi_ip=${var.hdp_edge_node_ip} >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_install_portworx=${join(",",var.install_portworx)} >> /opt/monkey_cam_vars.txt",
       
 #      "echo  export cam_icp_cluster_vip=${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start} >> /opt/monkey_cam_vars.txt",
 #      "echo  export cam_icp_proxy_vip=${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 1} >> /opt/monkey_cam_vars.txt",

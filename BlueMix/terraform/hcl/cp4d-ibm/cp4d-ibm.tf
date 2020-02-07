@@ -200,6 +200,10 @@ variable "hdp_edge_node_ip" {
   description = "IP of HDP Edge Node, hadoop integration service host"
 }
 
+variable "install_portworx" {
+  description = "Install Portworx (0/1)"
+}
+
 locals {
   idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
 }
@@ -816,6 +820,8 @@ resource "null_resource" "start_install" {
 
       "echo  export cam_dsxhi_hostname=${var.hdp_edge_node_hostname} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_dsxhi_ip=${var.hdp_edge_node_ip} >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_install_portworx=${join(",",var.install_portworx)} >> /opt/monkey_cam_vars.txt",
 
 #      "mkfifo /root/passphrase.fifo",
 #      "chmod 600 /root/passphrase.fifo",
