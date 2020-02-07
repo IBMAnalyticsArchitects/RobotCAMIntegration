@@ -947,7 +947,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_dsxhi_hostname=${var.hdp_edge_node_hostname} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_dsxhi_ip=${var.hdp_edge_node_ip} >> /tmp/monkey_cam_vars.txt",
       
-      "echo  export cam_install_portworx=${join(",",var.install_portworx)} >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_install_portworx=${var.install_portworx} >> /tmp/monkey_cam_vars.txt",
 
       "sudo mv /tmp/monkey_cam_vars.txt /opt/monkey_cam_vars.txt",
       "sudo mv /tmp/installation.sh /opt/installation.sh",
