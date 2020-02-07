@@ -558,7 +558,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
     content = <<EOF
 var=400
 tmp=100
-opt=200
+opt=300
 home=100
 EOF
     destination = "/tmp/filesystemLayout.txt"
