@@ -122,7 +122,7 @@ resource "ibm_compute_vm_instance" "softlayer_virtual_guest" {
   private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
   network_speed            = 1000
   hourly_billing           = true
-  private_network_only     = false
+  private_network_only     = true
   cores                    = 8
   memory                   = 8192
   wait_time_minutes        = 200
@@ -337,7 +337,6 @@ resource "null_resource" "start_install" {
       "echo  export cam_ibm_cos_source_cloud_install_path=${var.ibm_cos_source_cloud_install_path} >> /opt/monkey_cam_vars.txt",
             
       "chmod 755 /opt/monkey_cam_vars.txt",
-      "mv /tmp/installation.sh /opt/installation.sh",
       "chmod 755 /opt/installation.sh",
       "nohup /opt/installation.sh &",
       "sleep 60"
