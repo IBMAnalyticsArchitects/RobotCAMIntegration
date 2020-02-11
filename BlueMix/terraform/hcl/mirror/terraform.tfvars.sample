@@ -1,0 +1,14 @@
+datacenter = "dal13"
+vlan_number = "1709"
+vlan_router = "bcr01a.dal13"
+hostname = "ibmmirrtst1"
+vm_domain = "ibmtst.local"
+public_ssh_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC96en4n3pm/o8Lnn3jvuIR1qvfpPmcVdsajkl;hfdjslfgj6kQ64TKWtLE9cSg5MAoTgkQMxhAiqgVLpQRqzEktTsbVszExBA48EAE/CtXh2rHHWQKpXSoGNR34CDu2WK8Mrs03jx2epUOC6IVmIycrlzHHmCmyCPB/MWF5gHsPEu6Bs/3wYbjxISsfjow7NAwLavXkd+eL7P165KbR7MycFpGYyZb/Z6yZiQ0wQuJVTA4hs+NpA1MBcGMTyAZBdsX/Wgjwf4LdJBykRvSoEYDeiZen6WQA0jHxFpTOonr root@xxx.wwss.local"
+sudo_user = "sudo1"
+sudo_password = "pwd12345"
+ibm_cos_access_key_id = "a232ab7050424d438e70c300802f8998"
+ibm_cos_secret_access_key = "75570d4856321129d3fa80b77800a3ba6c9adab50b084315"
+ibm_cos_endpoint_url = "https://s3.private.us-south.cloud-object-storage.appdomain.cloud"
+ibm_cos_source_mirror_path_list = ["s3://cos-322888-robot-automation-assets/products-24jan2020-1338.tar","s3://cos-322888-robot-automation-assets/rpm-repos-5feb2020-1552.tar"]
+ibm_cos_source_cloud_install_path = "s3://cos-322888-robot-automation-assets/cloud_install-jlermdev-5feb2020-1117.tar"
+
