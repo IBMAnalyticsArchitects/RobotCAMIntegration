@@ -534,6 +534,30 @@
       "default": ""
     },
     {
+      "name": "install_portworx",
+      "type": "string",
+      "description": "Install Portworx (0/1)",
+      "hidden": false,
+      "label": "Install Portworx (0/1)",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "1"
+    },
+    {
+      "name": "private_load_balancer",
+      "type": "string",
+      "description": "Private Load Balancer (true/false)",
+      "hidden": false,
+      "label": "Private Load Balancer (true/false)",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "true"
+    },
+    {
       "name": "cp4d_addons",
       "type": "list",
       "description": "List of Cloud Pak for Data Cartridges (remove the ones not needed; make sure to have enough capacity to support the selected ones)",
@@ -617,29 +641,5 @@
       "required": false,
       "immutable": false,
       "group_name": "Cluster"
-    },
-    {
-      "name": "install_portworx",
-      "type": "string",
-      "description": "Install Portworx (0/1)",
-      "hidden": false,
-      "label": "Install Portworx (0/1)",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster",
-      "default": "1"
-    },
-    {
-      "name": "private_load_balancer",
-      "type": "string",
-      "description": "Private Load Balancer (true/false)",
-      "hidden": false,
-      "label": "Private Load Balancer (true/false)",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster",
-      "default": "true"
     }
 ]
