@@ -595,7 +595,7 @@
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
-      "default": "1000"
+      "default": "500"
     },
     {
       "name": "portworx_vol_size",
@@ -607,7 +607,7 @@
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
-      "default": "1000"
+      "default": "500"
     },
     {
       "name": "hdp_driver_ip",

@@ -435,7 +435,7 @@ resource "ibm_compute_vm_instance" "icpidm" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
-  disks                    = [100,1000]
+  disks                    = [100,100]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -460,10 +460,8 @@ resource "ibm_compute_vm_instance" "icpidm" {
   
  provisioner "file" {
     content = <<EOF
-var=400
-tmp=100
-opt=200
-home=100
+var=50
+tmp=
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -484,7 +482,7 @@ resource "ibm_compute_vm_instance" "icphaproxy" {
   private_network_only     = "${var.private_load_balancer}"
   cores                    = 4
   memory                   = 4096
-  disks                    = [100,1000]
+  disks                    = [100,100]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -512,10 +510,8 @@ resource "ibm_compute_vm_instance" "icphaproxy" {
   
  provisioner "file" {
     content = <<EOF
-var=400
-tmp=100
-opt=200
-home=100
+var=50
+tmp=50
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -536,7 +532,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   private_network_only     = true
   cores                    = "${var.master_num_cpus}"
   memory                   = "${var.master_mem}"
-  disks                    = [100,1000,1000]
+  disks                    = [100,750,${var.docker_vol_size}]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -564,10 +560,10 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   
  provisioner "file" {
     content = <<EOF
-var=400
-tmp=100
+var=350
+tmp=50
 opt=300
-home=100
+home=50
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -589,7 +585,7 @@ resource "ibm_compute_vm_instance" "icpinfra" {
   private_network_only     = true
   cores                    = "${var.infra_num_cpus}"
   memory                   = "${var.infra_mem}"
-  disks                    = [100,1000,1000]
+  disks                    = [100,400,${var.docker_vol_size}]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -617,10 +613,10 @@ resource "ibm_compute_vm_instance" "icpinfra" {
   
  provisioner "file" {
     content = <<EOF
-var=400
-tmp=100
-opt=200
-home=100
+var=350
+tmp=30
+opt=10
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -641,7 +637,7 @@ resource "ibm_compute_vm_instance" "icpworker" {
   private_network_only     = true
   cores                    = "${var.worker_num_cpus}"
   memory                   = "${var.worker_mem}"
-  disks                    = [100,1000,1000,1000]
+  disks                    = [100,400,${var.docker_vol_size},${var.portworx_vol_size}]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -669,11 +665,11 @@ resource "ibm_compute_vm_instance" "icpworker" {
   
   
  provisioner "file" {
-    content = <<EOF
-var=400
-tmp=100
-opt=200
-home=100
+    content = <<
+var=350
+tmp=30
+opt=10
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -695,7 +691,7 @@ resource "ibm_compute_vm_instance" "icpnfs" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
-  disks                    = [100,1000,1000]
+  disks                    = [100,100,1000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -723,11 +719,9 @@ resource "ibm_compute_vm_instance" "icpnfs" {
   
   
  provisioner "file" {
-    content = <<EOF
-var=400
-tmp=100
-opt=200
-home=100
+    content = <<EOFEOF
+var=50
+tmp=50
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
