@@ -270,6 +270,20 @@
       "required": true,
       "immutable": false,
       "group_name": "Cluster",
+      "default": "eth1"
+    },
+    
+    
+    {
+      "name": "private_nic_name",
+      "type": "string",
+      "description": "Name of the private network interface",
+      "hidden": false,
+      "label": "Name of the private network interface",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
       "default": "eth0"
     },    
     

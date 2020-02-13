@@ -73,6 +73,10 @@ variable "public_nic_name" {
   description = "public_nic_name"
 }
 
+variable "private_nic_name" {
+  description = "private_nic_name"
+}
+
 variable "icp_network_cidr" {
   description = "ICP Network CIDR"
 }
@@ -763,6 +767,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_cluster_name=${var.cluster_name} >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_public_nic_name=${var.public_nic_name} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_private_nic_name=${var.private_nic_name} >> /opt/monkey_cam_vars.txt",
       "echo  export cloud_install_tar_file_name=${var.cloud_install_tar_file_name} >> /opt/monkey_cam_vars.txt",
 
       "echo  export cam_icp_docker_device=/dev/xvde >> /opt/monkey_cam_vars.txt",
