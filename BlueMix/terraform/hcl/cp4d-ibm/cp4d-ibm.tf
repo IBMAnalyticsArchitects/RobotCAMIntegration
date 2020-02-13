@@ -481,7 +481,7 @@ resource "ibm_compute_vm_instance" "icphaproxy" {
   private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
   network_speed            = 1000
   hourly_billing           = true
-  private_network_only     = ${var.private_load_balancer}
+  private_network_only     = "${var.private_load_balancer}"
   cores                    = 4
   memory                   = 4096
   disks                    = [100,1000]
