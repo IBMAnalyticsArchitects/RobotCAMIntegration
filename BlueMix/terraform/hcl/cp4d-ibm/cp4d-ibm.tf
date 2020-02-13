@@ -532,7 +532,7 @@ resource "ibm_compute_vm_instance" "icpmaster" {
   private_network_only     = true
   cores                    = "${var.master_num_cpus}"
   memory                   = "${var.master_mem}"
-  disks                    = [100,750,${var.docker_vol_size}]
+  disks                    = [100,750,"${var.docker_vol_size}"]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
