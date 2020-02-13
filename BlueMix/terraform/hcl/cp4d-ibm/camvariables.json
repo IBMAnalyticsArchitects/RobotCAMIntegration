@@ -567,7 +567,7 @@
       "label": "Private Load Balancer (true/false)",
       "secured": false,
       "required": true,
-      "immutable": false,
+      "immutable": true,
       "group_name": "Cluster",
       "default": "true"
     },
