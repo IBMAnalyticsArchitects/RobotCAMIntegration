@@ -585,7 +585,7 @@ resource "ibm_compute_vm_instance" "icpinfra" {
   private_network_only     = true
   cores                    = "${var.infra_num_cpus}"
   memory                   = "${var.infra_mem}"
-  disks                    = [100,400,${var.docker_vol_size}]
+  disks                    = [100,400,"${var.docker_vol_size}"]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
@@ -637,7 +637,7 @@ resource "ibm_compute_vm_instance" "icpworker" {
   private_network_only     = true
   cores                    = "${var.worker_num_cpus}"
   memory                   = "${var.worker_mem}"
-  disks                    = [100,400,${var.docker_vol_size},${var.portworx_vol_size}]
+  disks                    = [100,400,"${var.docker_vol_size}","${var.portworx_vol_size}"]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]
