@@ -665,7 +665,7 @@ resource "ibm_compute_vm_instance" "icpworker" {
   
   
  provisioner "file" {
-    content = <<
+    content = <<EOF
 var=350
 tmp=30
 opt=10
@@ -719,7 +719,7 @@ resource "ibm_compute_vm_instance" "icpnfs" {
   
   
  provisioner "file" {
-    content = <<EOFEOF
+    content = <<EOF
 var=50
 tmp=50
 EOF
