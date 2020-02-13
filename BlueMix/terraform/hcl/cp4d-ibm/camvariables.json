@@ -629,5 +629,17 @@
       "immutable": false,
       "group_name": "Cluster",
       "default": "1"
+    },
+    {
+      "name": "private_load_balancer",
+      "type": "string",
+      "description": "Private Load Balancer (true/false)",
+      "hidden": false,
+      "label": "Private Load Balancer (true/false)",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "true"
     }
 ]
