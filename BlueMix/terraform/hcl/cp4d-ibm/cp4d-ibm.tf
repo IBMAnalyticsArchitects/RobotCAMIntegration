@@ -465,7 +465,7 @@ resource "ibm_compute_vm_instance" "icpidm" {
  provisioner "file" {
     content = <<EOF
 var=50
-tmp=
+tmp=50
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
