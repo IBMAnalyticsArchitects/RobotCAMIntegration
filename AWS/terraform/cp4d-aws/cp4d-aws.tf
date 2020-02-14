@@ -550,9 +550,8 @@ resource "aws_instance" "icpmaster" {
   subnet_id     = "${element(var.subnet_ids, count.index )}"
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
-  root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "900", "delete_on_termination" = true }
-#  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  root_block_device = { "volume_type" = "gp2", "volume_size" = "200", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "600", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
  
   connection {
@@ -590,7 +589,7 @@ resource "aws_instance" "icpmaster" {
  
  provisioner "file" {
     content = <<EOF
-var=500
+var=200
 tmp=30
 opt=300
 home=10
@@ -613,9 +612,8 @@ resource "aws_instance" "icpinfra" {
   subnet_id     = "${element(var.subnet_ids, count.index )}"
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
-  root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "600", "delete_on_termination" = true }
-#  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  root_block_device = { "volume_type" = "gp2", "volume_size" = "200", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
   
   connection {
@@ -653,7 +651,7 @@ resource "aws_instance" "icpinfra" {
  
  provisioner "file" {
     content = <<EOF
-var=500
+var=200
 tmp=30
 opt=10
 home=10
@@ -678,12 +676,9 @@ resource "aws_instance" "icpworker" {
   subnet_id     = "${element(var.subnet_ids, count.index )}"
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
-  root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "600", "delete_on_termination" = true }
-#  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
-#  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "${var.portworx_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
+  root_block_device = { "volume_type" = "gp2", "volume_size" = "200", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
-  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "gp2", "volume_size" = "${var.portworx_vol_size}", "delete_on_termination" = true  }
   
   connection {
     user        = "ec2-user"
@@ -720,7 +715,7 @@ resource "aws_instance" "icpworker" {
 
  provisioner "file" {
     content = <<EOF
-var=500
+var=200
 tmp=30
 opt=30
 home=10
