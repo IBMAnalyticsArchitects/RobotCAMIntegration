@@ -120,9 +120,47 @@ variable "public_nic_name" {
 #  description = "ICP Cluster IP Range"
 #}
 
-variable "instance_type" {
-  description = "instance_type"
+variable "num_masters" {
+  description = "number of masters"
 }
+
+variable "master_instance_type" {
+  description = "master_instance_type"
+}
+
+variable "num_infra" {
+  description = "number of infra nodes"
+}
+
+variable "infra_instance_type" {
+  description = "infra_instance_type"
+}
+
+variable "num_workers" {
+  description = "number of worker nodes"
+}
+
+variable "worker_instance_type" {
+  description = "worker_instance_type"
+}
+
+    
+variable "num_idm" {
+  description = "number of idm nodes"
+}
+
+variable "idm_instance_type" {
+  description = "idm_instance_type"
+}
+
+variable "haproxy_instance_type" {
+  description= "haproxy_instance_type"
+}
+
+variable "nfs_instance_type" {
+  description = "nfs_instance_type"
+}
+    
 
 ###
 
@@ -136,12 +174,6 @@ variable "vm_dns_servers" {
   type = "list"
   description = "DNS servers for the virtual network adapter"
 }
-
-variable "num_workers" {
-  description = "Number of ICP worker nodes to create"
-  default="3"
-}
-
 
 
 variable "public_ssh_key_name" {
@@ -244,6 +276,11 @@ variable "hdp_edge_node_hostname" {
 
 variable "hdp_edge_node_ip" {
   description = "IP of HDP Edge Node, hadoop integration service host"
+}
+
+
+variable "install_portworx" {
+  description = "Install Portworx (0/1)"
 }
 
 locals {
@@ -447,9 +484,9 @@ EOF
 #
 resource "aws_instance" "icpidm" {
 #  count="${ 2 * local.idm_install }"
-  count="1"
+  count="${ var.num_idm * local.idm_install }"
   tags { Name = "${var.vm_name_prefix}-icpidm-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpidm-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "m4.2xlarge"
+  instance_type = "${var.idm_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
@@ -505,16 +542,16 @@ EOF
 # ICP Master
 #
 resource "aws_instance" "icpmaster" {
-  count         = "3"
+  count         = "${var.num_masters}"
   tags { Name = "${var.vm_name_prefix}-icpmaster-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpmaster-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+  instance_type = "${var.master_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "900", "delete_on_termination" = true }
 #  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
  
@@ -553,10 +590,10 @@ resource "aws_instance" "icpmaster" {
  
  provisioner "file" {
     content = <<EOF
-var=400
-tmp=100
-opt=400
-home=50
+var=500
+tmp=30
+opt=300
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -568,16 +605,16 @@ EOF
 # ICP Infra
 #
 resource "aws_instance" "icpinfra" {
-  count         = "3"
+  count         = "${var.num_infra}"
   tags { Name = "${var.vm_name_prefix}-icpinfra-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpinfra-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+  instance_type = "${var.infra_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "600", "delete_on_termination" = true }
 #  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
   
@@ -616,10 +653,10 @@ resource "aws_instance" "icpinfra" {
  
  provisioner "file" {
     content = <<EOF
-var=400
-tmp=100
-opt=200
-home=100
+var=500
+tmp=30
+opt=10
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -635,14 +672,14 @@ EOF
 resource "aws_instance" "icpworker" {
   count         = "${var.num_workers}"
   tags { Name = "${var.vm_name_prefix}-icpworker-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpworker-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+  instance_type = "${var.worker_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
   vpc_security_group_ids = "${var.security_group_ids}"
   key_name      = "${aws_key_pair.temp_public_key.id}"
   root_block_device = { "volume_type" = "gp2", "volume_size" = "300", "delete_on_termination" = true }
-  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "1000", "delete_on_termination" = true }
+  ebs_block_device = { "device_name" = "/dev/sdb", "volume_type" = "gp2", "volume_size" = "600", "delete_on_termination" = true }
 #  ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "io1", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
 #  ebs_block_device = { "device_name" = "/dev/sdd", "volume_type" = "io1", "volume_size" = "${var.portworx_vol_size}", "delete_on_termination" = true iops="${var.ebs_vol_iops}" }
   ebs_block_device = { "device_name" = "/dev/sdc", "volume_type" = "gp2", "volume_size" = "${var.docker_vol_size}", "delete_on_termination" = true  }
@@ -683,10 +720,10 @@ resource "aws_instance" "icpworker" {
 
  provisioner "file" {
     content = <<EOF
-var=400
-tmp=100
-opt=200
-home=100
+var=500
+tmp=30
+opt=30
+home=10
 EOF
     destination = "/tmp/filesystemLayout.txt"
 }
@@ -701,7 +738,7 @@ EOF
 resource "aws_instance" "icpnfs" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-icpnfs-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpnfs-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+  instance_type = "${var.nfs_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
@@ -762,7 +799,7 @@ EOF
 resource "aws_instance" "icphaproxy" {
   count         = "1"
   tags { Name = "${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxy-${ count.index }", Owner = "${var.aws_owner}" }
-  instance_type = "${var.instance_type}"
+  instance_type = "${var.haproxy_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
   subnet_id     = "${element(var.subnet_ids, count.index )}"
@@ -909,6 +946,8 @@ resource "null_resource" "start_install" {
 
       "echo  export cam_dsxhi_hostname=${var.hdp_edge_node_hostname} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_dsxhi_ip=${var.hdp_edge_node_ip} >> /tmp/monkey_cam_vars.txt",
+      
+      "echo  export cam_install_portworx=${var.install_portworx} >> /tmp/monkey_cam_vars.txt",
 
       "sudo mv /tmp/monkey_cam_vars.txt /opt/monkey_cam_vars.txt",
       "sudo mv /tmp/installation.sh /opt/installation.sh",

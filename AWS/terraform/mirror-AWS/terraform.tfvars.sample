@@ -1,0 +1,23 @@
+
+access_key = "*****"
+secret_key = "*****"
+aws_region = "us-east-1"
+security_group_ids = ["sg-02b1da7dd24a3dc01"]
+aws_owner = "jlerm@us.ibm.com"
+aws_image = "ami-0916c408cb02e310b"
+vpc_name_tag = "acg-vpc1"
+subnet_cidr = "172.32.2.0/24"
+time_server = "169.254.169.123"
+vm_dns_servers = ["8.8.8.8"]
+public_ssh_key_name = "jlermk3"
+public_ssh_key = "*****"
+vm_domain = "jlerm.local"
+vm_name_prefix = "mirr1a"
+instance_type = "m4.10xlarge"
+mirror_volume_size = "2000"
+ibm_cos_access_key_id = "dc88696ed12444e5af5f7f4e07f53d4a"
+ibm_cos_secret_access_key = "*****"
+ibm_cos_endpoint_url = "https://s3.us-south.cloud-object-storage.appdomain.cloud"
+ibm_cos_source_mirror_path_list = ["s3://cos-322888-robot-automation-assets/rpm-repos-24jan2020-1747.tar","s3://cos-322888-robot-automation-assets/products-24jan2020-1338.tar"]
+ibm_cos_source_cloud_install_path = "s3://cos-322888-robot-automation-assets/cloud_install-master-22jan2020-2223.tar"
+
