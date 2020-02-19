@@ -422,10 +422,10 @@ EOF
 
 ###########################################################################################################################################################
 # ICP IDM
-resource "ibm_compute_vm_instance" "icpidm" {
+resource "ibm_compute_vm_instance" "idm" {
 #  count="${ 2 * local.idm_install }"
   count="1"
-  hostname = "${var.vm_name_prefix}-icpidm-${ count.index }"
+  hostname = "${var.vm_name_prefix}-idm-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
@@ -470,9 +470,9 @@ EOF
 
 ###########################################################################################################################################################
 # ICP HAProxy
-resource "ibm_compute_vm_instance" "icphaproxy" {
+resource "ibm_compute_vm_instance" "haproxy" {
   count="1"
-  hostname = "${var.vm_name_prefix}-icphaproxy"
+  hostname = "${var.vm_name_prefix}-haproxy"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
@@ -520,9 +520,9 @@ EOF
 
 ############################################################################################################################################################
 # ICP Masters
-resource "ibm_compute_vm_instance" "icpmaster" {
+resource "ibm_compute_vm_instance" "master" {
   count="1"
-  hostname = "${var.vm_name_prefix}-icpmaster-${ count.index }"
+  hostname = "${var.vm_name_prefix}-master-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
@@ -573,9 +573,9 @@ EOF
 
 ############################################################################################################################################################
 # ICP Infra
-resource "ibm_compute_vm_instance" "icpinfra" {
+resource "ibm_compute_vm_instance" "infra" {
   count="1"
-  hostname = "${var.vm_name_prefix}-icpinfra-${ count.index }"
+  hostname = "${var.vm_name_prefix}-infra-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
@@ -625,9 +625,9 @@ EOF
 
 ############################################################################################################################################################
 # ICP Workers
-resource "ibm_compute_vm_instance" "icpworker" {
+resource "ibm_compute_vm_instance" "worker" {
   count="${var.num_workers}"
-  hostname = "${var.vm_name_prefix}-icpworker-${ count.index }"
+  hostname = "${var.vm_name_prefix}-worker-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
@@ -679,9 +679,9 @@ EOF
 
 ############################################################################################################################################################
 # ICP NFS
-resource "ibm_compute_vm_instance" "icpnfs" {
+resource "ibm_compute_vm_instance" "nfs" {
   count="1"
-  hostname = "${var.vm_name_prefix}-icpnfs-${ count.index }"
+  hostname = "${var.vm_name_prefix}-nfs-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
@@ -735,12 +735,12 @@ resource "null_resource" "start_install" {
 
   depends_on = [ 
   	"ibm_compute_vm_instance.driver",  
-  	"ibm_compute_vm_instance.icpidm",  
-  	"ibm_compute_vm_instance.icphaproxy",  
-  	"ibm_compute_vm_instance.icpmaster",  
-  	"ibm_compute_vm_instance.icpworker",  
-  	"ibm_compute_vm_instance.icpnfs",
-  	"ibm_compute_vm_instance.icpinfra"
+  	"ibm_compute_vm_instance.idm",  
+  	"ibm_compute_vm_instance.haproxy",  
+  	"ibm_compute_vm_instance.master",  
+  	"ibm_compute_vm_instance.worker",  
+  	"ibm_compute_vm_instance.nfs",
+  	"ibm_compute_vm_instance.infra"
   ]
   
   connection {
@@ -775,25 +775,25 @@ resource "null_resource" "start_install" {
       "echo  export cam_driver_ip=${join(",",ibm_compute_vm_instance.driver.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_driver_name=${join(",",ibm_compute_vm_instance.driver.*.hostname)} >> /opt/monkey_cam_vars.txt",
       
-      "echo  export cam_icpmasters_ip=${join(",",ibm_compute_vm_instance.icpmaster.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpmasters_name=${join(",",ibm_compute_vm_instance.icpmaster.*.hostname)} >> /opt/monkey_cam_vars.txt",    
+      "echo  export cam_icpmasters_ip=${join(",",ibm_compute_vm_instance.master.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpmasters_name=${join(",",ibm_compute_vm_instance.master.*.hostname)} >> /opt/monkey_cam_vars.txt",    
       
-      "echo  export cam_icpworkers_ip=${join(",",ibm_compute_vm_instance.icpworker.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpworkers_name=${join(",",ibm_compute_vm_instance.icpworker.*.hostname)} >> /opt/monkey_cam_vars.txt",    
+      "echo  export cam_icpworkers_ip=${join(",",ibm_compute_vm_instance.worker.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpworkers_name=${join(",",ibm_compute_vm_instance.worker.*.hostname)} >> /opt/monkey_cam_vars.txt",    
       
-      "echo  export cam_icpinfra_ip=${join(",",ibm_compute_vm_instance.icpinfra.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpinfra_name=${join(",",ibm_compute_vm_instance.icpinfra.*.hostname)} >> /opt/monkey_cam_vars.txt",    
+      "echo  export cam_icpinfra_ip=${join(",",ibm_compute_vm_instance.infra.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpinfra_name=${join(",",ibm_compute_vm_instance.infra.*.hostname)} >> /opt/monkey_cam_vars.txt",    
       
-      "echo  export cam_icpnfs_ip=${join(",",ibm_compute_vm_instance.icpnfs.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpnfs_name=${join(",",ibm_compute_vm_instance.icpnfs.*.hostname)} >> /opt/monkey_cam_vars.txt", 
+      "echo  export cam_icpnfs_ip=${join(",",ibm_compute_vm_instance.nfs.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpnfs_name=${join(",",ibm_compute_vm_instance.nfs.*.hostname)} >> /opt/monkey_cam_vars.txt", 
      
       "echo  export cam_cp4d_num_db2wh_nodes=${var.cp4d_num_db2wh_nodes} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
     
-      "echo  export cam_idm_ip=${join(",",ibm_compute_vm_instance.icpidm.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_idm_name=${join(",",ibm_compute_vm_instance.icpidm.*.hostname)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_idm_ip=${join(",",ibm_compute_vm_instance.idm.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_idm_name=${join(",",ibm_compute_vm_instance.idm.*.hostname)} >> /opt/monkey_cam_vars.txt",
       
       
       "echo  export cam_idm_install=${local.idm_install} >> /opt/monkey_cam_vars.txt",
@@ -808,12 +808,12 @@ resource "null_resource" "start_install" {
       
       # These variables are relevant only when a new IDM instance is created.
       # In this case, no IDM passwords are set here (they are created by the CAM integration Perl script)
-      "echo  export cam_idm_ip=${join(",",ibm_compute_vm_instance.icpidm.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_idm_name=${join(",",ibm_compute_vm_instance.icpidm.*.hostname)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_idm_ip=${join(",",ibm_compute_vm_instance.idm.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_idm_name=${join(",",ibm_compute_vm_instance.idm.*.hostname)} >> /opt/monkey_cam_vars.txt",
  
     
-      "echo  export cam_icp_haproxy_ip=${join(",",ibm_compute_vm_instance.icphaproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icp_haproxy_name=${join(",",ibm_compute_vm_instance.icphaproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_haproxy_ip=${join(",",ibm_compute_vm_instance.haproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_haproxy_name=${join(",",ibm_compute_vm_instance.haproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_cp4d_addons=${join(",",var.cp4d_addons)} >> /opt/monkey_cam_vars.txt",
 
