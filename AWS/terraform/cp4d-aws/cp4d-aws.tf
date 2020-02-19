@@ -485,7 +485,7 @@ EOF
 resource "aws_instance" "icpidm" {
 #  count="${ 2 * local.idm_install }"
   count="${ var.num_idm * local.idm_install }"
-  tags { Name = "${var.vm_name_prefix}-icpidm-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpidm-${ count.index }", Owner = "${var.aws_owner}" }
+  tags { Name = "${var.vm_name_prefix}-idm-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-idm-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.idm_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
@@ -503,9 +503,9 @@ resource "aws_instance" "icpidm" {
   
  provisioner "remote-exec" {
     inline = [
-      "sudo su - -c 'echo \"${var.vm_name_prefix}-icpidm-${ count.index }.${var.vm_domain}\">/tmp/hostname'",
+      "sudo su - -c 'echo \"${var.vm_name_prefix}-idm-${ count.index }.${var.vm_domain}\">/tmp/hostname'",
       "sudo mv /tmp/hostname /etc/hostname",
-      "sudo hostname \"${var.vm_name_prefix}-icpidm-${ count.index }.${var.vm_domain}\"",
+      "sudo hostname \"${var.vm_name_prefix}-idm-${ count.index }.${var.vm_domain}\"",
       
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
       "sudo su - -c 'systemctl restart sshd'",
@@ -543,7 +543,7 @@ EOF
 #
 resource "aws_instance" "icpmaster" {
   count         = "${var.num_masters}"
-  tags { Name = "${var.vm_name_prefix}-icpmaster-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpmaster-${ count.index }", Owner = "${var.aws_owner}" }
+  tags { Name = "${var.vm_name_prefix}-master-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-master-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.master_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
@@ -563,9 +563,9 @@ resource "aws_instance" "icpmaster" {
  
    provisioner "remote-exec" {
     inline = [
-      "sudo su - -c 'echo \"${var.vm_name_prefix}-icpmaster-${ count.index }.${var.vm_domain}\">/tmp/hostname'",
+      "sudo su - -c 'echo \"${var.vm_name_prefix}-master-${ count.index }.${var.vm_domain}\">/tmp/hostname'",
       "sudo mv /tmp/hostname /etc/hostname",
-      "sudo hostname \"${var.vm_name_prefix}-icpmaster-${ count.index }.${var.vm_domain}\"",
+      "sudo hostname \"${var.vm_name_prefix}-master-${ count.index }.${var.vm_domain}\"",
       
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
       "sudo su - -c 'systemctl restart sshd'",
@@ -606,7 +606,7 @@ EOF
 #
 resource "aws_instance" "icpinfra" {
   count         = "${var.num_infra}"
-  tags { Name = "${var.vm_name_prefix}-icpinfra-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpinfra-${ count.index }", Owner = "${var.aws_owner}" }
+  tags { Name = "${var.vm_name_prefix}-infra-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-infra-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.infra_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
@@ -626,9 +626,9 @@ resource "aws_instance" "icpinfra" {
  
    provisioner "remote-exec" {
     inline = [
-      "sudo su - -c 'echo \"${var.vm_name_prefix}-icpinfra-${ count.index }.${var.vm_domain}\">/tmp/hostname'",
+      "sudo su - -c 'echo \"${var.vm_name_prefix}-infra-${ count.index }.${var.vm_domain}\">/tmp/hostname'",
       "sudo mv /tmp/hostname /etc/hostname",
-      "sudo hostname \"${var.vm_name_prefix}-icpinfra-${ count.index }.${var.vm_domain}\"",
+      "sudo hostname \"${var.vm_name_prefix}-infra-${ count.index }.${var.vm_domain}\"",
       
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
       "sudo su - -c 'systemctl restart sshd'",
@@ -671,7 +671,7 @@ EOF
 #
 resource "aws_instance" "icpworker" {
   count         = "${var.num_workers}"
-  tags { Name = "${var.vm_name_prefix}-icpworker-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpworker-${ count.index }", Owner = "${var.aws_owner}" }
+  tags { Name = "${var.vm_name_prefix}-worker-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-worker-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.worker_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
@@ -694,9 +694,9 @@ resource "aws_instance" "icpworker" {
   
   provisioner "remote-exec" {
     inline = [
-      "echo \"${var.vm_name_prefix}-icpworker-${ count.index }.${var.vm_domain}\">/tmp/hostname",
+      "echo \"${var.vm_name_prefix}-worker-${ count.index }.${var.vm_domain}\">/tmp/hostname",
       "sudo mv /tmp/hostname /etc/hostname",
-      "sudo hostname \"${var.vm_name_prefix}-icpworker-${ count.index }.${var.vm_domain}\"",
+      "sudo hostname \"${var.vm_name_prefix}-worker-${ count.index }.${var.vm_domain}\"",
       
       
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
@@ -737,7 +737,7 @@ EOF
 #
 resource "aws_instance" "icpnfs" {
   count         = "1"
-  tags { Name = "${var.vm_name_prefix}-icpnfs-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icpnfs-${ count.index }", Owner = "${var.aws_owner}" }
+  tags { Name = "${var.vm_name_prefix}-nfs-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-nfs-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.nfs_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
@@ -757,9 +757,9 @@ resource "aws_instance" "icpnfs" {
   
   provisioner "remote-exec" {
     inline = [
-      "echo \"${var.vm_name_prefix}-icpnfs-${ count.index }.${var.vm_domain}\">/tmp/hostname",
+      "echo \"${var.vm_name_prefix}-nfs-${ count.index }.${var.vm_domain}\">/tmp/hostname",
       "sudo mv /tmp/hostname /etc/hostname",
-      "sudo hostname \"${var.vm_name_prefix}-icpnfs-${ count.index }.${var.vm_domain}\"",
+      "sudo hostname \"${var.vm_name_prefix}-nfs-${ count.index }.${var.vm_domain}\"",
       
       
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
@@ -798,7 +798,7 @@ EOF
 #
 resource "aws_instance" "icphaproxy" {
   count         = "1"
-  tags { Name = "${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-icphaproxy-${ count.index }", Owner = "${var.aws_owner}" }
+  tags { Name = "${var.vm_name_prefix}-haproxy-${ count.index }.${var.vm_domain}", ShortName = "${var.vm_name_prefix}-haproxy-${ count.index }", Owner = "${var.aws_owner}" }
   instance_type = "${var.haproxy_instance_type}"
   ami           = "${var.aws_image}"
   availability_zone = "${element(var.availability_zones, count.index )}"
@@ -817,9 +817,9 @@ resource "aws_instance" "icphaproxy" {
   
   provisioner "remote-exec" {
     inline = [
-      "echo \"${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}\">/tmp/hostname",
+      "echo \"${var.vm_name_prefix}-haproxy-${ count.index }.${var.vm_domain}\">/tmp/hostname",
       "sudo mv /tmp/hostname /etc/hostname",
-      "sudo hostname \"${var.vm_name_prefix}-icphaproxy-${ count.index }.${var.vm_domain}\"",
+      "sudo hostname \"${var.vm_name_prefix}-haproxy-${ count.index }.${var.vm_domain}\"",
       
       
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
