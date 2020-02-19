@@ -311,8 +311,8 @@ resource "null_resource" "start_install" {
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
    
-      "echo  export cam_icp_public_haproxy_ip=${join(",",ibm_compute_vm_instance.icppubhaproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icp_public_haproxy_name=${join(",",ibm_compute_vm_instance.icppubhaproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_public_haproxy_ip=${join(",",ibm_compute_vm_instance.pubhaproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_public_haproxy_name=${join(",",ibm_compute_vm_instance.pubhaproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",
 
        "echo ${var.ssh_key_passphrase} > /root/passphrase ",
        "chmod 600 /root/passphrase",
