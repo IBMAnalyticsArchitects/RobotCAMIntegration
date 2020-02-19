@@ -132,7 +132,7 @@ data "ibm_network_vlan" "public_cluster_vlan" {
 # Driver
 resource "ibm_compute_vm_instance" "pubhaproxy" {
   count                    = "1"
-  hostname                 = "${var.vm_name_prefix}-icppubhaproxy"
+  hostname                 = "${var.vm_name_prefix}-pubhaproxy"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
   datacenter               = "${var.datacenter}"
