@@ -130,7 +130,7 @@ data "ibm_network_vlan" "public_cluster_vlan" {
 
 ###########################################################################################################################################################
 # Driver
-resource "ibm_compute_vm_instance" "icppubhaproxy" {
+resource "ibm_compute_vm_instance" "pubhaproxy" {
   count                    = "1"
   hostname                 = "${var.vm_name_prefix}-pubhaproxy"
   os_reference_code        = "REDHAT_7_64"
@@ -284,11 +284,11 @@ EOF
 resource "null_resource" "start_install" {
 
   depends_on = [ 
-  	"ibm_compute_vm_instance.icppubhaproxy"
+  	"ibm_compute_vm_instance.pubhaproxy"
   ]
   
   connection {
-    host     = "${ibm_compute_vm_instance.driver.0.ipv4_address_private}"
+    host     = "${ibm_compute_vm_instance.pubhaproxy.0.ipv4_address_private}"
     type     = "ssh"
     user     = "root"
     private_key = "${tls_private_key.ssh.private_key_pem}"
