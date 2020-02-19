@@ -208,10 +208,6 @@ variable "install_portworx" {
   description = "Install Portworx (0/1)"
 }
 
-variable "private_load_balancer" {
-  description = "Private Load Balancer (true/false)"
-}
-
 locals {
   idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
 }
@@ -483,7 +479,7 @@ resource "ibm_compute_vm_instance" "icphaproxy" {
   private_vlan_id          = "${data.ibm_network_vlan.cluster_vlan.id}"
   network_speed            = 1000
   hourly_billing           = true
-  private_network_only     = "${var.private_load_balancer}"
+  private_network_only     = true
   cores                    = 4
   memory                   = 4096
   disks                    = [100,100]

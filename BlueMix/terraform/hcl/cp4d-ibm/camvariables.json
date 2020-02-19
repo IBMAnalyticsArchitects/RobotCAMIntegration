@@ -560,18 +560,6 @@
       "default": "1"
     },
     {
-      "name": "private_load_balancer",
-      "type": "string",
-      "description": "Private Load Balancer (true/false)",
-      "hidden": false,
-      "label": "Private Load Balancer (true/false)",
-      "secured": false,
-      "required": true,
-      "immutable": true,
-      "group_name": "Cluster",
-      "default": "true"
-    },
-    {
       "name": "cp4d_num_db2wh_nodes",
       "type": "string",
       "description": "Number of nodes dedicated to DB2WH (to install DB2WH, 'db2wh' must be added to the list of cartridges)",
