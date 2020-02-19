@@ -26,7 +26,6 @@ private_ssh_key = "fdsfjlk;jkl;jklpMc01EZHptNXh4Nmp2YWFPV0JaMElKTHpobjBoRWtBb0xy
 ssh_key_passphrase = "dserwjklmc
 cp4d_addons = ["ds","wkc","wml","wsl","cde","ca","dv","iira","osg","rstudio","runtime-addon-gpupy36","runtime-addon-r36","spark","spss-modeler","streams","dods","db2wh","aiopenscale"]
 cp4d_num_db2wh_nodes = "1"
-private_load_balancer = "true"
 docker_vol_size = "1000"
 portworx_vol_size = "1000"
 hdp_driver_ip = ""
