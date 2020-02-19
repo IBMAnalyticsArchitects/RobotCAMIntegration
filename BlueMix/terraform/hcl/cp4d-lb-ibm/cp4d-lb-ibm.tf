@@ -247,42 +247,6 @@ echo "Encrypt and remove global.properties"
 $MASTER_INSTALLER_HOME/utils/01_encrypt_global_properties.sh global.properties
 rm -f ./global.properties
 
-if [ "`echo $cloud_icp_addons | grep hadoop_integration`" != "" -a "${var.hdp_driver_ip}" != "" -a "$cloud_icp4d_dsxhi_hostname" != "" -a "$cloud_icp4d_dsxhi_ip" != "" ]
-then
-   cloud_icp4d_dsxhi_master_install_home=/opt/cloud_install_cp4d_dsxhi
-   ssh ${var.hdp_driver_ip} "set -x
-cd /opt/cloud_install
-. ./setenv
-rm -rf $cloud_icp4d_dsxhi_master_install_home
-mkdir -p $cloud_icp4d_dsxhi_master_install_home
-cd $cloud_icp4d_dsxhi_master_install_home
-wget http://$cam_monkeymirror/cloud_install/${var.cloud_install_tar_file_name}
-tar xf ./${var.cloud_install_tar_file_name}
-env|egrep "^cloud_" >global.properties
-echo "cloud_icp4d_distribution_url=$cloud_icp4d_distribution_url" >> global.properties
-echo "cloud_icp_haproxy_vip=$cloud_icp_haproxy_vip" >> global.properties
-echo "cloud_icp4d_dsxhi_gateway_password=$cloud_icp4d_dsxhi_gateway_password" >> global.properties
-echo "cloud_icp4d_dsxhi_hostname=$cloud_icp4d_dsxhi_hostname" >> global.properties
-cp /opt/cloud_install/hosts $cloud_icp4d_dsxhi_master_install_home/
-cp -r /opt/cloud_install/ssh_keys $cloud_icp4d_dsxhi_master_install_home/"
-
-   cat<<END>prepDsxhi.sh
-passphr=\$1
-set -x
-eval \`ssh-agent\`
-/opt/addSshKeyId.exp \$passphr
-cd $cloud_icp4d_dsxhi_master_install_home
-. ./setenv
-$cloud_icp4d_dsxhi_master_install_home/utils/01_send_cloud_installer.sh $cloud_icp4d_dsxhi_hostname
-END
-chmod 700 prepDsxhi.sh
-
-   #######################
-   # Copy installDsxhi.sh to driver and run
-   scp prepDsxhi.sh ${var.hdp_driver_ip}:$cloud_icp4d_dsxhi_master_install_home/
-   ssh ${var.hdp_driver_ip} "$cloud_icp4d_dsxhi_master_install_home/prepDsxhi.sh $passphrase"
-fi
-
 utils/01_prepare_driver.sh
 
 . $MASTER_INSTALLER_HOME/utils/00_globalFunctions.sh
@@ -339,7 +303,6 @@ resource "null_resource" "start_install" {
       "echo  export cam_vm_dns_servers=${join(",",var.vm_dns_servers)} >> /opt/monkey_cam_vars.txt",     
 
       "echo  export cam_time_server=${var.time_server} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_cluster_name=${var.cluster_name} >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_public_nic_name=${var.public_nic_name} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_private_nic_name=${var.private_nic_name} >> /opt/monkey_cam_vars.txt",
