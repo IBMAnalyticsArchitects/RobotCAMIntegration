@@ -256,6 +256,8 @@ systemctl start rsyslog.service
 
 systemctl restart haproxy
 
+echo "Wait 20s before checking ports..."
+
 netstat -an | grep LISTEN | grep tcp
 
 echo "Public HAProxy setup complete."
