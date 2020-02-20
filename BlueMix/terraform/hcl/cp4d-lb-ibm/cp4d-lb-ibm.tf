@@ -256,7 +256,8 @@ systemctl start rsyslog.service
 
 systemctl restart haproxy
 
-echo "Wait 20s before checking ports..."
+echo "Wait 30s before checking ports..."
+sleep 30
 
 netstat -an | grep LISTEN | grep tcp
 
