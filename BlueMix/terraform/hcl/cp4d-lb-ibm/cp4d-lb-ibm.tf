@@ -234,10 +234,10 @@ passwd -l root
 
 cd /opt/cloud_install
 
-ssh ${cam_driver_ip} "cd /opt/cloud_install;. ./setenv;env|egrep '^cloud_'">global.properties
+ssh $cam_driver_ip "cd /opt/cloud_install;. ./setenv;env|egrep '^cloud_'">global.properties
 . ./setenv
 
-${MASTER_INSTALLER_HOME}/rpm_repo_files/03_install_rpms.sh $MASTER_INSTALLER_HOME/haproxy_files/RPM_LIST-haproxy.txt /tmp/03_install_rpms-haproxy.log
+$MASTER_INSTALLER_HOME/rpm_repo_files/03_install_rpms.sh $MASTER_INSTALLER_HOME/haproxy_files/RPM_LIST-haproxy.txt /tmp/03_install_rpms-haproxy.log
 
 systemctl enable haproxy.service
 cp -p /etc/rsyslog.conf /etc/rsyslog.conf.bkup
@@ -249,8 +249,8 @@ END
 
 systemctl stop rsyslog.service
 systemctl start rsyslog.service
-${MASTER_INSTALLER_HOME}/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh base;
-${MASTER_INSTALLER_HOME}/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh icp;
+$MASTER_INSTALLER_HOME/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh base;
+$MASTER_INSTALLER_HOME/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh icp;
 
 systemctl restart haproxy
 
