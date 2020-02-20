@@ -225,50 +225,9 @@ wget http://$cam_monkeymirror/cloud_install/$cloud_install_tar_file_name
 
 tar xf ./$cloud_install_tar_file_name
 
-echo "Create key pair for the intra-cluster communications"
-mkdir -p /opt/cloud_install/ssh_keys
-ssh-keygen -t rsa -N "" -f /opt/cloud_install/ssh_keys/id_rsa
-chmod 700 /opt/cloud_install/ssh_keys
-chmod 600 /opt/cloud_install/ssh_keys/id_rsa
-
 echo "Disable root login w/ password"
 passwd -l root
 
-echo "Generate new global.properties"
-perl -f cam_integration/01_gen_cam_install_properties.pl
-
-
-sed -i 's/cloud_replace_rhel_repo=0/cloud_replace_rhel_repo=1/' global.properties
-echo "cloud_enable_yum_versionlock=0">>global.properties
-
-. ./setenv
-
-echo "Encrypt and remove global.properties"
-$MASTER_INSTALLER_HOME/utils/01_encrypt_global_properties.sh global.properties
-rm -f ./global.properties
-
-utils/01_prepare_driver.sh
-
-. $MASTER_INSTALLER_HOME/utils/00_globalFunctions.sh
-nodeList=`echo $cloud_hostpasswords|awk -v RS="," -v FS=":" '{s=sprintf("%s %s",s,$1);}END{print s}'`
-for hostName in `echo $nodeList|sed 's/,/ /g'`
-do
-  if [ "$hostName" != "" ]
-	then
-    hostPwd=`get_root_password $hostName`
-		ssh.exp $hostName $hostPwd "passwd -l root;"
-#		ssh.exp $hostName $hostPwd "yum install -y bc perl ksh rsync expect unzip; yum groupinstall 'Infrastructure Server' -y"
-	fi
-done
-
-
-softlayer/01_setup_softlayer_vms.sh /dev/xvdc >01_setup_softlayer_vms.log 2>&1
-
-utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
-
-
-#nohup icp_files/01_master_standalone_icp4d.sh &
-nohup cp4d_files/01_master_cp4d.sh &
 
 EOF
 
