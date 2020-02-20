@@ -100,6 +100,10 @@ variable "ssh_key_passphrase" {
   description = "SSH Key Passphrase"
 }
 
+variable "driver_ip" {
+  description = "IP Address of Driver VM for existing CP4D cluster"
+}
+
 
 ##############################################################
 # Create temp public key for ssh connection
@@ -228,6 +232,31 @@ tar xf ./$cloud_install_tar_file_name
 echo "Disable root login w/ password"
 passwd -l root
 
+cd /opt/cloud_install
+
+ssh ${cam_driver_ip} "cd /opt/cloud_install;. ./setenv;env|egrep '^cloud_'">global.properties
+. ./setenv
+
+${MASTER_INSTALLER_HOME}/rpm_repo_files/03_install_rpms.sh $MASTER_INSTALLER_HOME/haproxy_files/RPM_LIST-haproxy.txt /tmp/03_install_rpms-haproxy.log
+
+systemctl enable haproxy.service
+cp -p /etc/rsyslog.conf /etc/rsyslog.conf.bkup
+cat /etc/rsyslog.conf | perl -f ${MASTER_INSTALLER_HOME}/haproxy_files/03_update_rsyslog.pl > /etc/rsyslog.conf.new
+mv -f /etc/rsyslog.conf.new /etc/rsyslog.conf
+cat > /etc/rsyslog.d/haproxy.conf <<END
+local2.*        /var/log/haproxy/haproxy.log
+END
+
+systemctl stop rsyslog.service
+systemctl start rsyslog.service
+$MASTER_INSTALLER_HOME/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh base;
+$MASTER_INSTALLER_HOME/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh icp;
+
+systemctl restart haproxy
+
+netstat -an | grep LISTEN | grep tcp
+
+echo "Public HAProxy setup complete."
 
 EOF
 
@@ -269,6 +298,7 @@ resource "null_resource" "start_install" {
 
       
       "echo  export cam_monkeymirror=${var.monkey_mirror} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_driver_ip=${var.driver_ip} >> /opt/monkey_cam_vars.txt",
    
       "echo  export cam_icp_public_haproxy_ip=${join(",",ibm_compute_vm_instance.pubhaproxy.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_public_haproxy_name=${join(",",ibm_compute_vm_instance.pubhaproxy.*.hostname)} >> /opt/monkey_cam_vars.txt",

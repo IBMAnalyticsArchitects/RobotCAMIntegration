@@ -360,5 +360,17 @@
       "immutable": false,
       "group_name": "Cluster",
       "default": ""
+    },
+    {
+      "name": "driver_ip",
+      "type": "string",
+      "description": "IP Address of Driver VM for existing CP4D cluster",
+      "hidden": false,
+      "label": "IP Address of Driver VM for existing CP4D cluster",
+      "secured": true,
+      "required": true,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": ""
     }
 ]
