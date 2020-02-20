@@ -249,8 +249,8 @@ END
 
 systemctl stop rsyslog.service
 systemctl start rsyslog.service
-$MASTER_INSTALLER_HOME/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh base;
-$MASTER_INSTALLER_HOME/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh icp;
+${MASTER_INSTALLER_HOME}/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh base;
+${MASTER_INSTALLER_HOME}/cp4d_files/haproxy/02_configure_cp4d_haproxy.sh icp;
 
 systemctl restart haproxy
 
