@@ -128,12 +128,42 @@ data "ibm_network_vlan" "public_cluster_vlan" {
 }
 
 
+
+##############################################################
+# Security Groups
+##############################################################
+
+resource "ibm_security_group" "pubsg1" {
+    name = "${var.vm_name_prefix}-pubsg1"
+    description = "All external traffic"
+}
+
+resource "ibm_security_group_rule" "allow_port_443" {
+    direction = "ingress"
+    ether_type = "IPv4"
+    port_range_min = 443
+    port_range_max = 443
+    protocol = "tcp"
+    security_group_id = ${ibm_security_group.pubsg1.id}
+}
+
+
+resource "ibm_security_group_rule" "allow_port_8443" {
+    direction = "ingress"
+    ether_type = "IPv4"
+    port_range_min = 8443
+    port_range_max = 8443
+    protocol = "tcp"
+    security_group_id = ${ibm_security_group.pubsg1.id}
+}
+
+
 ##############################################################
 # Create VMs
 ##############################################################
 
 ###########################################################################################################################################################
-# Driver
+# Public HAProxy
 resource "ibm_compute_vm_instance" "pubhaproxy" {
   count                    = "1"
   hostname                 = "${var.vm_name_prefix}-pubhaproxy"
@@ -151,6 +181,7 @@ resource "ibm_compute_vm_instance" "pubhaproxy" {
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
+  public_security_group_ids = [ ${ibm_security_group.pubsg1.id} ]
 
   # Specify the ssh connection
   connection {
