@@ -367,7 +367,7 @@
       "description": "IP Address of Driver VM for existing CP4D cluster",
       "hidden": false,
       "label": "IP Address of Driver VM for existing CP4D cluster",
-      "secured": true,
+      "secured": false,
       "required": true,
       "immutable": false,
       "group_name": "Cluster",
