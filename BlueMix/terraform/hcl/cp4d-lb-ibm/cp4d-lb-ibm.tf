@@ -141,20 +141,20 @@ resource "ibm_security_group" "pubsg1" {
 resource "ibm_security_group_rule" "allow_port_443" {
     direction = "ingress"
     ether_type = "IPv4"
-    port_range_min = 443
-    port_range_max = 443
+    port_range_min = "443"
+    port_range_max = "443"
     protocol = "tcp"
-    security_group_id = ${ibm_security_group.pubsg1.id}
+    security_group_id = "${ibm_security_group.pubsg1.id}"
 }
 
 
 resource "ibm_security_group_rule" "allow_port_8443" {
     direction = "ingress"
     ether_type = "IPv4"
-    port_range_min = 8443
-    port_range_max = 8443
+    port_range_min = "8443"
+    port_range_max = "8443"
     protocol = "tcp"
-    security_group_id = ${ibm_security_group.pubsg1.id}
+    security_group_id = "${ibm_security_group.pubsg1.id}"
 }
 
 
