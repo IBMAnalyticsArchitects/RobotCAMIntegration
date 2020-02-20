@@ -237,6 +237,8 @@ cd /opt/cloud_install
 ssh $cam_driver_ip "cd /opt/cloud_install;. ./setenv;env|egrep '^cloud_'">global.properties
 . ./setenv
 
+scp $cam_driver_ip:/etc/hosts /etc/hosts
+
 /opt/cloud_install/rpm_repo_files/03_install_rpms.sh $MASTER_INSTALLER_HOME/haproxy_files/RPM_LIST-haproxy.txt /tmp/03_install_rpms-haproxy.log
 
 systemctl enable haproxy.service
