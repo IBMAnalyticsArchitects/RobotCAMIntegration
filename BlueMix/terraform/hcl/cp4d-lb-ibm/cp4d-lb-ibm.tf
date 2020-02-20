@@ -181,7 +181,7 @@ resource "ibm_compute_vm_instance" "pubhaproxy" {
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = [ "${ibm_compute_ssh_key.temp_public_key.id}"]
-  public_security_group_ids = [ ${ibm_security_group.pubsg1.id} ]
+  public_security_group_ids = [ "${ibm_security_group.pubsg1.id}" ]
 
   # Specify the ssh connection
   connection {
