@@ -297,18 +297,24 @@ EOF
     content = <<EOF
 #!/bin/sh
 
-while true
-do
-	yum install expect -y
-	rc=$?
-	if [ $rc -ne 0 ]
-	then
-		echo "Retrying yum install (wait 5s)..."
-		sleep 5
-	else
-		break
-	fi
-done
+wait_yum() {
+  while true
+  do
+        echo "wait_yum():..."
+        yum repolist
+        if [ `yum repolist 2>&1 | egrep "repolist: 0|There are no enabled repos|This system is not registered" | wc -l` -ne 0 ]
+        then
+                echo "Wating for yum repo (wait 5s)..."
+                sleep 5
+        else
+                break
+        fi
+  done
+}
+
+
+wait_yum
+yum install expect -y
 
 #passphrase=`cat /root/passphrase.fifo`
 passphrase=`cat /root/passphrase`
@@ -318,7 +324,10 @@ eval `ssh-agent`
 
 set -x 
 
+wait_yum
 yum install python rsync unzip ksh perl  wget httpd firewalld createrepo -y
+
+wait_yum
 yum groupinstall "Infrastructure Server" -y
 
 mkdir -p /opt/cloud_install; 

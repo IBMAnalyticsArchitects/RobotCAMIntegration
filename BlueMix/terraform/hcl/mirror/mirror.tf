@@ -163,18 +163,26 @@ set -x
 
 . /opt/monkey_cam_vars.txt
 
-while true
-do
-	yum install python rsync unzip ksh perl  wget expect httpd firewalld createrepo -y
-	rc=$?
-	if [ $rc -ne 0 ]
-	then
-		echo "Retrying yum install (wait 5s)..."
-		sleep 5
-	else
-		break
-	fi
-done
+
+wait_yum() {
+  while true
+  do
+        echo "wait_yum():..."
+        yum repolist
+        if [ `yum repolist 2>&1 | egrep "repolist: 0|There are no enabled repos|This system is not registered" | wc -l` -ne 0 ]
+        then
+                echo "Wating for yum repo (wait 5s)..."
+                sleep 5
+        else
+                break
+        fi
+  done
+}
+
+
+wait_yum
+yum install python rsync unzip ksh perl  wget expect httpd firewalld createrepo -y
+
 #curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
 #unzip awscli-bundle.zip
 unzip /tmp/awscli-bundle.zip
@@ -253,6 +261,7 @@ tar xf /var/www/html/cloud_install/`basename $cam_ibm_cos_source_cloud_install_p
 #mv -f /tmp/__selinuxConfig /etc/selinux/config
 #setenforce 0
 
+wait_yum
 yum install -y policycoreutils-python
 semanage fcontext -a -t httpd_sys_content_t "/var/www/html(/.*)?"
 restorecon -Rv /var/www/html
@@ -264,6 +273,7 @@ subscription-manager repos --enable=rhel-7-server-extras-rpms
 
 # Install docker and set up image registry
 
+wait_yum
 yum install -y docker
 cat<<END>/etc/sysconfig/docker-storage-setup
 DEVS=/dev/xvde
