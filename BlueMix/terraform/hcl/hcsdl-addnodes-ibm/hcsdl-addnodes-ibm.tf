@@ -225,8 +225,26 @@ EOF
     content = <<EOF
 #!/bin/sh
 
+
+wait_yum() {
+  while true
+  do
+        echo "wait_yum():..."
+        yum repolist
+        if [ `yum repolist 2>&1 | egrep "repolist: 0|There are no enabled repos|This system is not registered" | wc -l` -ne 0 ]
+        then
+                echo "Wating for yum repo (wait 5s)..."
+                sleep 5
+        else
+                break
+        fi
+  done
+}
+
+
 set -x 
 
+wait_yum
 yum install -y perl ksh rsync expect unzip  
 
 #passphrase=`cat /root/passphrase.fifo`
