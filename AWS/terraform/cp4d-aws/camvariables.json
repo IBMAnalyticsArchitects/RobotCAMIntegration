@@ -277,9 +277,9 @@
     {
       "name": "num_workers",
       "type": "string",
-      "description": "Number of CP4D workers",
+      "description": "Number of CP4D workers (3 or more)",
       "hidden": false,
-      "label": "Number of ICP workers to create",
+      "label": "Number of ICP workers to create (3 or more)",
       "secured": false,
       "required": false,
       "immutable": false,
