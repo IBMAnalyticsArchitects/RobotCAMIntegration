@@ -464,33 +464,7 @@
       "group_name": "Cluster",
       "default": "ens192"
     },
-    
-    
-#    {
-#      "name": "icp_network_cidr",
-#      "type": "string",
-#      "description": "ICP Network CIDR",
-#      "hidden": false,
-#      "label": "ICP Network CIDR",
-#      "secured": false,
-#      "required": true,
-#      "immutable": false,
-#      "group_name": "Cluster",
-#      "default": "172.1.0.0/16"
-#    },    
-#    
-#    {
-#      "name": "icp_service_cluster_ip_range",
-#      "type": "string",
-#      "description": "ICP Cluster IP Range",
-#      "hidden": false,
-#      "label": "ICP Cluster IP Range",
-#      "secured": false,
-#      "required": true,
-#      "immutable": false,
-#      "group_name": "Cluster",
-#      "default": "172.2.0.0/16"
-#    },
+      
     
     {
       "name": "cloud_install_tar_file_name",
