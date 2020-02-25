@@ -95,11 +95,22 @@ variable "sudo_password" {
 variable "monkey_mirror" {
   description = "Monkey Mirror IP or Hostname"
 }
-
-variable "num_workers" {
-  description = "Number of ICP worker nodes to create"
+    
+variable "num_masters" {
+  description = "number of masters"
 }
 
+variable "num_infra" {
+  description = "number of infra nodes"
+}
+
+variable "num_workers" {
+  description = "number of worker nodes"
+}
+
+variable "num_idm" {
+  description = "number of idm nodes"
+}
 
 variable "vm_datacenter" {
   description = "Target vSphere datacenter for virtual machine creation"
@@ -435,7 +446,7 @@ EOF
 
 # IDM
 resource "vsphere_virtual_machine" "idm" {
-  count="${ 2 * local.idm_install }"
+  count="${ var.num_idm * local.idm_install }"
   name = "${var.vm_name_prefix}-idm-${ count.index }"
   num_cpus = "4"
   memory = "4096"
@@ -574,7 +585,7 @@ resource "vsphere_virtual_machine" "haproxy" {
 
 # ICP Master
 resource "vsphere_virtual_machine" "icpmaster" {
-  count="3"
+  count         = "${var.num_masters}"
   name = "${var.vm_name_prefix}-master-${ count.index }"
   num_cpus = "${var.vm_number_of_vcpu}"
   memory = "${var.vm_memory}"
@@ -664,7 +675,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
 
 # ICP Infra
 resource "vsphere_virtual_machine" "icpinfra" {
-  count="3"
+  count         = "${var.num_infra}"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
 
   num_cpus = "${var.vm_number_of_vcpu}"

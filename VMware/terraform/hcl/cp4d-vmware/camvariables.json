@@ -12,18 +12,59 @@
       "group_name": "Cloud",
       "default": "10.176.112.139"
     },
+    
     {
-      "name": "num_workers",
+      "name": "num_idm",
       "type": "string",
-      "description": "Number of ICP workers",
+      "description": "Number of IDM servers (1 or 2)",
       "hidden": false,
-      "label": "Number of ICP workers to create",
+      "label": "Number of IDM servers to create (1 or 2)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "2"
+    },
+    
+    {
+      "name": "num_masters",
+      "type": "string",
+      "description": "Number of CP4D masters (1 or 3)",
+      "hidden": false,
+      "label": "Number of CP4D masters to create (1 or 3)",
       "secured": false,
       "required": false,
       "immutable": false,
       "group_name": "Cluster",
       "default": "3"
     },
+    
+    {
+      "name": "num_infra",
+      "type": "string",
+      "description": "Number of CP4D infra nodes (1 or more)",
+      "hidden": false,
+      "label": "Number of CP4D infra nodes to create (1 or more)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "3"
+    },
+    
+    {
+      "name": "num_workers",
+      "type": "string",
+      "description": "Number of CP4D workers (3 or more)",
+      "hidden": false,
+      "label": "Number of ICP workers to create (3 or more)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "3"
+    },
+    
     {
       "name": "vm_name_prefix",
       "type": "string",
