@@ -39,6 +39,35 @@
       "default": "3"
     },
     
+    
+    {
+      "name": "master_mem",
+      "type": "string",
+      "description": "Memory (MBs) for CP4D master nodes",
+      "hidden": false,
+      "label": "Memory (MBs) for CP4D master nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "65536"
+    },
+    
+    {
+      "name": "master_num_cpus",
+      "type": "string",
+      "description": "Number of CPUs for CP4D master nodes",
+      "hidden": false,
+      "label": "Number of CPUs for CP4D master nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "16"
+    },
+    
+    
+    
     {
       "name": "num_infra",
       "type": "string",
@@ -53,6 +82,33 @@
     },
     
     {
+      "name": "infra_mem",
+      "type": "string",
+      "description": "Memory (MBs) for CP4D infra nodes",
+      "hidden": false,
+      "label": "Memory (MBs) for CP4D infra nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "65536"
+    },
+    
+    {
+      "name": "infra_num_cpus",
+      "type": "string",
+      "description": "Number of CPUs for CP4D infra nodes",
+      "hidden": false,
+      "label": "Number of CPUs for CP4D infra nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "16"
+    },
+    
+    
+    {
       "name": "num_workers",
       "type": "string",
       "description": "Number of CP4D workers (3 or more)",
@@ -64,6 +120,36 @@
       "group_name": "Cluster",
       "default": "3"
     },
+    
+    
+    {
+      "name": "worker_mem",
+      "type": "string",
+      "description": "Memory (MBs) for CP4D worker nodes",
+      "hidden": false,
+      "label": "Memory (MBs) for CP4D worker nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "131072"
+    },
+    
+    {
+      "name": "worker_num_cpus",
+      "type": "string",
+      "description": "Number of CPUs for CP4D worker nodes",
+      "hidden": false,
+      "label": "Number of CPUs for CP4D worker nodes",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "32"
+    },
+    
+    
+    
     
     {
       "name": "vm_name_prefix",
@@ -229,18 +315,6 @@
       "default": "10.177.150.150"
     },
     {
-      "name": "vm_memory",
-      "type": "string",
-      "description": "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024",
-      "default": "98304",
-      "hidden": false,
-      "label": "Virtual Machine Memory",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
-    {
       "name": "vm_ipv4_prefix_length",
       "type": "string",
       "description": "IPv4 prefix length for vNIC configuration. The value must be a number between 8 and 32",
@@ -252,18 +326,7 @@
       "group_name": "Cluster",
       "default": "26"
     },
-    {
-      "name": "vm_number_of_vcpu",
-      "type": "string",
-      "description": "Number of virtual CPU for the virtual machine, which is required to be a positive Integer",
-      "default": "16",
-      "hidden": false,
-      "label": "Virtual Machine vCPUs",
-      "secured": false,
-      "required": true,
-      "immutable": false,
-      "group_name": "Cluster"
-    },
+    
     {
       "name": "vm_network_interface_label",
       "type": "string",

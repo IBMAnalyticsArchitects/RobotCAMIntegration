@@ -100,13 +100,39 @@ variable "num_masters" {
   description = "number of masters"
 }
 
+variable "master_num_cpus" {
+  description = "master_num_cpus"
+}
+
+variable "master_mem" {
+  description = "master_mem"
+}
+
 variable "num_infra" {
   description = "number of infra nodes"
+}
+
+variable "infra_num_cpus" {
+  description = "infra_num_cpus"
+}
+
+variable "infra_mem" {
+  description = "infra_mem"
 }
 
 variable "num_workers" {
   description = "number of worker nodes"
 }
+
+
+variable "worker_num_cpus" {
+  description = "worker_num_cpus"
+}
+
+variable "worker_mem" {
+  description = "worker_mem"
+}
+
 
 variable "num_idm" {
   description = "number of idm nodes"
@@ -118,16 +144,6 @@ variable "vm_datacenter" {
 
 variable "vm_domain" {
   description = "Domain Name of virtual machine"
-}
-
-variable "vm_number_of_vcpu" {
-  description = "Number of virtual CPU for the virtual machine, which is required to be a positive Integer"
-  default = "1"
-}
-
-variable "vm_memory" {
-  description = "Memory assigned to the virtual machine in megabytes. This value is required to be an increment of 1024"
-  default = "1024"
 }
 
 
@@ -587,8 +603,8 @@ resource "vsphere_virtual_machine" "haproxy" {
 resource "vsphere_virtual_machine" "icpmaster" {
   count         = "${var.num_masters}"
   name = "${var.vm_name_prefix}-master-${ count.index }"
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+  num_cpus = "${var.master_num_cpus}"
+  memory = "${var.master_mem}"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -678,8 +694,8 @@ resource "vsphere_virtual_machine" "icpinfra" {
   count         = "${var.num_infra}"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
 
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+  num_cpus = "${var.infra_num_cpus}"
+  memory = "${var.infra_mem}"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -837,8 +853,8 @@ resource "vsphere_virtual_machine" "icpworker" {
   count="${var.num_workers}"
   name = "${var.vm_name_prefix}-worker-${ count.index }"
 
-  num_cpus = "${var.vm_number_of_vcpu}"
-  memory = "${var.vm_memory}"
+  num_cpus = "${var.worker_num_cpus}"
+  memory = "${var.worker_mem}"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
