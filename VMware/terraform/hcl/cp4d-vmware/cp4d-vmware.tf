@@ -219,22 +219,20 @@ variable "cloud_install_tar_file_name" {
   default = "cloud_install.tar"
 }
 
-
-
 variable "icp_network_cidr" {
   description = "ICP Network CIDR"
+  default = "172.1.0.0/16"
 }
 
 variable "icp_service_cluster_ip_range" {
   description = "ICP Cluster IP Range"
+  default = "172.2.0.0/16"
 }
-
 
 variable "cluster_name" {
   description = "Cluster Name"
   default = "MYCLUSTER"
 }
-
 
 variable "idm_primary_hostname" {
   description = "Hostname of primary IDM server"
