@@ -700,7 +700,7 @@ resource "ibm_compute_vm_instance" "nfs" {
   private_network_only     = true
   cores                    = 4
   memory                   = 4096
-  disks                    = [100,100,1000]
+  disks                    = [100,100,2000]
   dedicated_acct_host_only = false
   local_disk               = false
   ssh_key_ids              = ["${ibm_compute_ssh_key.temp_public_key.id}"]

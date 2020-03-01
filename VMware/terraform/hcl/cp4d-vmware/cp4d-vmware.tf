@@ -813,7 +813,7 @@ resource "vsphere_virtual_machine" "icpnfs" {
   
   disk {
     label = "${var.vm_name_prefix}1.vmdk"
-    size = "1000"
+    size = "2000"
     keep_on_remove = "false"
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
     unit_number = "1"
