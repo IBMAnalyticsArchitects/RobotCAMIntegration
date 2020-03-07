@@ -95,11 +95,10 @@ variable "vm_dns_servers" {
   description = "DNS servers for the virtual network adapter"
 }
 
-variable "num_workers" {
-  description = "Number of ICP worker nodes to create"
-  default="3"
+variable "num_masters" {
+  description = "number of masters"
+  default = "1"
 }
-
 
 variable "master_num_cpus" {
   description = "master_num_cpus"
@@ -109,6 +108,10 @@ variable "master_mem" {
   description = "master_mem"
 }
 
+variable "num_infra" {
+  description = "number of infra nodes"
+  default = "1"
+}
 
 variable "infra_num_cpus" {
   description = "infra_num_cpus"
@@ -118,6 +121,10 @@ variable "infra_mem" {
   description = "infra_mem"
 }
 
+variable "num_workers" {
+  description = "Number of ICP worker nodes to create"
+  default="3"
+}
 
 variable "worker_num_cpus" {
   description = "worker_num_cpus"
@@ -530,7 +537,7 @@ EOF
 ############################################################################################################################################################
 # ICP Masters
 resource "ibm_compute_vm_instance" "master" {
-  count="1"
+  count         = "${var.num_masters}"
   hostname = "${var.vm_name_prefix}-master-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -583,7 +590,7 @@ EOF
 ############################################################################################################################################################
 # ICP Infra
 resource "ibm_compute_vm_instance" "infra" {
-  count="1"
+  count         = "${var.num_infra}"
   hostname = "${var.vm_name_prefix}-infra-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"

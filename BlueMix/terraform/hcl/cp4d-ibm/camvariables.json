@@ -327,6 +327,19 @@
     },
     
     {
+      "name": "num_masters",
+      "type": "string",
+      "description": "Number of CP4D masters (1 or 3)",
+      "hidden": false,
+      "label": "Number of CP4D masters to create (1 or 3)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "1"
+    },
+    
+    {
       "name": "master_mem",
       "type": "string",
       "description": "Memory (MBs) for CP4D master nodes",
@@ -352,7 +365,19 @@
       "default": "16"
     },
     
-    
+    {
+      "name": "num_infra",
+      "type": "string",
+      "description": "Number of CP4D infra nodes (1 or more)",
+      "hidden": false,
+      "label": "Number of CP4D infra nodes to create (1 or more)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "1"
+    },
+        
     {
       "name": "infra_mem",
       "type": "string",
