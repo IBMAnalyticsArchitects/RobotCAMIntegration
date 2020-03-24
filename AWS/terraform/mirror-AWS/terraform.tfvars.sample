@@ -19,5 +19,5 @@ ibm_cos_access_key_id = "dc88696ed12444e5af5f7f4e07f53d4a"
 ibm_cos_secret_access_key = "*****"
 ibm_cos_endpoint_url = "https://s3.us-south.cloud-object-storage.appdomain.cloud"
 ibm_cos_source_mirror_path_list = ["s3://cos-322888-robot-automation-assets/rpm-repos-18mar2020-2244.tar","s3://cos-322888-robot-automation-assets/products-24jan2020-1338.tar","s3://cos-322888-robot-automation-assets/products-upd-19mar2020-1628.tar"]
-ibm_cos_source_cloud_install_path = "s3://cos-322888-robot-automation-assets/cloud_install-master-20mar2020-0836.tar"
+ibm_cos_source_cloud_install_path = "s3://cos-322888-robot-automation-assets/cloud_install-master-24mar2020-1657.tar"
 
