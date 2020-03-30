@@ -611,7 +611,7 @@
       	"ca","dv","iira","osg","rstudio",
       	"runtime-addon-gpupy36","runtime-addon-r36",
       	"spark","spss-modeler","streams","dods","db2wh","aiopenscale",
-      	"watson_discovery","watson_assistant","watson_knowledge_studio"]
+      	"watson_assistant","watson_knowledge_studio","watson_discovery","watson_nlu","watson_speech"]
     },
     {
       "name": "docker_vol_size",
