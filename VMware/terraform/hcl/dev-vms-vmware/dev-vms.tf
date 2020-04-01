@@ -326,7 +326,7 @@ EOF
       "sleep 2",
       "lvextend /dev/vg_node1/lv_root /dev/sdb1",
       "sleep 2",
-      "resize2fs /dev/mapper/vg_node1-lv_root"
+      "resize2fs /dev/mapper/vg_node1-lv_root",
       "sleep 2",
       "chmod 755 /tmp/prepare.sh",
       "/tmp/prepare.sh 2>&1 > /tmp/prepare.log"
