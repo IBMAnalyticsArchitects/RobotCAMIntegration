@@ -168,6 +168,10 @@ variable "public_ssh_key" {
   description = "Public SSH Key"
 }
 
+variable "monkey_mirror" {
+  description = "Monkey Mirror IP or Hostname"
+}
+
 
 ########
 # Isolate IP address components:
@@ -285,15 +289,15 @@ resource "vsphere_virtual_machine" "devvm" {
 
  provisioner "file" {
     content = <<EOF
-MIRROR_IP=10.176.112.139
+MIRROR_IP=${var.monkey_mirror}
 CLOUD_INSTALLER_TAR=cloud_install.tar
 mkdir -p /opt/cloud_install/
 cd /opt/cloud_install
-wget http://${MIRROR_IP}/cloud_install/${CLOUD_INSTALLER_TAR}
-tar xf ${CLOUD_INSTALLER_TAR}
+wget http://$MIRROR_IP/cloud_install/$CLOUD_INSTALLER_TAR
+tar xf $CLOUD_INSTALLER_TAR
 export MASTER_INSTALLER_HOME=/opt/cloud_install
 export cloud_replace_rhel_repo=1
-export cloud_mirror_server=${MIRROR_IP}
+export cloud_mirror_server=$MIRROR_IP
 rpm_repo_files/03_setupYUM.sh
 yum update -y
 EOF

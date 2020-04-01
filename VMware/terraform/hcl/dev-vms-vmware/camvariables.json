@@ -357,6 +357,19 @@
       "immutable": false,
       "group_name": "Cluster",
       "default": ""
+    },
+    
+    {
+      "name": "monkey_mirror",
+      "type": "string",
+      "description": "Monkey Mirror IP or Hostname",
+      "hidden": false,
+      "label": "Monkey Mirror IP or Hostname",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "10.176.112.139"
     }
     
   ]
