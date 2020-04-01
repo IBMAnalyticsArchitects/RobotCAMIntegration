@@ -328,7 +328,7 @@ EOF
       "sleep 2",
       "resize2fs /dev/mapper/vg_node1-lv_root"
       "sleep 2",
-      "chmod 755 /tmp/prepare.sh"
+      "chmod 755 /tmp/prepare.sh",
       "/tmp/prepare.sh"
     ]
  }
