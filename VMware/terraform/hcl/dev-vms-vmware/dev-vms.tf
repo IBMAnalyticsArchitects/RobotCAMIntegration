@@ -283,6 +283,23 @@ resource "vsphere_virtual_machine" "devvm" {
     host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
+ provisioner "file" {
+    content = <<EOF
+MIRROR_IP=10.176.112.139
+CLOUD_INSTALLER_TAR=cloud_install.tar
+mkdir -p /opt/cloud_install/
+cd /opt/cloud_install
+wget http://${MIRROR_IP}/cloud_install/${CLOUD_INSTALLER_TAR}
+tar xf ${CLOUD_INSTALLER_TAR}
+export MASTER_INSTALLER_HOME=/opt/cloud_install
+export cloud_replace_rhel_repo=1
+export cloud_mirror_server=${MIRROR_IP}
+rpm_repo_files/03_setupYUM.sh
+yum update -y
+EOF
+    destination = "/tmp/prepare.sh"
+}
+
 
   provisioner "remote-exec" {
     inline = [
@@ -306,6 +323,9 @@ resource "vsphere_virtual_machine" "devvm" {
       "lvextend /dev/vg_node1/lv_root /dev/sdb1",
       "sleep 2",
       "resize2fs /dev/mapper/vg_node1-lv_root"
+      "sleep 2",
+      "chmod 755 /tmp/prepare.sh"
+      "/tmp/prepare.sh"
     ]
  }
 
