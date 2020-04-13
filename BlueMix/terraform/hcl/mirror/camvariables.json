@@ -250,7 +250,7 @@
         "secured": false, 
         "type": "list",
         "group_name": "IBM Cloud Object Storage",
-        "default": [ "s3://robotmirror1/mirror.tar" ]
+        "default": [ "s3://cos-322888-robot-automation-assets/rpm-repos-31mar2020-1940.tar","s3://cos-322888-robot-automation-assets/products-24jan2020-1338.tar","s3://cos-322888-robot-automation-assets/products-upd-19mar2020-1628.tar","s3://cos-322888-robot-automation-assets/products-upd-27mar2020-1432.tar","s3://cos-322888-robot-automation-assets/products-upd-3apr2020-1021.tar" ]
     },
     {
         "description": "IBM COS Source Cloud Installer Path (points to a tar file containing the Cloud Install scripts).", 
