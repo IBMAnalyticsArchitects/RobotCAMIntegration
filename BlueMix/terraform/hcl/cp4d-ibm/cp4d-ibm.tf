@@ -369,7 +369,7 @@ echo "Encrypt and remove global.properties"
 $MASTER_INSTALLER_HOME/utils/01_encrypt_global_properties.sh global.properties
 rm -f ./global.properties
 
-if [ "`echo $cloud_icp_addons | grep hadoop_integration`" != "" -a "${var.hdp_driver_ip}" != "" -a "$cloud_icp4d_dsxhi_hostname" != "" -a "$cloud_icp4d_dsxhi_ip" != "" ]
+if [ "`echo $cloud_icp_addons | grep hadoop-addon`" != "" -a "${var.hdp_driver_ip}" != "" -a "$cloud_icp4d_dsxhi_hostname" != "" -a "$cloud_icp4d_dsxhi_ip" != "" ]
 then
    cloud_icp4d_dsxhi_master_install_home=/opt/cloud_install_cp4d_dsxhi
    ssh ${var.hdp_driver_ip} "set -x
@@ -385,6 +385,7 @@ echo "cloud_icp4d_distribution_url=$cloud_icp4d_distribution_url" >> global.prop
 echo "cloud_icp_haproxy_vip=$cloud_icp_haproxy_vip" >> global.properties
 echo "cloud_icp4d_dsxhi_gateway_password=$cloud_icp4d_dsxhi_gateway_password" >> global.properties
 echo "cloud_icp4d_dsxhi_hostname=$cloud_icp4d_dsxhi_hostname" >> global.properties
+echo "cloud_icp4d_console_virtual_hostname=${cloud_icp4d_consle_name:-zen-cpd-zen}.apps.${cloud_freeipa_domain}" >> global.properties
 cp /opt/cloud_install/hosts $cloud_icp4d_dsxhi_master_install_home/
 cp -r /opt/cloud_install/ssh_keys $cloud_icp4d_dsxhi_master_install_home/"
 
@@ -400,7 +401,7 @@ END
 chmod 700 prepDsxhi.sh
 
    #######################
-   # Copy installDsxhi.sh to driver and run
+   # Copy prepDsxhi.sh to driver and run
    scp prepDsxhi.sh ${var.hdp_driver_ip}:$cloud_icp4d_dsxhi_master_install_home/
    ssh ${var.hdp_driver_ip} "$cloud_icp4d_dsxhi_master_install_home/prepDsxhi.sh $passphrase"
 fi

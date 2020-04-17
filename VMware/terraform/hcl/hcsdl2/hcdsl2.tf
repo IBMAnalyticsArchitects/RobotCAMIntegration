@@ -294,6 +294,10 @@ variable "install_bigsql" {
   description = "install_bigsql"
 }
 
+variable "enable_bigsql_ranger" {
+  description = "Enable Ranger plug-in for Big SQL"
+}
+
 variable "dsengine_mem" {
   description = "dsengine_mem"
 }
@@ -1508,6 +1512,7 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_bigsql_head_ip=${join(",",vsphere_virtual_machine.bigsql-head.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_bigsql_head_name=${join(",",vsphere_virtual_machine.bigsql-head.*.name)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_bigsql_ranger_plugin=${var.enable_bigsql_ranger} >> /opt/monkey_cam_vars.txt",
       
 #      "mkfifo /root/passphrase.fifo",
 #      "chmod 600 /root/passphrase.fifo",

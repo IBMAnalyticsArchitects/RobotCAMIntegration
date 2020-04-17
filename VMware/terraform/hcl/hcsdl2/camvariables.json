@@ -620,6 +620,19 @@
       "default": "1"
     },
     {
+      "name": "enable_bigsql_ranger",
+      "type": "string",
+      "description": "Enable Ranger plug-in for BigSQL (0 or 1)",
+      "hidden": false,
+      "label": "Enable Ranger plug-in for BigSQL (0 or 1)",
+      "secured": false,
+      "required": true,
+      "immutable": false,
+      "regex": "(0|1)",
+      "group_name": "Big SQL",
+      "default": "1"
+    },
+    {
       "name": "bigsql_num_cpus",
       "type": "string",
       "description": "Number of virtual CPU's for BigSQL management nodes",

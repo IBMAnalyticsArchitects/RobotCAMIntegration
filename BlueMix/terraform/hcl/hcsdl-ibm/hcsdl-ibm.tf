@@ -146,6 +146,9 @@ variable "install_bigsql" {
   description = "install_bigsql"
 }
 
+variable "enable_bigsql_ranger" {
+  description = "Enable Ranger plug-in for Big SQL"
+}
 
 ##############################################################
 # Create public key in Devices>Manage>SSH Keys in SL console
@@ -1094,7 +1097,8 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_bigsql_head_ip=${join(",",ibm_compute_vm_instance.bigsql-head.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_bigsql_head_name=${join(",",ibm_compute_vm_instance.bigsql-head.*.hostname)} >> /opt/monkey_cam_vars.txt",
-      
+      "echo  export cam_bigsql_ranger_plugin=${var.enable_bigsql_ranger} >> /opt/monkey_cam_vars.txt",
+
       "mkfifo /root/passphrase.fifo",
       "chmod 600 /root/passphrase.fifo",
       "echo ${var.ssh_key_passphrase} > /root/passphrase.fifo &",

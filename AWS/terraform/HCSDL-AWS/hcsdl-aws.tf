@@ -207,6 +207,9 @@ variable "install_bigsql" {
   description = "install_bigsql"
 }
 
+variable "enable_bigsql_ranger" {
+  description = "Enable Ranger plug-in for Big SQL"
+}
 
 variable "availability_zones" {
   type = "list"
@@ -1097,7 +1100,8 @@ resource "null_resource" "start_install" {
     
       "echo  export cam_bigsql_head_ip=${join(",",aws_instance.hdp-bigsql.*.private_ip)} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_bigsql_head_name=${join(",",aws_instance.hdp-bigsql.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt",
-    
+      "echo  export cam_bigsql_ranger_plugin=${var.enable_bigsql_ranger} >> /tmp/monkey_cam_vars.txt",
+ 
       "sudo mv /tmp/monkey_cam_vars.txt /opt/monkey_cam_vars.txt",
       "sudo mv /tmp/installation.sh /opt/installation.sh",
       "sudo chmod 700 /opt/installation.sh",
