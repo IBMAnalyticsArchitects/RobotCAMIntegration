@@ -504,7 +504,7 @@
       "required": true,
       "immutable": false,
       "regex": "(0|1)",
-      "group_name": "BigSQL",
+      "group_name": "Big SQL",
       "default": "1"
     },
 
