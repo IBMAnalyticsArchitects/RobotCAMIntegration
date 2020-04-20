@@ -444,7 +444,7 @@ echo "cloud_icp4d_distribution_url=$cloud_icp4d_distribution_url" >> global.prop
 echo "cloud_icp_haproxy_vip=$cloud_icp_haproxy_vip" >> global.properties
 echo "cloud_icp4d_dsxhi_gateway_password=$cloud_icp4d_dsxhi_gateway_password" >> global.properties
 echo "cloud_icp4d_dsxhi_hostname=$cloud_icp4d_dsxhi_hostname" >> global.properties
-echo "cloud_icp4d_console_virtual_hostname=${cloud_icp4d_consle_name:-zen-cpd-zen}.apps.${cloud_freeipa_domain}" >> global.properties
+echo "cloud_icp4d_console_virtual_hostname=$${cloud_icp4d_consle_name:-zen-cpd-zen}.apps.$cloud_freeipa_domain" >> global.properties
 cp /opt/cloud_install/hosts $cloud_icp4d_dsxhi_master_install_home/
 cp -r /opt/cloud_install/ssh_keys $cloud_icp4d_dsxhi_master_install_home/"
 
