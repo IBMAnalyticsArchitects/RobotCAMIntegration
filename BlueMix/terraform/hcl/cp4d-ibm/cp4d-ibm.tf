@@ -440,8 +440,8 @@ EOF
 ###########################################################################################################################################################
 # ICP IDM
 resource "ibm_compute_vm_instance" "idm" {
-#  count="${ 2 * local.idm_install }"
-  count="1"
+  count="${ 1 * local.idm_install }"
+#  count="1"
   hostname = "${var.vm_name_prefix}-idm-${ count.index }"
   os_reference_code        = "REDHAT_7_64"
   domain                   = "${var.vm_domain}"
@@ -809,9 +809,6 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
     
-      "echo  export cam_idm_ip=${join(",",ibm_compute_vm_instance.idm.*.ipv4_address_private)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_idm_name=${join(",",ibm_compute_vm_instance.idm.*.hostname)} >> /opt/monkey_cam_vars.txt",
-      
       
       "echo  export cam_idm_install=${local.idm_install} >> /opt/monkey_cam_vars.txt",
       # These variables are only relevant when tying the new cluster with an existing IDM instance
