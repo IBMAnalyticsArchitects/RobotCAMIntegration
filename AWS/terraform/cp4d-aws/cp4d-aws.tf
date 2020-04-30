@@ -144,7 +144,11 @@ variable "worker_instance_type" {
   description = "worker_instance_type"
 }
 
-    
+variable "fully_disable_idm" {
+  description = "Fully disable all FreeIPA/IDM-related functionality (0 or 1)"
+  default="0"
+}
+
 variable "num_idm" {
   description = "number of idm nodes"
 }
@@ -284,7 +288,8 @@ variable "install_portworx" {
 }
 
 locals {
-  idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
+#  idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
+  idm_install = "${ ( var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ) && var.fully_disable_idm=="0" ? 1 : 0 }"
 }
 
 
@@ -915,6 +920,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpnfs_name=${join(",",aws_instance.icpnfs.*.tags.ShortName)} >> /tmp/monkey_cam_vars.txt", 
      
       "echo  export cam_idm_install=${local.idm_install} >> /tmp/monkey_cam_vars.txt",
+      "echo  export cam_fully_disable_idm=${var.fully_disable_idm} >> /opt/monkey_cam_vars.txt",
       # These variables are only relevant when tying the new cluster with an existing IDM instance
       "echo  export cam_idm_primary_hostname=${var.idm_primary_hostname} >> /tmp/monkey_cam_vars.txt",
       "echo  export cam_idm_primary_ip=${var.idm_primary_ip} >> /tmp/monkey_cam_vars.txt",

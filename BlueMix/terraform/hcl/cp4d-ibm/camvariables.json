@@ -457,6 +457,18 @@
       "default": "3"
     },
     
+    {
+      "name": "fully_disable_idm",
+      "type": "string",
+      "description": "Fully disable all FreeIPA/IDM-related functionality (0 or 1)",
+      "hidden": false,
+      "label": "Fully disable all FreeIPA/IDM-related functionality (0 or 1)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cluster",
+      "default": "0"
+    },
     
     {
       "name": "idm_primary_hostname",

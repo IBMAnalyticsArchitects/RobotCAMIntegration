@@ -133,6 +133,10 @@ variable "worker_mem" {
   description = "worker_mem"
 }
 
+variable "fully_disable_idm" {
+  description = "Fully disable all FreeIPA/IDM-related functionality (0 or 1)"
+  default="0"
+}
 
 variable "num_idm" {
   description = "number of idm nodes"
@@ -296,7 +300,8 @@ locals {
   vm_ipv4_address_elements = "${split(".",var.vm_start_ipv4_address)}"
   vm_ipv4_address_base = "${format("%s.%s.%s",local.vm_ipv4_address_elements[0],local.vm_ipv4_address_elements[1],local.vm_ipv4_address_elements[2])}"
   vm_ipv4_address_start= "${local.vm_ipv4_address_elements[3] }"
-  idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
+#  idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
+  idm_install = "${ ( var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ) && var.fully_disable_idm=="0" ? 1 : 0 }"
 }
 
 ###########################################################################################################################################################
@@ -1049,6 +1054,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpnfs_name=${join(",",vsphere_virtual_machine.icpnfs.*.name)} >> /opt/monkey_cam_vars.txt", 
      
       "echo  export cam_idm_install=${local.idm_install} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_fully_disable_idm=${var.fully_disable_idm} >> /opt/monkey_cam_vars.txt",
       # These variables are only relevant when tying the new cluster with an existing IDM instance
       "echo  export cam_idm_primary_hostname=${var.idm_primary_hostname} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_idm_primary_ip=${var.idm_primary_ip} >> /opt/monkey_cam_vars.txt",
