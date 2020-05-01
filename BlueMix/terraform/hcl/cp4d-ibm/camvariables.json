@@ -460,7 +460,7 @@
     {
       "name": "fully_disable_idm",
       "type": "string",
-      "description": "Fully disable all FreeIPA/IDM-related functionality (0 or 1)",
+      "description": "Fully disables all FreeIPA/IDM-related functionality (0 or 1). No FreeIPA/IDM server and clients are installed. Overrides other IDM properties.",      
       "hidden": false,
       "label": "Fully disable all FreeIPA/IDM-related functionality (0 or 1)",
       "secured": false,
