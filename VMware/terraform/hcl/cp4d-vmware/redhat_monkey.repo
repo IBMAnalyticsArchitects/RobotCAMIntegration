@@ -1,0 +1,56 @@
+
+[rhel-server-rhscl-7-rpms]
+metadata_expire = 0
+baseurl = http://__IP__/pulp/repos/customer/Library/content/dist/rhel/server/7/$releasever/$basearch/rhscl/1/os
+ui_repoid_vars = releasever basearch
+name = Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-optional-rpms]
+metadata_expire = 0
+baseurl = http://__IP__/pulp/repos/customer/Library/content/dist/rhel/server/7/$releasever/$basearch/optional/os
+ui_repoid_vars = releasever basearch
+name = Red Hat Enterprise Linux 7 Server - Optional (RPMs)
+enabled = 1
+gpgcheck = 0
+
+[rhel-ha-for-rhel-7-server-rpms]
+metadata_expire = 0
+baseurl = http://__IP__/pulp/repos/customer/Library/content/dist/rhel/server/7/$releasever/$basearch/highavailability/os
+ui_repoid_vars = releasever basearch
+name = Red Hat Enterprise Linux High Availability (for RHEL 7 Server) (RPMs)
+enabled = 1
+gpgcheck = 0
+
+[rhel-rs-for-rhel-7-server-rpms]
+metadata_expire = 0
+baseurl = http://__IP__/pulp/repos/customer/Library/content/dist/rhel/server/7/$releasever/$basearch/resilientstorage/os
+ui_repoid_vars = releasever basearch
+name = Red Hat Enterprise Linux Resilient Storage (for RHEL 7 Server) (RPMs)
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-rpms]
+metadata_expire = 0
+baseurl = http://__IP__/pulp/repos/customer/Library/content/dist/rhel/server/7/$releasever/$basearch/os
+ui_repoid_vars = releasever basearch
+name = Red Hat Enterprise Linux 7 Server (RPMs)
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-supplementary-rpms]
+metadata_expire = 0
+baseurl = http://__IP__/pulp/repos/customer/Library/content/dist/rhel/server/7/$releasever/$basearch/supplementary/os
+ui_repoid_vars = releasever basearch
+name = Red Hat Enterprise Linux 7 Server - Supplementary (RPMs)
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-extras-rpms]
+metadata_expire = 0
+baseurl = http://__IP__/pulp/repos/customer/Library/content/dist/rhel/server/7/$releasever/$basearch/extras/os
+ui_repoid_vars = basearch
+name = Red Hat Enterprise Linux 7 Server - Extras (RPMs)
+enabled = 1
+gpgcheck = 0
