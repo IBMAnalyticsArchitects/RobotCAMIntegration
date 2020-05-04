@@ -374,6 +374,18 @@ EOF
   }
 
 
+  
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "setup_yum.sh"
+    destination = "/tmp/setup_yum.sh"
+  }
+
+
   provisioner "remote-exec" {
     inline = [
       "mkdir -p /root/.ssh",
@@ -385,7 +397,9 @@ EOF
       "chmod 600 /root/.ssh/id_rsa",
       "echo StrictHostKeyChecking no > /root/.ssh/config",
       "chmod 600 /root/.ssh/config",
-      "chmod 700 /opt/addSshKeyId.exp"
+      "chmod 700 /opt/addSshKeyId.exp",
+      "chmod 700 /tmp/setup_yum.sh",
+      "/tmp/setup_yum.sh ${var.monkey_mirror}"
     ]
   }
 
@@ -549,6 +563,16 @@ resource "vsphere_virtual_machine" "idm" {
     host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "setup_yum.sh"
+    destination = "/tmp/setup_yum.sh"
+  }
+
 
   provisioner "remote-exec" {
     inline = [
@@ -560,7 +584,9 @@ resource "vsphere_virtual_machine" "idm" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
+      "chmod 700 /tmp/setup_yum.sh",
+      "/tmp/setup_yum.sh ${var.monkey_mirror}"
     ]
   }
 
@@ -616,7 +642,16 @@ resource "vsphere_virtual_machine" "haproxy" {
     password = "${var.ssh_user_password}"
     host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
-
+ 
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "setup_yum.sh"
+    destination = "/tmp/setup_yum.sh"
+  }
 
   provisioner "remote-exec" {
     inline = [
@@ -628,7 +663,9 @@ resource "vsphere_virtual_machine" "haproxy" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
+      "chmod 700 /tmp/setup_yum.sh",
+      "/tmp/setup_yum.sh ${var.monkey_mirror}"
     ]
   }
 
@@ -704,6 +741,21 @@ resource "vsphere_virtual_machine" "icpmaster" {
     password = "${var.ssh_user_password}"
     host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
+ 
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "setup_storage.sh"
+    destination = "/tmp/setup_storage.sh"
+  }
+  
+  provisioner "file" {
+    source      = "setup_yum.sh"
+    destination = "/tmp/setup_yum.sh"
+  }
 
 
   provisioner "remote-exec" {
@@ -717,10 +769,10 @@ resource "vsphere_virtual_machine" "icpmaster" {
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "pvcreate /dev/sdb",
-      "vgextend vg_node1 /dev/sdb",
-      "lvextend /dev/vg_node1/lv_root /dev/sdb",
-      "resize2fs /dev/mapper/vg_node1-lv_root"
+      "chmod 700 /tmp/setup_storage.sh",
+      "/tmp/setup_storage.sh",
+      "chmod 700 /tmp/setup_yum.sh",
+      "/tmp/setup_yum.sh ${var.monkey_mirror}"
     ]
   }
 }
@@ -790,6 +842,21 @@ resource "vsphere_virtual_machine" "icpinfra" {
     password = "${var.ssh_user_password}"
     host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
+  
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "setup_storage.sh"
+    destination = "/tmp/setup_storage.sh"
+  }
+  
+  provisioner "file" {
+    source      = "setup_yum.sh"
+    destination = "/tmp/setup_yum.sh"
+  }
 
 
   provisioner "remote-exec" {
@@ -803,10 +870,10 @@ resource "vsphere_virtual_machine" "icpinfra" {
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "pvcreate /dev/sdb",
-      "vgextend vg_node1 /dev/sdb",
-      "lvextend /dev/vg_node1/lv_root /dev/sdb",
-      "resize2fs /dev/mapper/vg_node1-lv_root"
+      "chmod 700 /tmp/setup_storage.sh",
+      "/tmp/setup_storage.sh",
+      "chmod 700 /tmp/setup_yum.sh",
+      "/tmp/setup_yum.sh ${var.monkey_mirror}"
     ]
   }
 }
@@ -868,6 +935,16 @@ resource "vsphere_virtual_machine" "icpnfs" {
     host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
+  
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "setup_yum.sh"
+    destination = "/tmp/setup_yum.sh"
+  }
 
   provisioner "remote-exec" {
     inline = [
@@ -879,7 +956,9 @@ resource "vsphere_virtual_machine" "icpnfs" {
       "chmod 600 /root/.ssh/config",
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf"
+      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
+      "chmod 700 /tmp/setup_yum.sh",
+      "/tmp/setup_yum.sh ${var.monkey_mirror}"
     ]
   }
 }
@@ -963,6 +1042,21 @@ resource "vsphere_virtual_machine" "icpworker" {
     host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
   }
 
+ 
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "setup_storage.sh"
+    destination = "/tmp/setup_storage.sh"
+  }
+  
+  provisioner "file" {
+    source      = "setup_yum.sh"
+    destination = "/tmp/setup_yum.sh"
+  }
 
   provisioner "remote-exec" {
     inline = [
@@ -975,10 +1069,10 @@ resource "vsphere_virtual_machine" "icpworker" {
       "systemctl disable NetworkManager",
       "systemctl stop NetworkManager",
       "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "pvcreate /dev/sdb",
-      "vgextend vg_node1 /dev/sdb",
-      "lvextend /dev/vg_node1/lv_root /dev/sdb",
-      "resize2fs /dev/mapper/vg_node1-lv_root"
+      "chmod 700 /tmp/setup_storage.sh",
+      "/tmp/setup_storage.sh",
+      "chmod 700 /tmp/setup_yum.sh",
+      "/tmp/setup_yum.sh ${var.monkey_mirror}"
     ]
   }
 }
