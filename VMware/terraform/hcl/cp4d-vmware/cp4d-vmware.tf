@@ -890,6 +890,7 @@ resource "vsphere_virtual_machine" "icpnfs" {
   provisioner "file" {
     source      = "redhat_monkey.repo"
     destination = "/tmp/redhat_monkey.repo"
+  }
 
   provisioner "remote-exec" {
     inline = [
