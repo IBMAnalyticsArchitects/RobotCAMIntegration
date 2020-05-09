@@ -300,8 +300,15 @@ locals {
   vm_ipv4_address_elements = "${split(".",var.vm_start_ipv4_address)}"
   vm_ipv4_address_base = "${format("%s.%s.%s",local.vm_ipv4_address_elements[0],local.vm_ipv4_address_elements[1],local.vm_ipv4_address_elements[2])}"
   vm_ipv4_address_start= "${local.vm_ipv4_address_elements[3] }"
-#  idm_install = "${ var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ? 1 : 0 }"
   idm_install = "${ ( var.idm_primary_hostname=="" || var.idm_primary_ip=="" || var.idm_admin_password=="" || var.idm_ldapsearch_password=="" || var.idm_directory_manager_password=="" ) && var.fully_disable_idm=="0" ? 1 : 0 }"
+  
+  num_driver = "1"
+  num_idm = "${ var.num_idm * local.idm_install }"
+  num_haproxy = "1"
+  num_nfs = "1"
+  num_master = "${var.num_masters}"
+  num_infra = "${var.num_infra}"
+  num_worker = "${var.num_workers}"
 }
 
 ###########################################################################################################################################################
@@ -309,19 +316,17 @@ locals {
 # Driver 
 resource "vsphere_virtual_machine" "driver" {
   name = "${var.vm_name_prefix}-drv"
-#  folder = "${var.vm_folder}"
   num_cpus = "4"
   memory = "4096"
-  count = "1"
+  count = "${local.num_driver}"
   
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   
   
-#  guest_id = "${data.vsphere_virtual_machine.vm_template.guest_id}"
+
   guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
   clone {
-#    template_uuid = "${data.vsphere_virtual_machine.vm_template.id}"
     template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
     customize {
       linux_options {
@@ -516,13 +521,10 @@ EOF
 
 # IDM
 resource "vsphere_virtual_machine" "idm" {
-  count="${ var.num_idm * local.idm_install }"
+  count="${num_idm}"
   name = "${var.vm_name_prefix}-idm-${ count.index }"
   num_cpus = "4"
   memory = "4096"
-#  resource_pool_id = "${data.vsphere_resource_pool.vm_resource_pool.id}"
-#  datastore_id = "${data.vsphere_datastore.vm_datastore.id}"
-  
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -536,7 +538,7 @@ resource "vsphere_virtual_machine" "idm" {
         host_name = "${var.vm_name_prefix}-idm-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 1}"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -589,7 +591,7 @@ resource "vsphere_virtual_machine" "idm" {
 
 # HAProxy
 resource "vsphere_virtual_machine" "haproxy" {
-  count="1"
+  count="${local.num_haproxy}"
   name = "${var.vm_name_prefix}-haproxy-${ count.index }"
   num_cpus = "4"
   memory = "4096"
@@ -608,7 +610,7 @@ resource "vsphere_virtual_machine" "haproxy" {
         host_name = "${var.vm_name_prefix}-haproxy-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + 3 }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -658,9 +660,85 @@ resource "vsphere_virtual_machine" "haproxy" {
 
 ###########################################################################################################################################################
 
+# NFS
+resource "vsphere_virtual_machine" "icpnfs" {
+  count="${local.num_nfs}"
+  name = "${var.vm_name_prefix}-nfs-${ count.index }"
+
+  num_cpus = "8"
+  memory = "16384"
+
+  resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
+  datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+
+  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
+  clone {
+    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
+    customize {
+      linux_options {
+        domain = "${var.vm_domain}"
+        host_name = "${var.vm_name_prefix}-nfs-${ count.index }"
+      }
+      network_interface {
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + local.num_driver + local.num_idm  + local.num_haproxy }"
+        ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
+      }
+    ipv4_gateway = "${var.vm_ipv4_gateway}"
+    }
+  }
+
+  network_interface {
+    network_id = "${data.vsphere_network.vm_network.id}"
+    adapter_type = "${var.vm_adapter_type}"
+  }
+
+  disk {
+    label = "${var.vm_name_prefix}0.vmdk"
+    size = "${var.vm_root_disk_size}"
+    keep_on_remove = "false"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+  }
+  
+  disk {
+    label = "${var.vm_name_prefix}1.vmdk"
+    size = "2000"
+    keep_on_remove = "false"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+    unit_number = "1"
+  }
+
+  connection {
+    type = "ssh"
+    user     = "${var.ssh_user}"
+    password = "${var.ssh_user_password}"
+    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
+  }
+  
+  provisioner "file" {
+    source      = "redhat_monkey.repo"
+    destination = "/tmp/redhat_monkey.repo"
+  }
+  
+  provisioner "file" {
+    source      = "init_vm.sh"
+    destination = "/tmp/init_vm.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+    ]
+  }
+}
+
+
+
+###########################################################################################################################################################
+
 # ICP Master
 resource "vsphere_virtual_machine" "icpmaster" {
-  count         = "${var.num_masters}"
+  count         = "${local.num_master}"
   name = "${var.vm_name_prefix}-master-${ count.index }"
   num_cpus = "${var.master_num_cpus}"
   memory = "${var.master_mem}"
@@ -677,7 +755,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
         host_name = "${var.vm_name_prefix}-master-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 4 + count.index }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -756,7 +834,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
 
 # ICP Infra
 resource "vsphere_virtual_machine" "icpinfra" {
-  count         = "${var.num_infra}"
+  count         = "${local.num_infra}"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
 
   num_cpus = "${var.infra_num_cpus}"
@@ -774,7 +852,7 @@ resource "vsphere_virtual_machine" "icpinfra" {
         host_name = "${var.vm_name_prefix}-infra-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 7 + count.index }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs + local.num_master }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -844,85 +922,9 @@ resource "vsphere_virtual_machine" "icpinfra" {
 
 ###########################################################################################################################################################
 
-# NFS
-resource "vsphere_virtual_machine" "icpnfs" {
-  count="1"
-  name = "${var.vm_name_prefix}-nfs-${ count.index }"
-
-  num_cpus = "8"
-  memory = "16384"
-
-  resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
-  datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-
-  guest_id = "${element(data.vsphere_virtual_machine.vm_templates.*.guest_id, count.index )}"
-  clone {
-    template_uuid = "${element(data.vsphere_virtual_machine.vm_templates.*.id, count.index )}"
-    customize {
-      linux_options {
-        domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-nfs-${ count.index }"
-      }
-      network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 10  }"
-        ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
-      }
-    ipv4_gateway = "${var.vm_ipv4_gateway}"
-    }
-  }
-
-  network_interface {
-    network_id = "${data.vsphere_network.vm_network.id}"
-    adapter_type = "${var.vm_adapter_type}"
-  }
-
-  disk {
-    label = "${var.vm_name_prefix}0.vmdk"
-    size = "${var.vm_root_disk_size}"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-  }
-  
-  disk {
-    label = "${var.vm_name_prefix}1.vmdk"
-    size = "2000"
-    keep_on_remove = "false"
-    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
-    unit_number = "1"
-  }
-
-  connection {
-    type = "ssh"
-    user     = "${var.ssh_user}"
-    password = "${var.ssh_user_password}"
-    host     = "${self.clone.0.customize.0.network_interface.0.ipv4_address}"
-  }
-  
-  provisioner "file" {
-    source      = "redhat_monkey.repo"
-    destination = "/tmp/redhat_monkey.repo"
-  }
-  
-  provisioner "file" {
-    source      = "init_vm.sh"
-    destination = "/tmp/init_vm.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod 700 /tmp/init_vm.sh",
-      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
-    ]
-  }
-}
-
-
-
-###########################################################################################################################################################
-
 # ICP Workers
 resource "vsphere_virtual_machine" "icpworker" {
-  count="${var.num_workers}"
+  count="${local.num_worker}"
   name = "${var.vm_name_prefix}-worker-${ count.index }"
 
   num_cpus = "${var.worker_num_cpus}"
@@ -940,7 +942,7 @@ resource "vsphere_virtual_machine" "icpworker" {
         host_name = "${var.vm_name_prefix}-worker-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + 11 + count.index }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs + local.num_master }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
