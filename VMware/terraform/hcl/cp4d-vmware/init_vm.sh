@@ -7,7 +7,7 @@ puclic_key=$3
 #			
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
-echo ${var.public_ssh_key} > /root/.ssh/authorized_keys
+echo ${puclic_key} > /root/.ssh/authorized_keys
 chmod 600 /root/.ssh/authorized_keys
 echo StrictHostKeyChecking no > /root/.ssh/config
 chmod 600 /root/.ssh/config
@@ -15,7 +15,7 @@ chmod 600 /root/.ssh/config
 #
 # Set up initial DNS config
 #			
-echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf
+echo nameserver ${dns_server} > /etc/resolv.conf
       			
 			
 #
