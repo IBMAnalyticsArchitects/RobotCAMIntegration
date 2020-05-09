@@ -1,4 +1,6 @@
 cloud_mirror_server=$1
+dns_server=$2
+puclic_key=$3
 			
 #
 # Set up ssh key
