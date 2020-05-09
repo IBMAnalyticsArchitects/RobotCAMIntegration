@@ -942,7 +942,7 @@ resource "vsphere_virtual_machine" "icpworker" {
         host_name = "${var.vm_name_prefix}-worker-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs + local.num_master }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs + local.num_master + local.num_infra }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
