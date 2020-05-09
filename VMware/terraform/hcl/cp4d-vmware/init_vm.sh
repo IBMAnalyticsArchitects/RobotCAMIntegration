@@ -1,4 +1,4 @@
-cloud_mirror_server=$3
+cloud_mirror_server=$1
 			
 #
 # Set up ssh key
