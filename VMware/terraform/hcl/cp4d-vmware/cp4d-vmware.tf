@@ -734,12 +734,18 @@ resource "vsphere_virtual_machine" "icpmaster" {
     source      = "init_vm.sh"
     destination = "/tmp/init_vm.sh"
   }
+  
+  provisioner "file" {
+    source      = "setup_storage.sh"
+    destination = "/tmp/setup_storage.sh"
+  }
 
 
   provisioner "remote-exec" {
     inline = [
-      "chmod 700 /tmp/init_vm.sh",
+      "chmod 755 /tmp/*.sh",
       "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+      "/tmp/setup_storage.sh master"
     ]
   }
 }
@@ -819,12 +825,18 @@ resource "vsphere_virtual_machine" "icpinfra" {
     source      = "init_vm.sh"
     destination = "/tmp/init_vm.sh"
   }
+  
+  provisioner "file" {
+    source      = "setup_storage.sh"
+    destination = "/tmp/setup_storage.sh"
+  }
 
 
   provisioner "remote-exec" {
     inline = [
-      "chmod 700 /tmp/init_vm.sh",
+      "chmod 755 /tmp/*.sh",
       "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+      "/tmp/setup_storage.sh infra"
     ]
   }
 }
@@ -993,11 +1005,17 @@ resource "vsphere_virtual_machine" "icpworker" {
     source      = "init_vm.sh"
     destination = "/tmp/init_vm.sh"
   }
+  
+  provisioner "file" {
+    source      = "setup_storage.sh"
+    destination = "/tmp/setup_storage.sh"
+  }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod 700 /tmp/init_vm.sh",
+      "chmod 755 /tmp/*.sh",
       "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+      "/tmp/setup_storage.sh worker"
     ]
   }
 }
