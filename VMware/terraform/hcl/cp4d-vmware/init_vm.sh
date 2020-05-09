@@ -1,25 +1,36 @@
-cloud_mirror_server=$1
+cloud_mirror_server=$3
 			
+#
+# Set up ssh key
+#			
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+echo ${var.public_ssh_key} > /root/.ssh/authorized_keys
+chmod 600 /root/.ssh/authorized_keys
+echo StrictHostKeyChecking no > /root/.ssh/config
+chmod 600 /root/.ssh/config
+
+#
+# Set up initial DNS config
+#			
+echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf
+      			
 			
+#
+# Set up YUM config to point to local mirror
+#		
 hostSubstStr="s/https?:\/\/[^\/]+/http:\/\/${cloud_mirror_server}/"
-		
 subscription-manager config --rhsm.auto_enable_yum_plugins=0
 subscription-manager config --rhsm.manage_repos=0
-			
 sed -i -r 's/enabled[ \t]*=[ \t]*1/enabled = 0/' /etc/yum/pluginconf.d/rhnplugin.conf
 sed -i -r 's/enabled[ \t]*=[ \t]*1/enabled = 0/' /etc/yum/pluginconf.d/subscription-manager.conf
-
 softlayerYumFiles="/etc/pki/rpm-gpg/RPM-GPG-KEY* /etc/pki/entitlement/* /etc/rhsm/ca/* /etc/rhsm/* /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/redhat-rhui.repo"
-
 ## Backup current yum config files, before removing them
 if [ ! -e /root/YUM-BKP.tar ]; then zip -r /root/YUM-BKP.zip ${softlayerYumFiles} /etc/yum.repos.d/*;fi
-
 ## Remove stuff from Softlayer and /etc/yum.repos.d...
 rm -rf ${softlayerYumFiles} /etc/yum.repos.d/*
-						
 yum clean all
 rm -rf /var/cache/yum
-
 rm -f /etc/yum.repos.d/redhat_monkey.repo
 cp /tmp/redhat_monkey.repo /etc/yum.repos.d/redhat_monkey.repo
 			
@@ -37,5 +48,11 @@ sed -r -i -e ${hostSubstStr} \
 					  -e 's/sslcacert[^$]*//' \
 					  -e 's/^\[rhel/\[monkey-rhel/' \
           /etc/yum.repos.d/redhat_monkey.repo 
-
 yum repolist all
+
+
+#
+# To be revised, possibly removed...
+#
+systemctl disable NetworkManager
+systemctl stop NetworkManager

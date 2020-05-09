@@ -381,8 +381,8 @@ EOF
   }
   
   provisioner "file" {
-    source      = "setup_yum.sh"
-    destination = "/tmp/setup_yum.sh"
+    source      = "init_vm.sh"
+    destination = "/tmp/init_vm.sh"
   }
 
 
@@ -398,8 +398,8 @@ EOF
       "echo StrictHostKeyChecking no > /root/.ssh/config",
       "chmod 600 /root/.ssh/config",
       "chmod 700 /opt/addSshKeyId.exp",
-      "chmod 700 /tmp/setup_yum.sh",
-      "/tmp/setup_yum.sh ${var.monkey_mirror}"
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror}"
     ]
   }
 
@@ -569,24 +569,15 @@ resource "vsphere_virtual_machine" "idm" {
   }
   
   provisioner "file" {
-    source      = "setup_yum.sh"
-    destination = "/tmp/setup_yum.sh"
+    source      = "init_vm.sh"
+    destination = "/tmp/init_vm.sh"
   }
 
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "chmod 700 /tmp/setup_yum.sh",
-      "/tmp/setup_yum.sh ${var.monkey_mirror}"
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror}"
     ]
   }
 
@@ -649,23 +640,14 @@ resource "vsphere_virtual_machine" "haproxy" {
   }
   
   provisioner "file" {
-    source      = "setup_yum.sh"
-    destination = "/tmp/setup_yum.sh"
+    source      = "init_vm.sh"
+    destination = "/tmp/init_vm.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "chmod 700 /tmp/setup_yum.sh",
-      "/tmp/setup_yum.sh ${var.monkey_mirror}"
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror}"
     ]
   }
 
@@ -746,33 +728,18 @@ resource "vsphere_virtual_machine" "icpmaster" {
     source      = "redhat_monkey.repo"
     destination = "/tmp/redhat_monkey.repo"
   }
+
   
   provisioner "file" {
-    source      = "setup_storage.sh"
-    destination = "/tmp/setup_storage.sh"
-  }
-  
-  provisioner "file" {
-    source      = "setup_yum.sh"
-    destination = "/tmp/setup_yum.sh"
+    source      = "init_vm.sh"
+    destination = "/tmp/init_vm.sh"
   }
 
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "chmod 700 /tmp/setup_storage.sh",
-      "/tmp/setup_storage.sh",
-      "chmod 700 /tmp/setup_yum.sh",
-      "/tmp/setup_yum.sh ${var.monkey_mirror}"
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror}"
     ]
   }
 }
@@ -849,31 +816,15 @@ resource "vsphere_virtual_machine" "icpinfra" {
   }
   
   provisioner "file" {
-    source      = "setup_storage.sh"
-    destination = "/tmp/setup_storage.sh"
-  }
-  
-  provisioner "file" {
-    source      = "setup_yum.sh"
-    destination = "/tmp/setup_yum.sh"
+    source      = "init_vm.sh"
+    destination = "/tmp/init_vm.sh"
   }
 
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "chmod 700 /tmp/setup_storage.sh",
-      "/tmp/setup_storage.sh",
-      "chmod 700 /tmp/setup_yum.sh",
-      "/tmp/setup_yum.sh ${var.monkey_mirror}"
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror}"
     ]
   }
 }
@@ -939,26 +890,11 @@ resource "vsphere_virtual_machine" "icpnfs" {
   provisioner "file" {
     source      = "redhat_monkey.repo"
     destination = "/tmp/redhat_monkey.repo"
-  }
-  
-  provisioner "file" {
-    source      = "setup_yum.sh"
-    destination = "/tmp/setup_yum.sh"
-  }
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "chmod 700 /tmp/setup_yum.sh",
-      "/tmp/setup_yum.sh ${var.monkey_mirror}"
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror}"
     ]
   }
 }
@@ -1049,30 +985,14 @@ resource "vsphere_virtual_machine" "icpworker" {
   }
   
   provisioner "file" {
-    source      = "setup_storage.sh"
-    destination = "/tmp/setup_storage.sh"
-  }
-  
-  provisioner "file" {
-    source      = "setup_yum.sh"
-    destination = "/tmp/setup_yum.sh"
+    source      = "init_vm.sh"
+    destination = "/tmp/init_vm.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /root/.ssh",
-      "chmod 700 /root/.ssh",
-      "echo ${var.public_ssh_key} > /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "echo StrictHostKeyChecking no > /root/.ssh/config",
-      "chmod 600 /root/.ssh/config",
-      "systemctl disable NetworkManager",
-      "systemctl stop NetworkManager",
-      "echo nameserver ${var.vm_dns_servers[0]} > /etc/resolv.conf",
-      "chmod 700 /tmp/setup_storage.sh",
-      "/tmp/setup_storage.sh",
-      "chmod 700 /tmp/setup_yum.sh",
-      "/tmp/setup_yum.sh ${var.monkey_mirror}"
+      "chmod 700 /tmp/init_vm.sh",
+      "/tmp/init_vm.sh ${var.monkey_mirror}"
     ]
   }
 }
