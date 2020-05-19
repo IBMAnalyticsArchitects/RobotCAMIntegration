@@ -889,7 +889,7 @@ resource "null_resource" "start_install" {
        "chmod 600 /root/passphrase",
       
       "chmod 755 /opt/installation.sh",
-      "/opt/installation.sh &",
+      "/opt/installation.sh",
       "sleep 60"
     ]
   }
