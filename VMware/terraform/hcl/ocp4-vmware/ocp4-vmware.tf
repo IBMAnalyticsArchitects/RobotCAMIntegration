@@ -602,8 +602,8 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
   	"null_resource.start_install"
   ]
   
-  count         = "3"
-  name = "${var.vm_name_prefix}-master-${ count.index }"
+  count         = "1"
+  name = "${var.vm_name_prefix}-bootstrap-${ count.index }"
   num_cpus = "${var.master_num_cpus}"
   memory = "${var.master_mem}"
 
@@ -616,7 +616,7 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-master-${ count.index }"
+        host_name = "${var.vm_name_prefix}-bootstrap-${ count.index }"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs }"

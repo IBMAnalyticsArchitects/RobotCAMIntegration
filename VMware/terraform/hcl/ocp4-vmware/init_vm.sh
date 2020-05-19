@@ -53,10 +53,8 @@ sed -r -i -e ${hostSubstStr} \
 yum repolist all
 
 
-#
-# To be revised, possibly removed...
-#
-systemctl disable NetworkManager
-systemctl stop NetworkManager
 
 yum update -y
+
+systemctl stop firewalld
+systemctl disable firewalld
