@@ -58,3 +58,5 @@ yum repolist all
 #
 systemctl disable NetworkManager
 systemctl stop NetworkManager
+
+yum update -y
