@@ -58,3 +58,6 @@ yum update -y
 
 systemctl stop firewalld
 systemctl disable firewalld
+
+echo "init_vm.sh finished!"
+
