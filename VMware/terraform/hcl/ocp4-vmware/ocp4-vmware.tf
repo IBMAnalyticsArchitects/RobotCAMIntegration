@@ -217,6 +217,8 @@ locals {
   num_driver = "1"
   num_haproxy = "1"
   num_nfs = "1"
+  num_dns = "1"
+  num_bootstrap = "1"
   num_master = "3"
   num_worker = "${var.num_workers}"
 }
@@ -400,7 +402,7 @@ resource "vsphere_virtual_machine" "haproxy" {
         host_name = "${var.vm_name_prefix}-haproxy-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver  }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -470,7 +472,7 @@ resource "vsphere_virtual_machine" "icpnfs" {
         host_name = "${var.vm_name_prefix}-nfs-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + local.num_driver + local.num_idm  + local.num_haproxy }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + local.num_driver + local.num_haproxy }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -545,7 +547,7 @@ resource "vsphere_virtual_machine" "icpdns" {
         host_name = "${var.vm_name_prefix}-dns-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + local.num_driver + local.num_idm  + local.num_haproxy }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + local.num_driver + local.num_nfs  + local.num_haproxy }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -617,7 +619,7 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
         host_name = "${var.vm_name_prefix}-master-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -689,7 +691,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
         host_name = "${var.vm_name_prefix}-master-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs + local.num_bootstrap }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -756,7 +758,7 @@ resource "vsphere_virtual_machine" "icpworker" {
         host_name = "${var.vm_name_prefix}-worker-${ count.index }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_idm  + local.num_haproxy + local.num_nfs + local.num_master + local.num_infra }"
+        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs + local.num_bootstrap + local.num_master }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
