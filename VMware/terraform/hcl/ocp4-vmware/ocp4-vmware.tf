@@ -809,8 +809,8 @@ resource "null_resource" "start_install" {
   
   depends_on = [ 
   	"vsphere_virtual_machine.driver",  
-  	"vsphere_virtual_machine.dns",  
-  	"vsphere_virtual_machine.nfs",
+  	"vsphere_virtual_machine.icpdns",  
+  	"vsphere_virtual_machine.icpnfs",
   	"vsphere_virtual_machine.haproxy"
   ]
 
@@ -874,8 +874,8 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpnfs_name=${join(",",vsphere_virtual_machine.icpnfs.*.name)} >> /opt/monkey_cam_vars.txt", 
      
         
-      "echo  export cam_icp_dns_ip=${join(",",vsphere_virtual_machine.dns.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icp_dns_name=${join(",",vsphere_virtual_machine.dns.*.name)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_dns_ip=${join(",",vsphere_virtual_machine.icpdns.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icp_dns_name=${join(",",vsphere_virtual_machine.icpdns.*.name)} >> /opt/monkey_cam_vars.txt",
 
       "echo  export cam_icp_haproxy_ip=${join(",",vsphere_virtual_machine.haproxy.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_haproxy_name=${join(",",vsphere_virtual_machine.haproxy.*.name)} >> /opt/monkey_cam_vars.txt",
