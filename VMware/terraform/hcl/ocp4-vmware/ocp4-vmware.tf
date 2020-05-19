@@ -316,7 +316,7 @@ EOF
       "chmod 600 /root/.ssh/config",
       "chmod 700 /opt/addSshKeyId.exp",
       "chmod 700 /tmp/init_vm.sh",
-      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}' > /tmp/init_vm.log"
     ]
   }
 
@@ -441,7 +441,7 @@ resource "vsphere_virtual_machine" "haproxy" {
   provisioner "remote-exec" {
     inline = [
       "chmod 700 /tmp/init_vm.sh",
-      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}' > /tmp/init_vm.log"
     ]
   }
 
@@ -519,7 +519,7 @@ resource "vsphere_virtual_machine" "icpnfs" {
   provisioner "remote-exec" {
     inline = [
       "chmod 700 /tmp/init_vm.sh",
-      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}' > /tmp/init_vm.log"
     ]
   }
 }
@@ -586,7 +586,7 @@ resource "vsphere_virtual_machine" "icpdns" {
   provisioner "remote-exec" {
     inline = [
       "chmod 700 /tmp/init_vm.sh",
-      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}'"
+      "/tmp/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}' > /tmp/init_vm.log"
     ]
   }
 }
