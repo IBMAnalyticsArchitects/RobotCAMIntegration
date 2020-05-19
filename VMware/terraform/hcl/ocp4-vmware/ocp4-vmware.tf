@@ -365,7 +365,7 @@ $MASTER_INSTALLER_HOME/utils/01_encrypt_global_properties.sh global.properties
 #rm -f ./global.properties
 
 
-utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
+#utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
 
 EOF
@@ -876,14 +876,16 @@ resource "null_resource" "start_install" {
       "echo  export cam_icpnfs_name=${join(",",vsphere_virtual_machine.icpnfs.*.name)} >> /opt/monkey_cam_vars.txt", 
      
         
-      "echo  export cam_icp_dns_ip=${join(",",vsphere_virtual_machine.icpdns.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icp_dns_name=${join(",",vsphere_virtual_machine.icpdns.*.name)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpdns_ip=${join(",",vsphere_virtual_machine.icpdns.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpdns_name=${join(",",vsphere_virtual_machine.icpdns.*.name)} >> /opt/monkey_cam_vars.txt",
 
       "echo  export cam_icp_haproxy_ip=${join(",",vsphere_virtual_machine.haproxy.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_haproxy_name=${join(",",vsphere_virtual_machine.haproxy.*.name)} >> /opt/monkey_cam_vars.txt",
     
       "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_install_ocp=1 >> /opt/monkey_cam_vars.txt",
       
        "echo ${var.ssh_key_passphrase} > /root/passphrase ",
        "chmod 600 /root/passphrase",
