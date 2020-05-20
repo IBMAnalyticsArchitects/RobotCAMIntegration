@@ -887,6 +887,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_install_ocp=1 >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_num_workers=${var.num_workers} >> /opt/monkey_cam_vars.txt",
       
        "echo ${var.ssh_key_passphrase} > /root/passphrase ",
        "chmod 600 /root/passphrase",
