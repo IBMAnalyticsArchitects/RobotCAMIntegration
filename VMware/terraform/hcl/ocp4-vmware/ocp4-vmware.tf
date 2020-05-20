@@ -239,7 +239,7 @@ data "template_file" "worker_hostnames" {
     template = "${format("%s-worker-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
 }
 
-
+ 
 
 ###########################################################################################################################################################
 
