@@ -638,7 +638,7 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
   ]
   
   count         = "1"
-  name = "${element(data.template_file.bootstrap_hostnames.*.rendered, count.index) }"
+  name = "${var.vm_name_prefix}-bootstrap-${ count.index }"
   num_cpus = "4"
   memory = "16384"
 
@@ -651,7 +651,7 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${element(data.template_file.bootstrap_hostnames.*.rendered, count.index) }"
+        host_name = "${var.vm_name_prefix}-bootstrap-${ count.index }"
       }
       network_interface {
         ipv4_address = "${element(data.template_file.bootstrap_ips.*.rendered, count.index) }"
@@ -710,7 +710,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
   ]
   
   count         = "3"
-  name = "${element(data.template_file.master_hostnames.*.rendered, count.index) }"
+  name = "${var.vm_name_prefix}-master-${ count.index }"
   num_cpus = "${var.master_num_cpus}"
   memory = "${var.master_mem}"
 
@@ -723,7 +723,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${element(data.template_file.master_hostnames.*.rendered, count.index) }"
+        host_name = "${var.vm_name_prefix}-master-${ count.index }"
       }
       network_interface {
         ipv4_address = "${element(data.template_file.master_ips.*.rendered, count.index) }"
@@ -776,7 +776,7 @@ resource "vsphere_virtual_machine" "icpworker" {
   ]
   	
   count="${local.num_worker}"
-  name = "${element(data.template_file.worker_hostnames.*.rendered, count.index) }"
+  name = "${var.vm_name_prefix}-worker-${ count.index }"
 
   num_cpus = "${var.worker_num_cpus}"
   memory = "${var.worker_mem}"
@@ -790,7 +790,7 @@ resource "vsphere_virtual_machine" "icpworker" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${element(data.template_file.worker_hostnames.*.rendered, count.index) }"
+        host_name = "${var.vm_name_prefix}-worker-${ count.index }"
       }
       network_interface {
         ipv4_address = "${element(data.template_file.worker_ips.*.rendered, count.index) }"
