@@ -894,14 +894,14 @@ resource "null_resource" "start_install" {
       "echo  export cam_driver_name=${join(",",vsphere_virtual_machine.driver.*.name)} >> /opt/monkey_cam_vars.txt",
       
 
-      "echo  export cam_icpbootstrap_ip=${join(",",bootstrap_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpbootstrap_name=${join(",",bootstrap_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt",    
+      "echo  export cam_icpbootstrap_ip=${join(",",data.template_file.bootstrap_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpbootstrap_name=${join(",",data.template_file.bootstrap_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt",    
 
-      "echo  export cam_icpmasters_ip=${join(",",master_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpmasters_name=${join(",",master_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt",    
+      "echo  export cam_icpmasters_ip=${join(",",data.template_file.master_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpmasters_name=${join(",",data.template_file.master_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt",    
       
-      "echo  export cam_icpworkers_ip=${join(",",worker_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icpworkers_name=${join(",",worker_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt", 
+      "echo  export cam_icpworkers_ip=${join(",",data.template_file.worker_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpworkers_name=${join(",",data.template_file.worker_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt", 
            
       "echo  export cam_icpnfs_ip=${join(",",vsphere_virtual_machine.icpnfs.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icpnfs_name=${join(",",vsphere_virtual_machine.icpnfs.*.name)} >> /opt/monkey_cam_vars.txt", 
