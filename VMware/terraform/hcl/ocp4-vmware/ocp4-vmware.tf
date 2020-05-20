@@ -221,14 +221,15 @@ locals {
   num_bootstrap = "1"
   num_master = "3"
   num_worker = "${var.num_workers}"
-  
-  
-#  master_hostnames = { for i in range(local.num_master) : format("master-%s", i) }
-
-x={range(3)}
-
-
 }
+
+  
+data "template_file" "control_plane_hostname" {
+    count = "${local.num_master}"
+
+    template = "${format("master%02d", count.index + 1)}"
+}
+
 
 ###########################################################################################################################################################
 
