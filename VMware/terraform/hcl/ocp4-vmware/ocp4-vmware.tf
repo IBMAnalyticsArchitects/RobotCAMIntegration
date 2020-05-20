@@ -638,7 +638,7 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
   ]
   
   count         = "1"
-  name = "${element(data.template_file.bootstrap_hostnames, count.index) }"
+  name = "${element(data.template_file.bootstrap_hostnames.*.rendered, count.index) }"
   num_cpus = "4"
   memory = "16384"
 
@@ -651,10 +651,10 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${element(data.template_file.bootstrap_hostnames, count.index) }"
+        host_name = "${element(data.template_file.bootstrap_hostnames.*.rendered, count.index) }"
       }
       network_interface {
-        ipv4_address = "${element(data.template_file.bootstrap_ips, count.index) }"
+        ipv4_address = "${element(data.template_file.bootstrap_ips.*.rendered, count.index) }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
