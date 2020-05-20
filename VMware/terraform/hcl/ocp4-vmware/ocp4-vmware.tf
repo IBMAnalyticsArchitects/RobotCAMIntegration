@@ -228,8 +228,12 @@ data "template_file" "master_hostnames" {
     count = "${local.num_master}"
     template = "${format("%s-master-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
 }
-
   
+data "template_file" "master_ips" {
+    count = "${local.num_master}"
+    template = "${format("$s.%s", local.vm_ipv4_address_base, (local.vm_ipv4_address_start + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs + local.num_bootstrap + count.index ) )}"
+}
+
 data "template_file" "worker_hostnames" {
     count = "${local.num_worker}"
     template = "${format("%s-worker-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
