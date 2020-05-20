@@ -240,6 +240,7 @@ data "template_file" "worker_hostnames" {
 }
 
 
+
 ###########################################################################################################################################################
 
 # Driver 
@@ -924,6 +925,9 @@ resource "null_resource" "start_install" {
 
 output "master_hostnames" {
   value       = "${join(",",data.template_file.master_hostnames.*.rendered)}" 
+}
+output "master_ips" {
+  value       = "${join(",",data.template_file.master_ips.*.rendered)}" 
 }
 output "worker_hostnames" {
   value       = "${join(",",data.template_file.worker_hostnames.*.rendered)}" 
