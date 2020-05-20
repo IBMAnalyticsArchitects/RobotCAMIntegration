@@ -224,7 +224,7 @@ locals {
   
   
   master_hostnames = {
-     names = for i in range(num_master) : format("master-%s", i)
+     names => for i in range(num_master) : format("master-%s", i)
   }
 
 }
