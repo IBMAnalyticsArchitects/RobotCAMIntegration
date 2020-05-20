@@ -221,6 +221,13 @@ locals {
   num_bootstrap = "1"
   num_master = "3"
   num_worker = "${var.num_workers}"
+  
+  
+  master_hostnames = {
+      for i in range(vm_ipv4_address_start, count) : format("master-%d", i)
+  }
+}
+
 }
 
 ###########################################################################################################################################################
@@ -898,8 +905,7 @@ resource "null_resource" "start_install" {
        "chmod 600 /root/passphrase",
       
       "chmod 755 /opt/installation.sh",
-      "/opt/installation.sh 2>&1 >/opt/installation.log",
-      "sleep 60"
+#      "/opt/installation.sh 2>&1 >/opt/installation.log"
     ]
   }
   
