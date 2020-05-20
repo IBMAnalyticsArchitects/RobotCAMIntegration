@@ -914,5 +914,6 @@ resource "null_resource" "start_install" {
 }
 
 output "outvalues" {
-  value       = ${join(",",data.template_file.control_plane_hostname.*.rendered)}
+#  value       = ${join(",",data.template_file.control_plane_hostname.*.rendered)}
+value = 10 
 }
