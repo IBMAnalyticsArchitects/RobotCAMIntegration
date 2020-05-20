@@ -224,10 +224,9 @@ locals {
 }
 
   
-data "template_file" "control_plane_hostname" {
+data "template_file" "master_hostnames" {
     count = "${local.num_master}"
-
-    template = "${format("master%d", count.index + 1)}"
+    template = "${format("%s-master-%d.%s", var.vm_name_prefix, count.index + 1, var.vm_domain)}"
 }
 
 
@@ -914,6 +913,6 @@ resource "null_resource" "start_install" {
 }
 
 output "outvalues" {
-  value       = "${join(",",data.template_file.control_plane_hostname.*.rendered)}" 
+  value       = "${join(",",data.template_file.master_hostnames.*.rendered)}" 
 #value = "10" 
 }
