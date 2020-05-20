@@ -914,5 +914,5 @@ resource "null_resource" "start_install" {
 }
 
 output "outvalues" {
-  value       = local.master_hostnames
+  value       = data.template_file.control_plane_hostname.*.rendered
 }
