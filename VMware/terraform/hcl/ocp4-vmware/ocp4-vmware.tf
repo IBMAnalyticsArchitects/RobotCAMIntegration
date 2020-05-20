@@ -223,7 +223,9 @@ locals {
   num_worker = "${var.num_workers}"
   
   
-  master_hostnames = { for i in range(local.num_master) : format("master-%s", i) }
+#  master_hostnames = { for i in range(local.num_master) : format("master-%s", i) }
+
+x=range(3)
 
 
 }
