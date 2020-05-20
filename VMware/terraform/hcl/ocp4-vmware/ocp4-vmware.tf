@@ -401,7 +401,7 @@ $MASTER_INSTALLER_HOME/utils/01_encrypt_global_properties.sh global.properties
 
 utils/01_prepare_driver.sh
 
-utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
+#utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
 EOF
 
