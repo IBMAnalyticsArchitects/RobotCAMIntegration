@@ -223,8 +223,9 @@ locals {
   num_worker = "${var.num_workers}"
   
   
-  master_hostnames = {
+  master_hostnames = { [
       for i in range(vm_ipv4_address_start, count) : format("master-%d", i)
+      ]
   }
 }
 
