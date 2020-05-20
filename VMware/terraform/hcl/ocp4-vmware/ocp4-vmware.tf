@@ -890,6 +890,10 @@ resource "null_resource" "start_install" {
       "echo  export cam_num_workers=${var.num_workers} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_vm_name_prefix=${var.vm_name_prefix} >> /opt/monkey_cam_vars.txt",
       
+      "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_vm_network_interface_label=${var.vm_network_interface_label} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_vm_ipv4_gateway=${var.vm_ipv4_gateway} >> /opt/monkey_cam_vars.txt",
+      
        "echo ${var.ssh_key_passphrase} > /root/passphrase ",
        "chmod 600 /root/passphrase",
       
