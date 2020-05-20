@@ -226,7 +226,7 @@ locals {
   
 data "template_file" "bootstrap_hostnames" {
     count = "${local.num_bootstrap}"
-    template = "${format("%s-bootstrap-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
+    template = "${format("%s-bootstrap-%d", var.vm_name_prefix, count.index)}"
 }
   
 data "template_file" "bootstrap_ips" {
@@ -236,7 +236,7 @@ data "template_file" "bootstrap_ips" {
 
 data "template_file" "master_hostnames" {
     count = "${local.num_master}"
-    template = "${format("%s-master-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
+    template = "${format("%s-master-%d", var.vm_name_prefix, count.index)}"
 }
   
 data "template_file" "master_ips" {
@@ -246,7 +246,7 @@ data "template_file" "master_ips" {
 
 data "template_file" "worker_hostnames" {
     count = "${local.num_worker}"
-    template = "${format("%s-worker-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
+    template = "${format("%s-worker-%d", var.vm_name_prefix, count.index)}"
 }
   
 data "template_file" "worker_ips" {
