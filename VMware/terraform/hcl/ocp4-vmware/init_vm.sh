@@ -2,9 +2,6 @@ cloud_mirror_server=$1
 dns_server=$2
 puclic_key=$3
 			
-			
-exit 0 
-			
 #
 # Set up ssh key
 #			
@@ -58,8 +55,6 @@ sed -r -i -e ${hostSubstStr} \
 					  -e 's/^\[rhel/\[monkey-rhel/' \
           /etc/yum.repos.d/redhat_monkey.repo 
 yum repolist all
-
-
 
 yum update -y
 
