@@ -277,7 +277,7 @@ resource "vsphere_virtual_machine" "driver" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-drv"
+        host_name = "${var.vm_name_prefix}-drv.${var.vm_domain}"
       }
       network_interface {
         ipv4_address = "${local.vm_ipv4_address_base }.${ local.vm_ipv4_address_start }"
