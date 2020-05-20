@@ -710,7 +710,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
   ]
   
   count         = "3"
-  name = "${element(data.template_file.master_hostnames, count.index) }"
+  name = "${element(data.template_file.master_hostnames.*.rendered, count.index) }"
   num_cpus = "${var.master_num_cpus}"
   memory = "${var.master_mem}"
 
@@ -723,10 +723,10 @@ resource "vsphere_virtual_machine" "icpmaster" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${element(data.template_file.master_hostnames, count.index) }"
+        host_name = "${element(data.template_file.master_hostnames.*.rendered, count.index) }"
       }
       network_interface {
-        ipv4_address = "${element(data.template_file.master_ips, count.index) }"
+        ipv4_address = "${element(data.template_file.master_ips.*.rendered, count.index) }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -776,7 +776,7 @@ resource "vsphere_virtual_machine" "icpworker" {
   ]
   	
   count="${local.num_worker}"
-  name = "${element(data.template_file.worker_hostnames, count.index) }"
+  name = "${element(data.template_file.worker_hostnames.*.rendered, count.index) }"
 
   num_cpus = "${var.worker_num_cpus}"
   memory = "${var.worker_mem}"
@@ -790,10 +790,10 @@ resource "vsphere_virtual_machine" "icpworker" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${element(data.template_file.worker_hostnames, count.index) }"
+        host_name = "${element(data.template_file.worker_hostnames.*.rendered, count.index) }"
       }
       network_interface {
-        ipv4_address = "${element(data.template_file.worker_ips, count.index) }"
+        ipv4_address = "${element(data.template_file.worker_ips.*.rendered, count.index) }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
