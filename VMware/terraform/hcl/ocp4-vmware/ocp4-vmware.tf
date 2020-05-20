@@ -638,9 +638,9 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
   ]
   
   count         = "1"
-  name = "${var.vm_name_prefix}-bootstrap-${ count.index }"
-  num_cpus = "${var.master_num_cpus}"
-  memory = "${var.master_mem}"
+  name = "${element(data.template_file.bootstrap_hostnames, count.index) }"
+  num_cpus = "4"
+  memory = "16384"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -651,10 +651,10 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-bootstrap-${ count.index }"
+        host_name = "${element(data.template_file.bootstrap_hostnames, count.index) }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs }"
+        ipv4_address = "${element(data.template_file.bootstrap_ips, count.index) }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -710,7 +710,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
   ]
   
   count         = "3"
-  name = "${var.vm_name_prefix}-master-${ count.index }"
+  name = "${element(data.template_file.master_hostnames, count.index) }"
   num_cpus = "${var.master_num_cpus}"
   memory = "${var.master_mem}"
 
@@ -723,10 +723,10 @@ resource "vsphere_virtual_machine" "icpmaster" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-master-${ count.index }"
+        host_name = "${element(data.template_file.master_hostnames, count.index) }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs + local.num_bootstrap }"
+        ipv4_address = "${element(data.template_file.master_ips, count.index) }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -776,7 +776,7 @@ resource "vsphere_virtual_machine" "icpworker" {
   ]
   	
   count="${local.num_worker}"
-  name = "${var.vm_name_prefix}-worker-${ count.index }"
+  name = "${element(data.template_file.worker_hostnames, count.index) }"
 
   num_cpus = "${var.worker_num_cpus}"
   memory = "${var.worker_mem}"
@@ -790,10 +790,10 @@ resource "vsphere_virtual_machine" "icpworker" {
     customize {
       linux_options {
         domain = "${var.vm_domain}"
-        host_name = "${var.vm_name_prefix}-worker-${ count.index }"
+        host_name = "${element(data.template_file.worker_hostnames, count.index) }"
       }
       network_interface {
-        ipv4_address = "${local.vm_ipv4_address_base }.${local.vm_ipv4_address_start + count.index + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs + local.num_bootstrap + local.num_master }"
+        ipv4_address = "${element(data.template_file.worker_ips, count.index) }"
         ipv4_netmask = "${ var.vm_ipv4_prefix_length }"
       }
     ipv4_gateway = "${var.vm_ipv4_gateway}"
@@ -893,20 +893,16 @@ resource "null_resource" "start_install" {
       "echo  export cam_driver_ip=${join(",",vsphere_virtual_machine.driver.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_driver_name=${join(",",vsphere_virtual_machine.driver.*.name)} >> /opt/monkey_cam_vars.txt",
       
-# These will be defined when the OCP VMs are created after the driver, nfs, haproxy and dns VMs are created,
-# as well as  the ignition files on the driver.  
-#      "echo  export cam_icbootstrap_ip=${join(",",vsphere_virtual_machine.icpmaster.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-#      "echo  export cam_icbootstrap_name=${join(",",vsphere_virtual_machine.icpmaster.*.name)} >> /opt/monkey_cam_vars.txt",    
-#
-#      "echo  export cam_icpmasters_ip=${join(",",vsphere_virtual_machine.icpmaster.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-#      "echo  export cam_icpmasters_name=${join(",",vsphere_virtual_machine.icpmaster.*.name)} >> /opt/monkey_cam_vars.txt",    
-#      
-#      "echo  export cam_icpworkers_ip=${join(",",vsphere_virtual_machine.icpworker.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-#      "echo  export cam_icpworkers_name=${join(",",vsphere_virtual_machine.icpworker.*.name)} >> /opt/monkey_cam_vars.txt", 
-#      
-#      "echo  export cam_icpinfra_ip=${join(",",vsphere_virtual_machine.icpinfra.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
-#      "echo  export cam_icpinfra_name=${join(",",vsphere_virtual_machine.icpinfra.*.name)} >> /opt/monkey_cam_vars.txt",  
-     
+
+      "echo  export cam_icpbootstrap_ip=${join(",",bootstrap_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpbootstrap_name=${join(",",bootstrap_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt",    
+
+      "echo  export cam_icpmasters_ip=${join(",",master_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpmasters_name=${join(",",master_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt",    
+      
+      "echo  export cam_icpworkers_ip=${join(",",worker_ips.*.rendered)} >> /opt/monkey_cam_vars.txt",
+      "echo  export cam_icpworkers_name=${join(",",worker_hostnames.*.rendered)} >> /opt/monkey_cam_vars.txt", 
+           
       "echo  export cam_icpnfs_ip=${join(",",vsphere_virtual_machine.icpnfs.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icpnfs_name=${join(",",vsphere_virtual_machine.icpnfs.*.name)} >> /opt/monkey_cam_vars.txt", 
      
