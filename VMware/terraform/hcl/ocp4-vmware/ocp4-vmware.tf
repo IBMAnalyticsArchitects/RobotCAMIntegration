@@ -224,9 +224,8 @@ locals {
   
   
   master_hostnames = { 
-      for i in range(vm_ipv4_address_start, num_master) : format("master-%02d", i)
+      for i in range(num_master) : format("master-%02d", i)
   }
-}
 
 }
 
