@@ -20,6 +20,10 @@ chmod 600 /root/.ssh/config
 #			
 echo nameserver ${dns_server} > /etc/resolv.conf
       			
+#
+# For some reason the terraform version used by CAM 3.1.2 does not update /etc/hostname...
+#			    			
+echo `hostname`.`hostname -d`>/etc/hostname
 			
 #
 # Set up YUM config to point to local mirror
