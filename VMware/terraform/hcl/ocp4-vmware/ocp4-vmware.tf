@@ -224,6 +224,16 @@ locals {
 }
 
   
+data "template_file" "bootstrap_hostnames" {
+    count = "${local.num_bootstrap}"
+    template = "${format("%s-bootstrap-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
+}
+  
+data "template_file" "bootstrap_ips" {
+    count = "${local.num_bootstrap}"
+    template = "${format("%s.%d", local.vm_ipv4_address_base, (local.vm_ipv4_address_start + local.num_driver + local.num_dns  + local.num_haproxy + local.num_nfs + count.index ) )}"
+}
+
 data "template_file" "master_hostnames" {
     count = "${local.num_master}"
     template = "${format("%s-master-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
@@ -929,6 +939,12 @@ resource "null_resource" "start_install" {
   
 }
 
+output "bootstrap_hostnames" {
+  value       = "${join(",",data.template_file.bootstrap_hostnames.*.rendered)}" 
+}
+output "bootstrap_ips" {
+  value       = "${join(",",data.template_file.bootstrap_ips.*.rendered)}" 
+}
 output "master_hostnames" {
   value       = "${join(",",data.template_file.master_hostnames.*.rendered)}" 
 }
