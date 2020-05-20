@@ -227,7 +227,7 @@ locals {
 data "template_file" "control_plane_hostname" {
     count = "${local.num_master}"
 
-    template = "${format("master%02d", count.index + 1)}"
+    template = "${format("master%d", count.index + 1)}"
 }
 
 
