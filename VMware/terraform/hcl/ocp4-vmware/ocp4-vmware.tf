@@ -226,7 +226,7 @@ locals {
   
 data "template_file" "master_hostnames" {
     count = "${local.num_master}"
-    template = "${format("%s-master-%d.%s", var.vm_name_prefix, count.index + 1, var.vm_domain)}"
+    template = "${format("%s-master-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
 }
 
 
