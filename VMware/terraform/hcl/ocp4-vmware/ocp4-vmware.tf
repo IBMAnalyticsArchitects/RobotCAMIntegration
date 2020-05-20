@@ -928,7 +928,7 @@ resource "null_resource" "start_install" {
        "chmod 600 /root/passphrase",
       
       "chmod 755 /opt/installation.sh",
-#      "/opt/installation.sh 2>&1 >/opt/installation.log"
+      "/opt/installation.sh 2>&1 >/opt/installation.log"
     ]
   }
   
