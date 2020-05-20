@@ -229,6 +229,12 @@ data "template_file" "master_hostnames" {
     template = "${format("%s-master-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
 }
 
+  
+data "template_file" "worker_hostnames" {
+    count = "${local.num_worker}"
+    template = "${format("%s-worker-%d.%s", var.vm_name_prefix, count.index, var.vm_domain)}"
+}
+
 
 ###########################################################################################################################################################
 
@@ -912,7 +918,9 @@ resource "null_resource" "start_install" {
   
 }
 
-output "outvalues" {
+output "master_hostnames" {
   value       = "${join(",",data.template_file.master_hostnames.*.rendered)}" 
-#value = "10" 
+}
+output "worker_hostnames" {
+  value       = "${join(",",data.template_file.worker_hostnames.*.rendered)}" 
 }
