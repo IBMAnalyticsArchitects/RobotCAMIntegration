@@ -911,3 +911,7 @@ resource "null_resource" "start_install" {
   
   
 }
+
+output "outvalues" {
+  value       = master_hostnames
+}
