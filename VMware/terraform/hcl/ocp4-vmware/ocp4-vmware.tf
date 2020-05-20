@@ -223,9 +223,8 @@ locals {
   num_worker = "${var.num_workers}"
   
   
-  master_hostnames = { [
-      for i in range(vm_ipv4_address_start, count) : format("master-%d", i)
-      ]
+  master_hostnames = { 
+      for i in range(vm_ipv4_address_start, num_master) : format("master-%02d", i)
   }
 }
 
@@ -914,5 +913,5 @@ resource "null_resource" "start_install" {
 }
 
 output "outvalues" {
-  value       = master_hostnames
+  value       = local.master_hostnames
 }
