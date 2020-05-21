@@ -277,7 +277,7 @@
       "hidden": false,
       "label": "vm subnet identifier (ex: 10.93.254.128/25)",
       "secured": false,
-      "required": false,
+      "required": true,
       "immutable": false,
       "group_name": "Cluster",
       "default": ""
@@ -290,7 +290,7 @@
       "hidden": false,
       "label": "Space-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130  10.93.254.140)",
       "secured": false,
-      "required": false,
+      "required": true,
       "immutable": false,
       "group_name": "Cluster",
       "default": ""
