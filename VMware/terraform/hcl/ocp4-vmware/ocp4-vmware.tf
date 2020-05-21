@@ -413,6 +413,9 @@ echo
 echo "##### (`date` - `hostname`) Setting up the NFS server (sending output to 01_install_nfs.log)..."
 ocp4_files/01_install_nfs.sh >01_install_nfs.log 2>&1
 
+echo
+echo "##### (`date` - `hostname`) /opt/installation.sh finished."
+
 EOF
 
     destination = "/opt/installation.sh"
