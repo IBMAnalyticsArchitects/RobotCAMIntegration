@@ -403,7 +403,7 @@ utils/01_prepare_driver.sh
 
 #utils/01_prepare_all_nodes.sh >01_prepare_all_nodes.log 2>&1
 
-utils/01_prepare_nodes.sh ${cloud_icp_nfs_server},${cloud_icp_dns_server},${cloud_icp_haproxy_nodes} >01_prepare_nodes.log 2>&1
+utils/01_prepare_nodes.sh $cloud_icp_nfs_server,$cloud_icp_dns_server,$cloud_icp_haproxy_nodes >01_prepare_nodes.log 2>&1
 
 EOF
 
