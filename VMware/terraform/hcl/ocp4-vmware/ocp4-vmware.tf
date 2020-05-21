@@ -141,6 +141,14 @@ variable "vm_ipv4_gateway" {
   description = "IPv4 gateway for vNIC configuration"
 }
 
+variable "vm_subnet_identifier" {
+  description = "vm subnet identifier (ex: 10.93.254.128/25)"
+}
+
+variable "dhcp_range" {
+  description = "Space-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130  10.93.254.140)"
+}
+
 variable "vm_start_ipv4_address" {
   description = "Start IPv4 address for vNIC configuration"
 }
@@ -936,6 +944,9 @@ resource "null_resource" "start_install" {
       "echo  export cam_vm_ipv4_prefix_length=${var.vm_ipv4_prefix_length} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_public_nic_name=${var.public_nic_name} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_vm_ipv4_gateway=${var.vm_ipv4_gateway} >> /opt/monkey_cam_vars.txt",
+      
+      "echo  export cam_vm_subnet_identifier=${var.vm_subnet_identifier} >> /opt/monkey_cam_vars.txt",      
+      "echo  export cam_dhcp_range=${var.dhcp_range} >> /opt/monkey_cam_vars.txt",      
       
        "echo ${var.ssh_key_passphrase} > /root/passphrase ",
        "chmod 600 /root/passphrase",
