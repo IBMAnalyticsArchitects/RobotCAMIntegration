@@ -146,7 +146,7 @@ variable "vm_subnet_identifier" {
 }
 
 variable "dhcp_range" {
-  description = "Space-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130  10.93.254.140)"
+  description = "Hyphen-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130-10.93.254.140)"
 }
 
 variable "vm_start_ipv4_address" {
