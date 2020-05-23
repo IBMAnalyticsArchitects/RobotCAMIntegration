@@ -418,6 +418,14 @@ echo "##### (`date` - `hostname`) Preparing nodes (sending output to 01_prepare_
 utils/01_prepare_nodes.sh $prepareNodes >01_prepare_nodes.log 2>&1
 
 echo
+echo "##### (`date` - `hostname`) Setting up the DNS server (sending output to 01_install_dns.log)..."
+ocp4_files/01_install_dns.sh >01_install_dns.log 2>&1
+
+echo
+echo "##### (`date` - `hostname`) Setting up the DHCP server (sending output to 01_install_dhcp.log)..."
+ocp4_files/01_install_dhcp.sh >01_install_dhcp.log 2>&1
+
+echo
 echo "##### (`date` - `hostname`) Setting up the NFS server (sending output to 01_install_nfs.log)..."
 ocp4_files/01_install_nfs.sh >01_install_nfs.log 2>&1
 
