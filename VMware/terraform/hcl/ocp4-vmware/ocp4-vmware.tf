@@ -985,3 +985,6 @@ output "worker_hostnames" {
 output "worker_ips" {
   value       = "${join(",",data.template_file.worker_ips.*.rendered)}" 
 }
+output "mac_addresses" {
+  value       = "${join(",",vsphere_virtual_machine.icpnfs.*.clone.0.customize.0.network_interface.0.mac_address)}" 
+}
