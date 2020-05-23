@@ -986,5 +986,5 @@ output "worker_ips" {
   value       = "${join(",",data.template_file.worker_ips.*.rendered)}" 
 }
 output "mac_addresses" {
-  value       = "${vsphere_virtual_machine.icpnfs.network_interface.*.mac_addresses}" 
+  value       = "${vsphere_virtual_machine.icpnfs.network_interface.*.mac_address}" 
 }
