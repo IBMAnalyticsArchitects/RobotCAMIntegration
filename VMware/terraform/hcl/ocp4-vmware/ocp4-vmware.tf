@@ -309,7 +309,7 @@ resource "vsphere_virtual_machine" "driver" {
   }
 
   disk {
-    label = "${var.vm_name_prefix}0.vmdk"
+    label = "${var.vm_name_prefix}1.vmdk"
     size = "500"
     keep_on_remove = "false"
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
