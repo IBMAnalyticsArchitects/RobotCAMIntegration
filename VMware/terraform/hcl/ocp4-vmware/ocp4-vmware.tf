@@ -373,7 +373,7 @@ EOF
       "chmod 700 /opt/init_vm.sh",
       "/opt/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}' > /opt/init_vm.log",
       "chmod 700 /opt/setup_storage.sh",
-      "/tmp/setup_storage.sh driver"
+      "/opt/setup_storage.sh driver"
     ]
   }
 
