@@ -308,6 +308,14 @@ resource "vsphere_virtual_machine" "driver" {
     datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
   }
 
+  disk {
+    label = "${var.vm_name_prefix}0.vmdk"
+    size = "500"
+    keep_on_remove = "false"
+    datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
+    unit_number = "1"
+  }
+
   connection {
     type = "ssh"
     user     = "${var.ssh_user}"
@@ -579,11 +587,18 @@ resource "vsphere_virtual_machine" "icpnfs" {
     source      = "init_vm.sh"
     destination = "/opt/init_vm.sh"
   }
+  
+  provisioner "file" {
+    source      = "setup_storage.sh"
+    destination = "/opt/setup_storage.sh"
+  }
 
   provisioner "remote-exec" {
     inline = [
       "chmod 700 /opt/init_vm.sh",
-      "/opt/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}' > /opt/init_vm.log"
+      "/opt/init_vm.sh ${var.monkey_mirror} ${var.vm_dns_servers[0]} '${var.public_ssh_key}' > /opt/init_vm.log",
+      "chmod 700 /opt/setup_storage.sh",
+      "/tmp/setup_storage.sh driver"
     ]
   }
 }
