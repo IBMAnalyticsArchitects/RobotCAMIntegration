@@ -738,7 +738,8 @@ resource "vsphere_virtual_machine" "icpnfs" {
 
 # ICP Master
 resource "vsphere_virtual_machine" "icpmaster" {
-  count         = "${local.num_master}"
+#  count         = "${local.num_master}"
+  count         = "0"
   name = "${var.vm_name_prefix}-master-${ count.index }"
   num_cpus = "${var.master_num_cpus}"
   memory = "${var.master_mem}"
@@ -834,7 +835,8 @@ resource "vsphere_virtual_machine" "icpmaster" {
 
 # ICP Infra
 resource "vsphere_virtual_machine" "icpinfra" {
-  count         = "${local.num_infra}"
+#  count         = "${local.num_infra}"
+  count         = "0"
   name = "${var.vm_name_prefix}-infra-${ count.index }"
 
   num_cpus = "${var.infra_num_cpus}"
@@ -924,7 +926,8 @@ resource "vsphere_virtual_machine" "icpinfra" {
 
 # ICP Workers
 resource "vsphere_virtual_machine" "icpworker" {
-  count="${local.num_worker}"
+#  count="${local.num_worker}"
+  count         = "0"
   name = "${var.vm_name_prefix}-worker-${ count.index }"
 
   num_cpus = "${var.worker_num_cpus}"
