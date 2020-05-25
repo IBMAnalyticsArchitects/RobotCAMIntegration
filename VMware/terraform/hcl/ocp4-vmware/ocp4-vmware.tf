@@ -615,8 +615,8 @@ resource "vsphere_virtual_machine" "icpdns" {
   count="${local.num_dns}"
   name = "${var.vm_name_prefix}-dns-${ count.index }"
 
-  num_cpus = "4"
-  memory = "4096"
+  num_cpus = "16"
+  memory = "16384"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
   datastore_id = "${element(data.vsphere_datastore.vm_datastores.*.id, count.index )}"
@@ -685,9 +685,9 @@ resource "vsphere_virtual_machine" "icpbootstrap" {
   	"null_resource.start_install"
   ]
   
-  count         = "1"
+  count         = "0"
   name = "${var.vm_name_prefix}-bootstrap-${ count.index }"
-  num_cpus = "4"
+  num_cpus = "8"
   memory = "16384"
 
   resource_pool_id = "${element(data.vsphere_resource_pool.vm_resource_pools.*.id, count.index )}"
@@ -757,7 +757,7 @@ resource "vsphere_virtual_machine" "icpmaster" {
   	"null_resource.start_install"
   ]
   
-  count         = "3"
+  count         = "0"
   name = "${var.vm_name_prefix}-master-${ count.index }"
   num_cpus = "${var.master_num_cpus}"
   memory = "${var.master_mem}"
@@ -823,7 +823,8 @@ resource "vsphere_virtual_machine" "icpworker" {
   	"null_resource.start_install"
   ]
   	
-  count="${local.num_worker}"
+#  count="${local.num_worker}"
+  count = 0
   name = "${var.vm_name_prefix}-worker-${ count.index }"
 
   num_cpus = "${var.worker_num_cpus}"
@@ -984,26 +985,4 @@ resource "null_resource" "start_install" {
   }
   
   
-}
-
-output "bootstrap_hostnames" {
-  value       = "${join(",",data.template_file.bootstrap_hostnames.*.rendered)}" 
-}
-output "bootstrap_ips" {
-  value       = "${join(",",data.template_file.bootstrap_ips.*.rendered)}" 
-}
-output "master_hostnames" {
-  value       = "${join(",",data.template_file.master_hostnames.*.rendered)}" 
-}
-output "master_ips" {
-  value       = "${join(",",data.template_file.master_ips.*.rendered)}" 
-}
-output "worker_hostnames" {
-  value       = "${join(",",data.template_file.worker_hostnames.*.rendered)}" 
-}
-output "worker_ips" {
-  value       = "${join(",",data.template_file.worker_ips.*.rendered)}" 
-}
-output "mac_addresses" {
-  value       = "${vsphere_virtual_machine.icpnfs.network_interface.0.mac_address}" 
 }
