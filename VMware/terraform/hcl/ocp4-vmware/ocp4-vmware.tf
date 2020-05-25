@@ -1001,7 +1001,7 @@ resource "null_resource" "start_install" {
       "echo  export cam_vcenter_dc=${var.vm_datacenter} >> /opt/monkey_cam_vars.txt",            
       "echo  export cam_vcenter_resource_pool=${var.vm_resource_pools} >> /opt/monkey_cam_vars.txt",            
       "echo  export cam_vcenter_network=${var.vm_network_interface_label} >> /opt/monkey_cam_vars.txt",            
-      "echo  export cam_vcenter_datastore=${var.vm_root_disk_datastores.0} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_datastore=${var.vm_root_disk_datastores[0]} >> /opt/monkey_cam_vars.txt",            
       "echo  export cam_openshift_pull_secret=${var.openshift_pull_secret} >> /opt/monkey_cam_vars.txt",            
       "echo  export cam_ssh_pub_key=${var.public_ssh_key} >> /opt/monkey_cam_vars.txt",              
           
