@@ -466,7 +466,7 @@ ocp4_files/haproxy/01_install_ocp4_haproxy.sh >01_install_ocp4_haproxy.log 2>&1
 
 echo
 echo "##### (`date` - `hostname`) Install OCP4 (sending output to 01_install_ocp4.log)..."
-ocp4_files/haproxy/01_install_ocp4.sh >01_install_ocp4.log 2>&1
+ocp4_files/01_install_ocp4.sh >01_install_ocp4.log 2>&1
 
 echo
 echo "##### (`date` - `hostname`) /opt/installation.sh finished."
