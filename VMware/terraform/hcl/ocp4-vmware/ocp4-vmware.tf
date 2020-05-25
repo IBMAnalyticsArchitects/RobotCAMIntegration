@@ -1003,7 +1003,12 @@ resource "null_resource" "start_install" {
       "echo  export cam_vcenter_network=${var.vm_network_interface_label} >> /opt/monkey_cam_vars.txt",            
       "echo  export cam_vcenter_datastore=${var.vm_root_disk_datastores.0} >> /opt/monkey_cam_vars.txt",            
       "echo  export cam_openshift_pull_secret=${var.openshift_pull_secret} >> /opt/monkey_cam_vars.txt",            
-      "echo  export cam_ssh_pub_key=${var.public_ssh_key} >> /opt/monkey_cam_vars.txt",      
+      "echo  export cam_ssh_pub_key=${var.public_ssh_key} >> /opt/monkey_cam_vars.txt",              
+          
+      "echo  export cam_master_num_cpus=${var.master_num_cpus} >> /opt/monkey_cam_vars.txt",  
+      "echo  export cam_master_mem=${var.master_mem} >> /opt/monkey_cam_vars.txt",      
+      "echo  export cam_worker_num_cpus=${var.worker_num_cpus} >> /opt/monkey_cam_vars.txt",  
+      "echo  export cam_worker_mem=${var.worker_mem} >> /opt/monkey_cam_vars.txt",      
       
        "echo ${var.ssh_key_passphrase} > /root/passphrase ",
        "chmod 600 /root/passphrase",
