@@ -510,9 +510,9 @@
     {
       "name": "cloud_openshift_pull_secret",
       "type": "string",
-      "description": "Pull secret for Openshift 4",
+      "description": "Pull secret for Openshift 4 (base64 encoded in single line)",
       "hidden": false,
-      "label": "Pull secret for Openshift 4",
+      "label": "Pull secret for Openshift 4 (base64 encoded in single line)",
       "secured": false,
       "required": false,
       "immutable": false,
