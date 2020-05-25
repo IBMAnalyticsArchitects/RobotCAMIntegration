@@ -222,12 +222,12 @@ variable "vcenter_user" {
 
 variable "vcenter_pwd" {
   description = "vcenter_pwd"
-  default = "dsiogreg"
+  default = "ZZZZZZZZZZZZZZZZZ"
 }
 
 variable "openshift_pull_secret" {
   description = "openshift_pull_secret"
-  default = "fejsiopfhriwophgruioehguriehguriehgurieh"
+  default = "YYYYYYYYYYYYYYYYY"
 }
 
 
