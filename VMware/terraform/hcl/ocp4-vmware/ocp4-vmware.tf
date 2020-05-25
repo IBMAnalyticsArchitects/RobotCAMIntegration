@@ -198,21 +198,37 @@ variable "cloud_install_tar_file_name" {
   default = "cloud_install.tar"
 }
 
-variable "icp_network_cidr" {
-  description = "ICP Network CIDR"
-  default = "172.1.0.0/16"
-}
-
-variable "icp_service_cluster_ip_range" {
-  description = "ICP Cluster IP Range"
-  default = "172.2.0.0/16"
-}
 
 variable "cluster_name" {
   description = "Cluster Name"
   default = "MYCLUSTER"
 }
 
+
+variable "vcenter_hostname" {
+  description = "vcenter_hostname"
+  default = "my.vcenter.local"
+}
+
+variable "vcenter_ip" {
+  description = "vcenter_ip"
+  default = "1.1.1.1"
+}
+
+variable "vcenter_user" {
+  description = "vcenter_user"
+  default = "administrator@vsphere.local"
+}
+
+variable "vcenter_pwd" {
+  description = "vcenter_pwd"
+  default = "dsiogreg
+}
+
+variable "openshift_pull_secret" {
+  description = "openshift_pull_secret"
+  default = "fejsiopfhriwophgruioehguriehguriehgurieh"
+}
 
 
 ########
@@ -447,6 +463,10 @@ ocp4_files/01_install_nfs.sh >01_install_nfs.log 2>&1
 echo
 echo "##### (`date` - `hostname`) Setting up the HAProxy server (sending output to 01_install_ocp4_haproxy.log)..."
 ocp4_files/haproxy/01_install_ocp4_haproxy.sh >01_install_ocp4_haproxy.log 2>&1
+
+echo
+echo "##### (`date` - `hostname`) Install OCP4 (sending output to 01_install_ocp4.log)..."
+ocp4_files/haproxy/01_install_ocp4.sh >01_install_ocp4.log 2>&1
 
 echo
 echo "##### (`date` - `hostname`) /opt/installation.sh finished."
@@ -962,8 +982,6 @@ resource "null_resource" "start_install" {
       "echo  export cam_icp_haproxy_ip=${join(",",vsphere_virtual_machine.haproxy.*.clone.0.customize.0.network_interface.0.ipv4_address)} >> /opt/monkey_cam_vars.txt",
       "echo  export cam_icp_haproxy_name=${join(",",vsphere_virtual_machine.haproxy.*.name)} >> /opt/monkey_cam_vars.txt",
     
-      "echo  export cam_icp_network_cidr=${var.icp_network_cidr} >> /opt/monkey_cam_vars.txt",
-      "echo  export cam_icp_service_cluster_ip_range=${var.icp_service_cluster_ip_range} >> /opt/monkey_cam_vars.txt",
       
       "echo  export cam_install_ocp=1 >> /opt/monkey_cam_vars.txt",
       "echo  export cam_num_workers=${var.num_workers} >> /opt/monkey_cam_vars.txt",
@@ -975,6 +993,17 @@ resource "null_resource" "start_install" {
       
       "echo  export cam_vm_subnet_identifier=${var.vm_subnet_identifier} >> /opt/monkey_cam_vars.txt",      
       "echo  export cam_dhcp_range=${var.dhcp_range} >> /opt/monkey_cam_vars.txt",      
+            
+      "echo  export cam_vcenter_hostname=${var.vcenter_hostname} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_ip=${var.vcenter_ip} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_user=${var.vcenter_user} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_pwd=${var.vcenter_pwd} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_dc=${var.vm_datacenter} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_resource_pool=${var.vm_resource_pools} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_network=${var.vm_network_interface_label} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_vcenter_datastore=${var.vm_root_disk_datastores.0} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_openshift_pull_secret=${var.openshift_pull_secret} >> /opt/monkey_cam_vars.txt",            
+      "echo  export cam_ssh_pub_key=${var.public_ssh_key} >> /opt/monkey_cam_vars.txt",      
       
        "echo ${var.ssh_key_passphrase} > /root/passphrase ",
        "chmod 600 /root/passphrase",

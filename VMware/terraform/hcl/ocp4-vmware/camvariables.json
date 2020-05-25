@@ -457,6 +457,67 @@
       "immutable": false,
       "group_name": "Cluster",
       "default": ""
+    },
+
+    {
+      "name": "vcenter_hostname",
+      "type": "string",
+      "description": "Hostname for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "hidden": false,
+      "label": "Hostname for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "vcenter4.acg.cloud"
+    },
+    {
+      "name": "vcenter_ip",
+      "type": "string",
+      "description": "IP for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "hidden": false,
+      "label": "IP for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "vcenter4.acg.cloud"
+    },
+    {
+      "name": "vcenter_user",
+      "type": "string",
+      "description": "Admin user name for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "hidden": false,
+      "label": "Admin user name for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "administrator@vsphere.local"
+    },
+    {
+      "name": "vcenter_pwd",
+      "type": "string",
+      "description": "Password for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "hidden": false,
+      "label": "Password for the vCenter server (will be required by the nested terraform template executed within the driver VM)",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "fhdjkslyvu"
+    },
+    {
+      "name": "cloud_openshift_pull_secret",
+      "type": "string",
+      "description": "Pull secret for Openshift 4",
+      "hidden": false,
+      "label": "Pull secret for Openshift 4",
+      "secured": false,
+      "required": false,
+      "immutable": false,
+      "group_name": "Cloud",
+      "default": "fhdjkslyvu"
     }
 
 ]
