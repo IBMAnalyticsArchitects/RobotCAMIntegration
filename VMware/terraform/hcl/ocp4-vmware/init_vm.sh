@@ -56,7 +56,7 @@ sed -r -i -e ${hostSubstStr} \
           /etc/yum.repos.d/redhat_monkey.repo 
 yum repolist all
 
-yum update -y
+#yum update -y
 
 systemctl stop firewalld
 systemctl disable firewalld
