@@ -286,9 +286,9 @@
     {
       "name": "dhcp_range",
       "type": "string",
-      "description": "Space-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130  10.93.254.140)",
+      "description": "Hyphen-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130-10.93.254.140)",
       "hidden": false,
-      "label": "Space-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130  10.93.254.140)",
+      "label": "Hyphen-separated pair of start and end IPs for the DHCP range (ex:  10.93.254.130-10.93.254.140)",
       "secured": false,
       "required": true,
       "immutable": false,
@@ -481,7 +481,7 @@
       "required": false,
       "immutable": false,
       "group_name": "Cloud",
-      "default": "vcenter4.acg.cloud"
+      "default": "10.1.2.3"
     },
     {
       "name": "vcenter_user",
