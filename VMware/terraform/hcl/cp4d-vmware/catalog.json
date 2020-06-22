@@ -42,7 +42,7 @@
        },
        {
          "title": "Software deployed",
-         "description": "<table style=\"width:100%\"><tr><td>OpenShift 3.11, CP4D 2.5, RedHat IDM and HAProxy</td></tr></table>"
+         "description": "<table style=\"width:100%\"><tr><td>OpenShift 3.11, CP4D 3.0.1, RedHat IDM and HAProxy</td></tr></table>"
        },
        {
          "title": "Usage and special notes",
